@@ -55,13 +55,13 @@
                     <label class="col-md-12">账户</label>
                     <div class="col-md-12">
                       <input type="text"  name="usr" class="form-control form-control-line"
-                             th:readonly="${!#strings.equals(user.id,null)}" th:value="${user.usr}">
+                             th:readonly="${!#strings.equals(user.id,null)}" th:value="${user.account}">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-12">密码</label>
                     <div class="col-md-12">
-                      <input type="password" name="pwd" th:value="${user.pwd}"
+                      <input type="password" name="pwd" th:value="${user.password}"
                              class="form-control form-control-line">
                     </div>
                   </div>
@@ -69,7 +69,7 @@
                     <label class="col-md-12">用户名</label>
                     <div class="col-md-12">
                       <input type="text" class="form-control form-control-line" name="name"
-                             th:value="${user.name}">
+                             th:value="${user.nickname}">
                     </div>
                   </div>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head th:replace="/admin/head"></head>
 <!-- Bootstrap Table CSS -->
@@ -94,10 +94,10 @@
       formatter: getIndex('#dataList')
     }, {
       title: '账号',
-      field: 'usr',
+      field: 'account',
       align: 'center'
     }, {
-      field: 'name',
+      field: 'nickname',
       title: '用户名',
       align: 'center'
     },

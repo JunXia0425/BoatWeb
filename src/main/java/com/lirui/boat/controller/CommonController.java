@@ -54,8 +54,7 @@ public class CommonController {
    * 执行登录验证
    */
   @PostMapping("login")
-  @ResponseBody
-  public ModelMap doLogin(User user) {
+  public String doLogin(User user) {
     String account = user.getAccount();
     String password = user.getPassword();
     //获取subject
@@ -65,14 +64,14 @@ public class CommonController {
     //执行登录方法
     try {
       subject.login(token);
+      return "redirect:admin/list";
     } catch (UnknownAccountException e) {
-      log.error("未知用户名=>{}", account);
-      return ReturnUtil.error("error", "未知用户名");
+      log.error("未知用户名=>{}", account,e.getMessage());
+
     } catch (IncorrectCredentialsException e) {
-      log.error("密码错误");
-      return ReturnUtil.error("error", "密码错误");
+      log.error("密码错误",e.getMessage());
     }
-    return ReturnUtil.success("ok");
+    return "error";
   }
 
   /**

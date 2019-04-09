@@ -94,10 +94,10 @@
       formatter: getIndex('#dataList')
     }, {
       title: '账号',
-      field: 'usr',
+      field: 'account',
       align: 'center'
     }, {
-      field: 'name',
+      field: 'nickname',
       title: '用户名',
       align: 'center'
     },
@@ -110,10 +110,8 @@
           case 1:
             return '普通用户';
           case 2:
-            return '企业用户';
-          case 3:
             return '管理员';
-          case 4:
+          case 3:
             return '超级管理员(不受角色控制)';
         }
       }

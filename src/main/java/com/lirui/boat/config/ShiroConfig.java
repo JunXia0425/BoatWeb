@@ -1,5 +1,6 @@
 package com.lirui.boat.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.lirui.boat.shiro.ShiroRealm;
 import java.util.LinkedHashMap;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,14 @@ import org.springframework.context.annotation.DependsOn;
 @Slf4j
 @Configuration
 public class ShiroConfig {
+  /**
+   * 用于thymeleaf模板使用shiro标签
+   */
 
+  @Bean
+  public ShiroDialect shiroDialect() {
+    return new ShiroDialect();
+  }
   /**
    * 创建ShiroFilterFactoryBean
    */

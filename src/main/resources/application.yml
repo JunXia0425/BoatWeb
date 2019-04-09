@@ -14,3 +14,9 @@ spring:
   jackson:
       date-format : yyyy-MM-dd HH:mm:ss
       joda-date-time-format : yyyy-MM-dd HH:mm:ss
+  #热部署生效
+  devtools:
+    restart:
+      enabled: true
+      #设置重启目录
+      additional-paths: src/main/java

@@ -1,6 +1,7 @@
 package com.lirui.boat.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lirui.boat.entity.User;
 import com.lirui.boat.enums.EnableStatus;
 import com.lirui.boat.enums.Role;
@@ -53,5 +54,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
     queryWrapper.eq("account", account);
     return userMapper.selectOne(queryWrapper);
+  }
+
+  @Override
+  public IPage<User> page(IPage<User> page) {
+    return userMapper.selectPage(page,null);
   }
 }
