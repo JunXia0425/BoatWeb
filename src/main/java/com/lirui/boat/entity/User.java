@@ -45,12 +45,6 @@ public class User implements Serializable {
     private String password;
 
     /**
-     * 性别 1:男，2:女，0：保密
-     */
-    @TableField("gender")
-    private Integer gender;
-
-    /**
      * 用户昵称，用来显示
      */
     @TableField("nickname")
