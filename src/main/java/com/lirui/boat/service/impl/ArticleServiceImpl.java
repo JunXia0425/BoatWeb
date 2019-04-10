@@ -1,9 +1,12 @@
 package com.lirui.boat.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Article;
+import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.mapper.ArticleMapper;
 import com.lirui.boat.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +19,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
-
+  @Autowired
+  private ArticleMapper articleMapper;
+  @Override
+  public Page<ArticleVO> page(Page<ArticleVO> page) {
+    return page.setRecords(articleMapper.getArticles(page));
+  }
 }

@@ -48,7 +48,7 @@
           <div class="card">
             <div class="card-block">
               <div id="toolbar">
-                <a th:href="@{/news/edit}" class="btn btn-primary">添加文章</a>
+                <a th:href="@{/article/edit}" class="btn btn-primary">添加文章</a>
               </div>
               <table id="dataList"></table>
             </div>
@@ -143,17 +143,17 @@
           return '-';
         }
         return [
-          '<a class="btn btn-primary" href="[[@{/news/edit}]]?id=' + value + '" >',
+          '<a class="btn btn-primary" href="[[@{/article/edit}]]?id=' + value + '" >',
           '<i class="fa fa-edit">编辑</i>',
           '</a>  ',
-          '<a class="btn btn-danger" href="[[@{/news/del}]]?id=' + value + '" >',
+          '<a class="btn btn-danger" href="[[@{/article/del}]]?id=' + value + '" >',
           '<i class="fa fa-remove">删除</i>',
           '</a>'
         ].join('');
       }
     }
   ]
-  InitTable('#dataList', '[[@{/news/list}]]', columns);
+  InitTable('#dataList', '[[@{/article/list}]]', columns);
 
 </script>
 </body>

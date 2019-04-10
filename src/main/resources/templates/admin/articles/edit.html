@@ -30,7 +30,7 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <a href="javascript:void(0)"
-                 th:text="文章+${#strings.isEmpty(news.id)?'添加':'修改'}"></a>
+                 th:text="文章+${#strings.isEmpty(article.id)?'添加':'修改'}"></a>
             </li>
           </ol>
         </div>
@@ -47,16 +47,20 @@
           <div class="card">
             <div class="card-block">
               <div class="card-block">
-                <form class="form-horizontal form-material" th:action="@{/news/save}" method="post"
+                <form class="form-horizontal form-material" th:action="@{/article/save}" method="post"
                       onsubmit="return check()">
-                  <input type="hidden" name="editorId" th:value="${news.editorId}"/>
-                  <input type="hidden" name="id" th:value="${news.id}"/>
+                  <div th:switch="${#strings.isEmpty(article.id)}">
+                    <input type="hidden" name="ownnerId" th:case="false"
+                           th:value="${article.editorId}"/>
+                    <input type="hidden" name="ownnerId" th:case="true" th:value="${editorId}"/>
+                  </div>
+                  <input type="hidden" name="id" th:value="${article.id}"/>
                   <input type="hidden" name="content" id="content">
                   <div class="form-group">
                     <label class="col-md-12">标题</label>
                     <div class="col-md-12">
                       <input type="text" name="title" class="form-control form-control-line"
-                             th:value="${news.title}">
+                             th:value="${article.title}">
                     </div>
                   </div>
                   <div class="form-group">
