@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Product;
 import com.lirui.boat.entity.User;
+import com.lirui.boat.entity.vo.ProductVO;
 import com.lirui.boat.service.impl.ProductServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import java.time.LocalDateTime;
@@ -54,8 +55,9 @@ public class ProductController {
    */
   @PostMapping("list")
   @ResponseBody
-  public ModelMap list(@RequestBody Page<Product> productPage) {
-    IPage<Product> page = productService.page(productPage);
+  public ModelMap list(@RequestBody Page<ProductVO> productPage) {
+//    IPage<Product> page = productService.page(productPage);
+    Page<ProductVO> page = productService.page(productPage);
     return ReturnUtil.success("ok", page, null);
   }
 
