@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head th:replace="/admin/head"></head>
 <!-- Bootstrap Table CSS -->
@@ -110,7 +110,12 @@
       align: 'left'
     },
     {
-      field: 'productType',
+      field: 'ownner',
+      title: '所有者',
+      align: 'left'
+    },
+    {
+      field: 'type',
       title: '类型',
       align: 'center',
       formatter: function (value) {

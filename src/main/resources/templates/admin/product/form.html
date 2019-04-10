@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head th:replace="/admin/head"></head>
 
@@ -51,6 +52,11 @@
                 <form class="form-horizontal form-material" th:action="@{/product/save}"
                       method="post">
                   <input type="hidden" name="id" th:value="${product.id}"/>
+                  <div th:switch="${#strings.isEmpty(product.id)}">
+                    <input type="hidden" name="ownnerId" th:case="false"
+                           th:value="${product.ownnerId}"/>
+                    <input type="hidden" name="ownnerId" th:case="true" th:value="${ownnerId}"/>
+                  </div>
                   <div class="form-group">
                     <label class="col-md-12">商品名称</label>
                     <div class="col-md-12">

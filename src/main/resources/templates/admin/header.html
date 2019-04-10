@@ -1,4 +1,4 @@
-<header class="topbar" >
+<header class="topbar">
   <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
 
     <!-- Logo -->
@@ -47,7 +47,9 @@
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img
                 th:src="@{/assets/images/users/1.jpg}" alt="user" class="profile-pic m-r-5"/>
-            <shiro:principal property="nickname"/>
+            <shiro:user>
+              <shiro:principal property="nickname"/>
+            </shiro:user>
           </a>
         </li>
       </ul>

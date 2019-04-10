@@ -1,9 +1,27 @@
 package com.lirui.boat.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lirui.boat.entity.Product;
+import com.lirui.boat.entity.User;
+import com.lirui.boat.service.impl.ProductServiceImpl;
+import com.lirui.boat.utils.ReturnUtil;
+import java.time.LocalDateTime;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * <p>
@@ -13,8 +31,101 @@ import org.springframework.stereotype.Controller;
  * @author Li Rui
  * @since 2019-04-09
  */
+@Slf4j
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 
+  @Autowired
+  private ProductServiceImpl productService;
+
+
+  /**
+   * 跳转到商品列表
+   */
+  @GetMapping("list")
+  public String productList() {
+    return "/admin/product/product-list";
+  }
+
+
+  /**
+   * 分页条件查询符合条件的所有商品，JSON格式返回
+   */
+  @PostMapping("list")
+  @ResponseBody
+  public ModelMap list(@RequestBody Page<Product> productPage) {
+    IPage<Product> page = productService.page(productPage);
+    return ReturnUtil.success("ok", page, null);
+  }
+
+
+  /**
+   * 跳转到表单页面，如果传入的对象不是null，获取对象的所有信息，反填到表单中
+   *
+   * @param product 表单传入的Product对象
+   */
+  @GetMapping({"form"})
+  public String showForm(Product product, Model model) {
+    Product product1 = new Product();
+    if (!StringUtils.isEmpty(product.getId())) {
+      product1 = productService.getById(product.getId());
+    }
+    User principal = (User)SecurityUtils.getSubject().getPrincipal();
+    model.addAttribute("product", product1);
+    model.addAttribute("ownnerId",principal.getId());
+    return "/admin/product/form";
+  }
+
+  /**
+   * 商品新增/保存
+   *
+   * @param product 表单传入的Product对象
+   */
+  @PostMapping("save")
+  @ResponseBody
+  public ModelMap saveAdmin(Product product) {
+
+    return saveproduct(product);
+  }
+
+
+  /**
+   * 根据id删除商品
+   */
+  @GetMapping("del")
+  @ResponseBody
+  public ModelMap del(@RequestParam("id") String id) {
+    boolean b = productService.removeById(id);
+    if (b) {
+      return ReturnUtil.success("删除成功", null, null);
+    }
+    return ReturnUtil.error("删除失败", null, null);
+  }
+
+  /**
+   * 具体的保存方法，根据id判断商品是否存在，存在执行update，否则执行insert
+   *
+   * @param product 表单传入的Product对象
+   */
+  //TODO:经常使用，后期改成泛型的，用反射改造
+  public ModelMap saveproduct(Product product) {
+    if (!StringUtils.isEmpty(product.getId())) {
+      log.info("此商品存在，本次操作为：更新商品");
+      boolean save = productService.updateById(product);
+      if (save) {
+        return ReturnUtil.success("更新成功", null, null);
+      } else {
+        return ReturnUtil.error("更新失败", null, null);
+      }
+    } else {
+      log.info("商品不存在，本次操作为：新增商品");
+      boolean save = productService.save(product);
+      if (save) {
+        return ReturnUtil.success("保存成功", null, "product-list");
+      } else {
+        return ReturnUtil.error("操作失败", null, null);
+      }
+    }
+  }
 }
