@@ -49,26 +49,26 @@
           <div class="card">
             <div class="card-block">
               <div class="card-block">
-                <form class="form-horizontal form-material" th:action="@{/admin/save}" method="post">
+                <form class="form-horizontal form-material" th:action="@{/user/save}" method="post">
                   <input type="hidden" name="id"  th:value="${user.id}" />
                   <div class="form-group">
                     <label class="col-md-12">账户</label>
                     <div class="col-md-12">
-                      <input type="text"  name="usr" class="form-control form-control-line"
+                      <input type="text"  name="account" class="form-control form-control-line"
                              th:readonly="${!#strings.equals(user.id,null)}" th:value="${user.account}">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-12">密码</label>
                     <div class="col-md-12">
-                      <input type="password" name="pwd" th:value="${user.password}"
+                      <input type="password" name="password" th:value="${user.password}"
                              class="form-control form-control-line">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-12">用户名</label>
                     <div class="col-md-12">
-                      <input type="text" class="form-control form-control-line" name="name"
+                      <input type="text" class="form-control form-control-line" name="nickname"
                              th:value="${user.nickname}">
                     </div>
                   </div>

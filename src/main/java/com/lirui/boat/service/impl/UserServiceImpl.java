@@ -56,8 +56,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     return userMapper.selectOne(queryWrapper);
   }
 
-  @Override
-  public IPage<User> page(IPage<User> page) {
-    return userMapper.selectPage(page,null);
+  public IPage<User> page(IPage<User> page,boolean admin) {
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    if (!admin) {
+      queryWrapper.eq("user_type",Role.USER.getUserType());
+    }else {
+      queryWrapper.ne("user_type",Role.USER.getUserType());
+    }
+
+    return userMapper.selectPage(page,queryWrapper);
   }
 }

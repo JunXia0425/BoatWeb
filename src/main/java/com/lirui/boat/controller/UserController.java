@@ -9,10 +9,12 @@ import com.lirui.boat.service.UserService;
 import com.lirui.boat.service.impl.UserServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import java.time.LocalDateTime;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,11 +64,20 @@ public class UserController {
    */
   @PostMapping("user/list")
   @ResponseBody
-  public ModelMap list(@RequestBody Page<User> UserPage) {
-    IPage<User> page = userService.page(UserPage);
+  public ModelMap userList(@RequestBody Page<User> UserPage) {
+    IPage<User> page = userService.page(UserPage,false);
     return ReturnUtil.success("ok", page, null);
   }
 
+  /**
+   * 分页条件查询符合条件的所有管理员，JSON格式返回
+   */
+  @PostMapping("admin/list")
+  @ResponseBody
+  public ModelMap adminList(@RequestBody Page<User> UserPage) {
+    IPage<User> page = userService.page(UserPage,true);
+    return ReturnUtil.success("ok", page, null);
+  }
 
   /**
    * 跳转到表单页面，如果传入的对象不是null，获取对象的所有信息，反填到表单中
@@ -83,6 +94,11 @@ public class UserController {
     return "/admin/user/form";
   }
 
+  @PostMapping("user/save")
+  public String doSave(User user){
+    boolean save = userService.updateById(user);
+    return "redirect:/user/list";
+  }
   /**
    * 根据id删除用户
    */
