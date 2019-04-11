@@ -36,10 +36,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
+
   @Autowired
   private ArticleServiceImpl articleService;
 
-  //TODO 文章编辑需要用户id，列表发布者需要显示名称
   /**
    * 跳转到文章列表
    */
@@ -73,7 +73,7 @@ public class ArticleController {
     }
     User user = (User) SecurityUtils.getSubject().getPrincipal();
     model.addAttribute("article", article1);
-    model.addAttribute("editorId",user.getId());
+    model.addAttribute("editorId", user.getId());
     //TODO 目前没有栏目信息，所以在栏目完成后完善
     return "/admin/articles/edit";
   }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head th:replace="/admin/head"></head>
+
+<style th:href="@{/assets/plugins/bootstrap/css/fileinput.min.css}"></style>
+<style>
+  .bootstrap-table .btn-group label {
+    color: black !important;
+  }
+</style>
+<body class="fix-header card-no-border">
+
+<div id="main-wrapper">
+
+  <header th:replace="/admin/header"></header>
+
+  <div th:replace="/admin/aside"></div>
+
+  <div class="page-wrapper">
+
+    <!-- Container fluid  -->
+
+    <div class="container-fluid">
+
+      <!-- Bread crumb and right sidebar toggle -->
+
+      <div class="row page-titles">
+        <div class="col-md-6 col-8 align-self-center">
+          <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="javascript:void(0)"
+                 th:text="栏目 + ${#strings.isEmpty(menu.id)?'添加':'修改'}"></a>
+            </li>
+          </ol>
+        </div>
+
+      </div>
+
+      <!-- End Bread crumb and right sidebar toggle -->
+
+
+      <!-- Start Page Content -->
+
+      <div class="row">
+        <div class="col-6 offset-3">
+          <div class="card">
+            <div class="card-block">
+              <div class="card-block">
+                <form class="form-horizontal form-material" th:action="@{/menu/save}"
+                      method="post">
+                  <input type="hidden" name="id" th:value="${menu.id}"/>
+                  <div class="form-group">
+                    <label class="col-md-12">栏目名称</label>
+                    <div class="col-md-12">
+                      <input type="text" name="name" class="form-control form-control-line"
+                             th:value="${menu.name}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">栏目路径</label>
+                    <div class="col-md-12">
+                      <input type="text" name="url" class="form-control form-control-line"
+                             th:value="${menu.url}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">父级目录</label>
+                    <div class="col-sm-12">
+                      <select class="form-control form-control-line" name="pid">
+                        <option th:value="${null}">根栏目</option>
+                        <option th:each="ml:${menuList}"
+                                th:value="${ml.id}" th:text="${ml.name}"
+                        th:selected="${menu.pid eq ml.id}"></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">栏目描述</label>
+                    <div class="col-md-12">
+                      <input type="text" class="form-control form-control-line" name="tips"
+                             th:value="${menu.tips}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">状态</label>
+                    <div class="col-md-12">
+                      <input type="radio" name="enableStatus" class="radio-inline"
+                             th:each="status:${T(com.lirui.boat.enums.EnableStatus).values()}"
+                             th:value="${status.value}" th:text="${status.desc}"
+                             th:checked="${status.value eq menu.enableStatus}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-12">
+                      <button class="btn btn-success">保存</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- End PAge Content -->
+
+    </div>
+
+    <!-- End Container fluid  -->
+
+
+    <!-- footer -->
+
+    <footer class="footer text-center">
+      © 2017 Monster Admin by wrappixel.More Templates
+      <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a>
+      - Collect from
+      <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+    </footer>
+
+    <!-- End footer -->
+
+  </div>
+
+  <!-- End Page wrapper  -->
+
+</div>
+
+<!-- End Wrapper -->
+<!--scripts-->
+<div class="scripts" th:replace="/admin/footer"></div>
+<script th:src="@{/assets/plugins/bootstrap/js/fileinput.min.js}"></script>
+<script th:src="@{/assets/plugins/bootstrap/js/zh.js}"></script>
+</body>
+
+</html>
