@@ -26,7 +26,7 @@
 
       <div class="row page-titles">
         <div class="col-md-6 col-8 align-self-center">
-          <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
+          <h3 class="text-themecolor m-b-0 m-t-0" th:text="${menu.name}"></h3>
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <a href="javascript:void(0)"
@@ -50,11 +50,12 @@
                 <form class="form-horizontal form-material" th:action="@{/article/save}" method="post"
                       onsubmit="return check()">
                   <div th:switch="${#strings.isEmpty(article.id)}">
-                    <input type="hidden" name="ownnerId" th:case="false"
+                    <input type="hidden" name="editorId" th:case="false"
                            th:value="${article.editorId}"/>
-                    <input type="hidden" name="ownnerId" th:case="true" th:value="${editorId}"/>
+                    <input type="hidden" name="editorId" th:case="true" th:value="${editorId}"/>
                   </div>
                   <input type="hidden" name="id" th:value="${article.id}"/>
+                  <input type="hidden" name="menuId" th:value="${menu.id}">
                   <input type="hidden" name="content" id="content">
                   <div class="form-group">
                     <label class="col-md-12">标题</label>

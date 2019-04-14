@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 /**
  * <p>
@@ -41,8 +44,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/menu")
 public class MenuController {
+
   @Autowired
   private MenuServiceImpl menuService;
+
   /**
    * 跳转到栏目列表
    */
@@ -53,12 +58,22 @@ public class MenuController {
 
   /**
    * 跳转到栏目预览页面
-   * @return
    */
   @GetMapping("preview")
-  public String preView(){
+  public String preView() {
     return "admin/menus/preview";
   }
+
+  /**
+   * 重定向到栏目下对应的文章列表页 从路径中获取栏目id，然后再把id放到请求路径中传递
+   *
+   * @param id 栏目id
+   */
+  @GetMapping("article/{menuId}")
+  public String menuArticle(@PathVariable("menuId") String id) {
+    return "redirect:/article/list/" + id;
+  }
+
   /**
    * 分页条件查询符合条件的所有栏目，JSON格式返回
    */
@@ -70,14 +85,13 @@ public class MenuController {
   }
 
   /**
-   * 查询所有启用目录(仅查询id，栏目名称，父级栏目id)，用于展示树形图
-   * @return
+   * 查询所有启用目录(仅查询id，栏目名称，父级栏目id,url)，用于展示树形图
    */
   @PostMapping("all")
   @ResponseBody
   public ModelMap all() {
     QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-    queryWrapper.select("id","pid","name").eq("enable_status", 1);
+    queryWrapper.select("id", "pid", "name").eq("enable_status", 1);
     List<Map<String, Object>> maps = menuService.listMaps(queryWrapper);
     return ReturnUtil.success("ok", maps, null);
   }
@@ -94,10 +108,10 @@ public class MenuController {
       menu1 = menuService.getById(menu.getId());
     }
     QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-    queryWrapper.select("id","name");
+    queryWrapper.select("id", "name");
     List<Menu> objects = menuService.list(queryWrapper);
     model.addAttribute("menu", menu1);
-    model.addAttribute("menuList",objects);
+    model.addAttribute("menuList", objects);
     return "/admin/menus/form";
   }
 

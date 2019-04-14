@@ -28,7 +28,8 @@
 
       <div class="row page-titles">
         <div class="col-md-6 col-8 align-self-center">
-          <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
+          <h3 class="text-themecolor m-b-0 m-t-0" th:text="${menu.name}">Dashboard</h3>
+          <input type="hidden" id="menuId" th:value="${menu.id}">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <a href="javascript:void(0)">文章管理</a>
@@ -48,7 +49,7 @@
           <div class="card">
             <div class="card-block">
               <div id="toolbar">
-                <a th:href="@{/article/edit}" class="btn btn-primary">添加文章</a>
+                <a th:href="@{'/article/edit/'+${menu.id}}" class="btn btn-primary">添加文章</a>
               </div>
               <table id="dataList"></table>
             </div>
@@ -153,7 +154,9 @@
       }
     }
   ]
-  InitTable('#dataList', '[[@{/article/list}]]', columns);
+  var url = '/manage/article/list/'+$('#menuId').val();
+  console.log(url);
+  InitTable('#dataList', url, columns);
 
 </script>
 </body>

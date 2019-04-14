@@ -1,5 +1,7 @@
 package com.lirui.boat.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Article;
 import com.lirui.boat.entity.vo.ArticleVO;
@@ -25,4 +27,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
   public Page<ArticleVO> page(Page<ArticleVO> page) {
     return page.setRecords(articleMapper.getArticles(page));
   }
+
+
+  public IPage<ArticleVO> page(IPage<ArticleVO> page, String menuId) {
+    return page.setRecords(articleMapper.getArticlesInMenu(page,menuId));
+  }
+
 }
