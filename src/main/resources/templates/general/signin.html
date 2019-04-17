@@ -29,14 +29,14 @@
 						后台 <strong class="text-skin">管理</strong>
 					</div>
 
-					<form th:action="@{/login}" method="post">
+					<form th:action="@{/dologin}" method="post">
 						<div class="form-group m-bottom-md">
 							<input type="text" th:value="${user.account}" name="account" class="form-control" placeholder="账号">
 						</div>
 						<div class="form-group">
 							<input type="password" th:value="${user.password}" name="password" class="form-control" placeholder="密码">
 						</div>
-
+						<p class="alert-danger" th:text="${errMsg}"></p>
 
 						<div class="m-top-md p-top-sm">
 							<a class="btn btn-success block">登录</a>

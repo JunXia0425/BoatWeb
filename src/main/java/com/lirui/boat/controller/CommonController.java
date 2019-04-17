@@ -3,6 +3,7 @@ package com.lirui.boat.controller;
 import com.lirui.boat.entity.User;
 import com.lirui.boat.service.impl.UserServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
+import com.sun.xml.internal.ws.resources.WsdlmodelMessages;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -54,7 +55,7 @@ public class CommonController {
    * 执行登录验证
    */
   @PostMapping("login")
-  public String doLogin(User user) {
+  public String doLogin(User user,Model model) {
     String account = user.getAccount();
     String password = user.getPassword();
     //获取subject
@@ -67,11 +68,12 @@ public class CommonController {
       return "redirect:admin/list";
     } catch (UnknownAccountException e) {
       log.error("未知用户名=>{}", account,e.getMessage());
-
+      model.addAttribute("errMsg","用户不存在");
     } catch (IncorrectCredentialsException e) {
       log.error("密码错误",e.getMessage());
+      model.addAttribute("errMsg","密码错误");
     }
-    return "error";
+    return "login";
   }
 
   /**
@@ -89,5 +91,15 @@ public class CommonController {
   @GetMapping("logout")
   public String logout() {
     return "redirect:/login";
+  }
+
+  /**
+   * 没有权限时请求此接口跳转到提示页面
+   *
+   * @return 无权限提示页面
+   */
+  @GetMapping("noPermission")
+  public String noPermission() {
+    return "noPermission";
   }
 }

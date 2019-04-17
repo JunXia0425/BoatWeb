@@ -10,13 +10,13 @@
             控制台
           </a>
         </li>
-        <li>
+        <li shiro:hasRole="3">
           <a th:href="@{/admin/list}" class="waves-effect">
             <i class="fa fa-user m-r-10" aria-hidden="true"></i>
             管理员管理
           </a>
         </li>
-        <li>
+        <li shiro:hasAnyRoles="2,3">
           <a th:href="@{/user/list}" class="waves-effect">
             <i class="fa fa-table m-r-10" aria-hidden="true"></i>
             用户管理
