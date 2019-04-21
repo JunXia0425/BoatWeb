@@ -106,7 +106,7 @@
 <script th:src="@{/assets/plugins/vue-tree/axios.min.js}"></script>
 <script th:src="@{/assets/plugins/vue-tree/jsontree.js}"></script>
 <script>
-  axios.post('[[@{/menu/all}]]').then(
+  axios.post('[[@{/api/menu/all}]]').then(
       function (result) {
         var data = result.data.result;
         console.log(data);

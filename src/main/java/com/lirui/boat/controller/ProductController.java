@@ -50,16 +50,7 @@ public class ProductController {
   }
 
 
-  /**
-   * 分页条件查询符合条件的所有商品，JSON格式返回
-   */
-  @PostMapping("list")
-  @ResponseBody
-  public ModelMap list(@RequestBody Page<ProductVO> productPage) {
-//    IPage<Product> page = productService.page(productPage);
-    Page<ProductVO> page = productService.page(productPage);
-    return ReturnUtil.success("ok", page, null);
-  }
+
 
 
   /**

@@ -63,15 +63,7 @@ public class ArticleController {
     return "/admin/articles/menu-tree";
   }
 
-  /**
-   * 分页条件查询符合条件的所有文章，JSON格式返回
-   */
-  @PostMapping("list/{menuId}")
-  @ResponseBody
-  public ModelMap list(@RequestBody Page<ArticleVO> articlePage,@PathVariable("menuId")String id) {
-    IPage<ArticleVO> page = articleService.page(articlePage,id);
-    return ReturnUtil.success("ok", page, null);
-  }
+
 
 
   /**

@@ -17,6 +17,8 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -74,27 +76,9 @@ public class MenuController {
     return "redirect:/article/list/" + id;
   }
 
-  /**
-   * 分页条件查询符合条件的所有栏目，JSON格式返回
-   */
-  @PostMapping("list")
-  @ResponseBody
-  public ModelMap list(@RequestBody Page<MenuVO> menuPage) {
-    IPage<MenuVO> page = menuService.page(menuPage);
-    return ReturnUtil.success("ok", page, null);
-  }
 
-  /**
-   * 查询所有启用目录(仅查询id，栏目名称，父级栏目id,url)，用于展示树形图
-   */
-  @PostMapping("all")
-  @ResponseBody
-  public ModelMap all() {
-    QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-    queryWrapper.select("id", "pid", "name").eq("enable_status", 1);
-    List<Map<String, Object>> maps = menuService.listMaps(queryWrapper);
-    return ReturnUtil.success("ok", maps, null);
-  }
+
+
 
   /**
    * 跳转到表单页面，如果传入的对象不是null，获取对象的所有信息，反填到表单中

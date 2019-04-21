@@ -57,6 +57,7 @@ public class ShiroConfig {
     filter.put("/logout","logout");
     filter.put("/list/admin","roles[3]");
     filter.put("/login","anon");
+    filter.put("/api/**","anon");
     filter.put("/**","authc");
     //被拦截返回登录页面
     shiroFilterFactoryBean.setLoginUrl("/login");

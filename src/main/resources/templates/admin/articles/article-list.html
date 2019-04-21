@@ -103,7 +103,7 @@
       align: 'center'
     },
     {
-      field: 'editorId',
+      field: 'editor',
       title: '发布者',
       align: 'center',
     },
@@ -154,7 +154,7 @@
       }
     }
   ]
-  var url = '/manage/article/list/'+$('#menuId').val();
+  var url = '/manage/api/article/list/'+$('#menuId').val();
   console.log(url);
   InitTable('#dataList', url, columns);
 

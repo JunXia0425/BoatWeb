@@ -102,7 +102,7 @@
   <script th:src="@{/assets/plugins/vue-tree/axios.min.js}"></script>
   <script>
     var jsondata;
-    axios.post('http://localhost:8082/manage/menu/all', {}).then(
+    axios.post('http://localhost:8082/manage/api/menu/all', {}).then(
         function (response) {
           jsondata = response.data;
           console.log(jsondata);
