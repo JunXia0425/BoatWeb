@@ -97,7 +97,8 @@
       field: 'imgUrl',
       align: 'center',
       formatter:function (value,row) {
-        return '<img src='+row.imgUrl+'/>';
+        var url = '/manage/'+ row.imgUrl
+        return '<img style="height: 100%" src="'+url+'"/>';
       }
     }, {
       field: 'productName',

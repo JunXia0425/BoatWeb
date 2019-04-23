@@ -44,7 +44,8 @@ public class FileUploadController {
       String saveFileName = file.getOriginalFilename();
       //新建文件对象，用来存储文件
       //TODO 上传路径应该可以配置，保存的文件名应该有统一规则
-      File saveFile = new File("upload/" + saveFileName);
+
+      File saveFile = new File("/src/main/resources/static/upload/" + saveFileName);
       log.info("文件路径:=>{}", saveFile.getPath());
       //如果路径不存在创建路径
       if (!saveFile.getParentFile().exists()) {
