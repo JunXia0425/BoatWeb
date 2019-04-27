@@ -3,6 +3,7 @@ package com.lirui.boat.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lirui.boat.entity.Article;
 import com.lirui.boat.entity.Menu;
 import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.entity.vo.MenuVO;
@@ -11,16 +12,13 @@ import com.lirui.boat.service.impl.ArticleServiceImpl;
 import com.lirui.boat.service.impl.MenuServiceImpl;
 import com.lirui.boat.service.impl.ProductServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
-import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -64,7 +62,7 @@ public class ApiController {
   @ResponseBody
   public ModelMap allMenu() {
     QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-    queryWrapper.select("id", "pid", "name").eq("enable_status", 1);
+    queryWrapper.select("id", "pid", "url", "name").eq("enable_status", 1);
     List<Map<String, Object>> maps = menuService.listMaps(queryWrapper);
     return ReturnUtil.success("ok", maps, null);
   }
@@ -88,5 +86,18 @@ public class ApiController {
   public ModelMap listProduct(@RequestBody Page<ProductVO> productPage) {
     Page<ProductVO> page = productService.page(productPage);
     return ReturnUtil.success("ok", page, null);
+  }
+
+  /**
+   * 根据id查询对应文章并以JSON格式返回
+   *
+   * @param id 文章id
+   * @return JSON对象
+   */
+  @PostMapping("/article/{articleId}")
+  @ResponseBody
+  public ModelMap getArticle(@PathVariable("articleId") String id) {
+    Article article = articleService.getById(id);
+    return ReturnUtil.success("ok", article, null);
   }
 }

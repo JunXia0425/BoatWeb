@@ -31,38 +31,5 @@ var jsonTree = function (data,config) {
       }
     });
     return jsonTree;
-  };
-  
-  let data = {
-    "status": 1,
-    "state": "success",
-    "msg": "ok",
-    "referer": null,
-    "result": [
-        {
-            "id": "1",
-            "pid": null,
-            "name": "关于我们",
-            "url": "/connect us",
-            "num": 1,
-            "levels": 1,
-            "tips": "联系",
-            "enableStatus": 1,
-            "createTime": "2019-04-10 16:10:46",
-            "lastEditTime": "2019-04-10 16:10:46"
-        },
-        {
-            "id": "2",
-            "pid": "1",
-            "name": "sads",
-            "url": null,
-            "num": null,
-            "levels": null,
-            "tips": null,
-            "enableStatus": 1,
-            "createTime": "2019-04-10 16:26:22",
-            "lastEditTime": "2019-04-10 16:26:22"
-        }
-    ]
-}  
+  }
 

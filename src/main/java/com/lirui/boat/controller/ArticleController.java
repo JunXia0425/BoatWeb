@@ -51,7 +51,6 @@ public class ArticleController {
   public String articleList(@PathVariable("menuId") String id, Model model) {
     Menu menu = menuService.getById(id);
     model.addAttribute("menu", menu);
-    //TODO:这里需要让列表页查出来的数据与menuid相符
     return "/admin/articles/article-list";
   }
 
