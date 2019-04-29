@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head th:replace="/admin/head"></head>
+
+<style th:href="@{/assets/plugins/bootstrap/css/fileinput.min.css}"></style>
+<style>
+    .bootstrap-table .btn-group label {
+        color: black !important;
+    }
+</style>
+<body class="fix-header card-no-border">
+
+<div id="main-wrapper">
+
+    <header th:replace="/admin/header"></header>
+
+    <div th:replace="/admin/aside"></div>
+
+    <div class="page-wrapper">
+
+        <!-- Container fluid  -->
+
+        <div class="container-fluid">
+
+            <!-- Bread crumb and right sidebar toggle -->
+
+            <div class="row page-titles">
+                <div class="col-md-6 col-8 align-self-center">
+                    <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0)"
+                               th:text="游艇 + ${#strings.isEmpty(yacht.id)?'添加':'修改'}"></a>
+                        </li>
+                    </ol>
+                </div>
+
+            </div>
+
+            <!-- End Bread crumb and right sidebar toggle -->
+
+
+            <!-- Start Page Content -->
+
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="card-block">
+                                <form class="form-horizontal form-material" th:action="@{/yacht/save}"
+                                      method="post">
+                                    <input type="hidden" name="id" th:value="${yacht.id}"/>
+                                    <div th:switch="${#strings.isEmpty(yacht.id)}">
+                                        <input type="hidden" name="ownerId" th:case="false"
+                                               th:value="${yacht.ownerId}"/>
+                                        <input type="hidden" name="ownerId" th:case="true" th:value="${ownerId}"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">游艇名称</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name="name" class="form-control form-control-line"
+                                                   th:value="${yacht.name}">
+                                        </div>
+                                    </div>
+                                    <!--图片上传-->
+                                    <!--艇长-->
+                                    <div class="form-group">
+                                        <label class="col-md-12">艇长（单位：m）</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="length"
+                                                   th:value="${yacht.length}">
+                                        </div>
+                                    </div>
+<!--                                    产地-->
+                                    <div class="form-group">
+                                        <label class="col-md-12">产地</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="region"
+                                                   th:value="${yacht.region}">
+                                        </div>
+                                    </div>
+                                    <!--                                    年份-->
+                                    <div class="form-group">
+                                        <label class="col-md-12">年份</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="year"
+                                                   th:value="${yacht.year}">
+                                        </div>
+                                    </div>
+<!--                                    售价-->
+                                    <div class="form-group">
+                                        <label class="col-md-12">售价（单位：万元）</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="price"
+                                                   th:value="${yacht.price}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">游艇描述</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="description"
+                                                   th:value="${yacht.description}">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-12">游艇图片</label>
+                                        <div class="col-sm-12">
+                                            <input id="input-id" name="img" multiple="multiple" type="file"
+                                                   data-show-caption="true"/>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="path" name="imgPath" th:value="${yacht.imgPath}"/>
+                                    <div class="form-group">
+                                        <label class="col-md-12">状态</label>
+                                        <div class="col-md-12">
+                                            <input type="radio" name="enableStatus" class="radio-inline"
+                                                   th:each="status:${T(com.lirui.boat.enums.EnableStatus).values()}"
+                                                   th:value="${status.value}" th:text="${status.desc}"
+                                                   th:checked="${status.value eq yacht.enableStatus}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End PAge Content -->
+
+        </div>
+
+        <!-- End Container fluid  -->
+
+
+        <!-- footer -->
+
+        <footer class="footer text-center">
+            © 2017 Monster Admin by wrappixel.More Templates
+            <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a>
+            - Collect from
+            <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+        </footer>
+
+        <!-- End footer -->
+
+    </div>
+
+    <!-- End Page wrapper  -->
+
+</div>
+
+<!-- End Wrapper -->
+<!--scripts-->
+<div class="scripts" th:replace="/admin/footer"></div>
+<script th:src="@{/assets/plugins/bootstrap/js/fileinput.min.js}"></script>
+<script th:src="@{/assets/plugins/bootstrap/js/zh.js}"></script>
+<script>
+    $(function () {
+        initFileInput("input-id");
+    });
+
+    function initFileInput(ctrlName) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "[[@{/upload/img}]]", //上传的地址
+            allowedFileExtensions: ['jpg', 'gif', 'png', 'jpeg'],//接收的文件后缀
+            uploadAsync: true, //默认异步上传
+            showUpload: true, //是否显示上传按钮
+            showRemove: true, //显示移除按钮
+            showPreview: true, //是否显示预览
+            showCaption: true,//是否显示标题
+            dropZoneEnabled: false,
+            browseClass: "btn btn-primary", //按钮样式
+            maxFileCount: 1, //允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount: true,
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+
+        }).on('filepreupload', function (event, data, previewId, index) {     //上传中
+            console.log('文件正在上传');
+        }).on("fileuploaded", function (event, data, previewId, index) {    //一个文件上传成功
+            var form = data.form, files = data.files, extra = data.extra,
+                response = data.response, reader = data.reader;
+            console.log(response);//打印出返回的json
+            var path = response.result.path;
+            console.log(path);
+            $('#path').val(path);
+            $('#input-id').removeAttr('name');//移除上传组件name，防止提交
+        }).on('fileerror', function (event, data, msg) {  //一个文件上传失败
+            console.log('文件上传失败！' + data.status);
+        })
+    }
+</script>
+</body>
+
+</html>
