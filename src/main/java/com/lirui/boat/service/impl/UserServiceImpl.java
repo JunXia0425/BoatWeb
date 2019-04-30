@@ -2,17 +2,18 @@ package com.lirui.boat.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lirui.boat.entity.User;
 import com.lirui.boat.enums.EnableStatus;
 import com.lirui.boat.enums.Role;
 import com.lirui.boat.mapper.UserMapper;
 import com.lirui.boat.service.UserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
+
+import java.util.List;
 
 /**
  * <p>
@@ -38,7 +39,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     List<User> users = userMapper.selectList(queryWrapper);
     //如果查询出来的列表不为空，说明有同名用户，返回
     if (!users.isEmpty()) {
-      return ReturnUtil.error("error", "用户已存在");
+      return ReturnUtil.error("用户已存在");
     }
     //如果要注册的用户是管理员，账户先设为不可用
     if (Role.ADMIN.getUserType().equals(user.getUserType())) {
@@ -46,7 +47,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
     //将这个用户保存到数据库
     int insert = userMapper.insert(user);
-    return insert == 1 ? ReturnUtil.success("ok", "注册成功") : ReturnUtil.error("error", "注册失败");
+    return insert == 1 ? ReturnUtil.success( "注册成功") : ReturnUtil.error("注册失败");
   }
 
   @Override

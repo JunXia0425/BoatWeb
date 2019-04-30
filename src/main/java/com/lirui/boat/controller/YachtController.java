@@ -80,9 +80,9 @@ public class YachtController {
     public ModelMap del(@RequestParam("id") String id) {
         boolean b = yachtService.removeById(id);
         if (b) {
-            return ReturnUtil.success("删除成功", null, null);
+            return ReturnUtil.success("删除成功", null, "yacht/list");
         }
-        return ReturnUtil.error("删除失败", null, null);
+        return ReturnUtil.error("删除失败", null, "yacht/list");
     }
 
     /**
@@ -96,17 +96,17 @@ public class YachtController {
             log.info("此游艇存在，本次操作为：更新游艇");
             boolean save = yachtService.updateById(yacht);
             if (save) {
-                return ReturnUtil.success("更新成功", null, null);
+                return ReturnUtil.success("更新成功", null, "yacht/list");
             } else {
-                return ReturnUtil.error("更新失败", null, null);
+                return ReturnUtil.error("更新失败", null, "yacht/list");
             }
         } else {
             log.info("游艇不存在，本次操作为：新增游艇");
             boolean save = yachtService.save(yacht);
             if (save) {
-                return ReturnUtil.success("保存成功", null, "yacht-list");
+                return ReturnUtil.success("保存成功", null, "yacht/list");
             } else {
-                return ReturnUtil.error("操作失败", null, null);
+                return ReturnUtil.error("操作失败", null, "yacht/list");
             }
         }
     }

@@ -2,6 +2,7 @@ package com.lirui.boat.controller;
 
 import com.lirui.boat.entity.User;
 import com.lirui.boat.service.impl.UserServiceImpl;
+import com.lirui.boat.utils.ReturnUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -37,7 +39,7 @@ public class CommonController {
     @GetMapping("login")
     public String toIndex(Model model) {
         model.addAttribute("user", new User());
-        return "/general/signin";
+        return "/general/login";
     }
 
     /**
@@ -46,7 +48,7 @@ public class CommonController {
     @GetMapping("regist")
     public String toRegist(Model model) {
         model.addAttribute("user", new User());
-        return "/general/signup";
+        return "/general/regist";
     }
 
     /**
@@ -64,7 +66,8 @@ public class CommonController {
      * 执行登录验证
      */
     @PostMapping("login")
-    public String doLogin(User user, Model model) {
+    @ResponseBody
+    public ModelMap doLogin(@RequestBody User user) {
         String account = user.getAccount();
         String password = user.getPassword();
         //获取subject
@@ -74,15 +77,14 @@ public class CommonController {
         //执行登录方法
         try {
             subject.login(token);
-            return "redirect:/console";
+            return ReturnUtil.success("登陆成功",null,"/console");
         } catch (UnknownAccountException e) {
             log.error("未知用户名=>{}", account, e.getMessage());
-            model.addAttribute("errMsg", "用户不存在");
+            return ReturnUtil.error("该用户尚未注册");
         } catch (IncorrectCredentialsException e) {
             log.error("密码错误", e.getMessage());
-            model.addAttribute("errMsg", "密码错误");
+            return ReturnUtil.error("密码错误");
         }
-        return "login";
     }
 
     /**
@@ -90,7 +92,7 @@ public class CommonController {
      */
     @PostMapping("regist")
     @ResponseBody
-    public ModelMap doRegist(User user) {
+    public ModelMap doRegist(@RequestBody User user) {
         return userService.regist(user);
     }
 

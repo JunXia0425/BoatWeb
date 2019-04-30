@@ -167,7 +167,7 @@
           '<a class="btn btn-primary" href="[[@{/yacht/form}]]?id=' + value + '" >',
           '<i class="fa fa-edit">编辑</i>',
           '</a>  ',
-          '<a class="btn btn-danger" href="[[@{/yacht/del}]]?id=' + value + '" >',
+          '<a class="btn btn-danger" onclick="del(\''+ value +'\')" href="javascript:void(0)" >',
           '<i class="fa fa-remove">删除</i>',
           '</a>'
         ].join('');
@@ -176,6 +176,20 @@
   ]
   InitTable('#dataList', '[[@{/api/yacht/list}]]', columns);
 
+  function del(id) {
+    const url = '[[@{/yacht/del}]]?id='+id
+    layer.confirm('确定删除？',function () {
+      $.ajax({
+        url:url,
+        type:'get',
+        success:function (data) {
+          layer.msg(data.msg+',即将刷新页面',{time:1500},function () {
+            window.location.replace('/manage/'+data.referer)
+          })
+        }
+      })
+    })
+  }
 </script>
 </body>
 
