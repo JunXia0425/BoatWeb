@@ -1,16 +1,12 @@
 package com.lirui.boat.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Article;
 import com.lirui.boat.entity.Menu;
 import com.lirui.boat.entity.User;
-import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.service.impl.ArticleServiceImpl;
 import com.lirui.boat.service.impl.MenuServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
-import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -18,13 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -64,6 +56,19 @@ public class ArticleController {
 
 
 
+
+
+  @GetMapping("edit")
+  public String edit(@RequestParam("id") String id, Model model) {
+    //获取当前用户
+    User user = (User) SecurityUtils.getSubject().getPrincipal();
+    Article article = articleService.getById(id);
+    model.addAttribute("article", article);
+    model.addAttribute("editorId", user.getId());
+    Menu menu = menuService.getById(article.getMenuId());
+    model.addAttribute("menu",menu);
+    return "/admin/articles/edit";
+  }
 
   /**
    * 跳转到表单页面，如果传入的对象不是null，获取对象的所有信息，反填到表单中

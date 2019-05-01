@@ -97,10 +97,6 @@
       title: '标题',
       field: 'title',
       align: 'center'
-    }, {
-      field: 'content',
-      title: '摘要',
-      align: 'center'
     },
     {
       field: 'editor',
@@ -147,7 +143,7 @@
           '<a class="btn btn-primary" href="[[@{/article/edit}]]?id=' + value + '" >',
           '<i class="fa fa-edit">编辑</i>',
           '</a>  ',
-          '<a class="btn btn-danger" href="[[@{/article/del}]]?id=' + value + '" >',
+          '<a class="btn btn-danger" onclick="del(\''+ value +'\')" href="javascript:void(0)" >',
           '<i class="fa fa-remove">删除</i>',
           '</a>'
         ].join('');
@@ -158,6 +154,20 @@
   console.log(url);
   InitTable('#dataList', url, columns);
 
+  function del(id) {
+    const url = '[[@{/article/del}]]?id='+id
+    layer.confirm('确定删除？',function () {
+      $.ajax({
+        url:url,
+        type:'get',
+        success:function (data) {
+          layer.msg(data.msg+',即将刷新页面',{time:1000},function () {
+            window.location.reload()
+          })
+        }
+      })
+    })
+  }
 </script>
 </body>
 

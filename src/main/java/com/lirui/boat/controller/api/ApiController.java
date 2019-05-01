@@ -56,6 +56,7 @@ public class ApiController {
     @PostMapping("/menu/list")
     @ResponseBody
     public ModelMap listMenu(@RequestBody Page<MenuVO> menuPage) {
+        menuPage.setAsc("num");
         IPage<MenuVO> page = menuService.page(menuPage);
         return ReturnUtil.success("ok", page, null);
     }
@@ -67,7 +68,7 @@ public class ApiController {
     @ResponseBody
     public ModelMap allMenu() {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("id", "pid", "url", "name").eq("enable_status", 1);
+        queryWrapper.select("id", "pid", "url", "name").eq("enable_status", 1).orderByAsc("num");
         List<Map<String, Object>> maps = menuService.listMaps(queryWrapper);
         return ReturnUtil.success("ok", maps, null);
     }

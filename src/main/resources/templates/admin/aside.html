@@ -25,10 +25,10 @@
         <li>
           <a th:href="@{/yacht/list}" class="waves-effect">
             <i class="fa fa-font m-r-10" aria-hidden="true"></i>
-            商品审核
+            商品管理
           </a>
         </li>
-        <li>
+        <li shiro:hasAnyRoles="2,3">
           <a th:href="@{/menu/list}" class="waves-effect">
             <i class="fa fa-globe m-r-10" aria-hidden="true"></i>
             菜单管理
@@ -37,7 +37,7 @@
         <li>
           <a th:href="@{/article/menu-tree}" class="waves-effect">
             <i class="fa fa-columns m-r-10" aria-hidden="true"></i>
-            资讯信息审核
+            资讯信息管理
           </a>
         </li>
         <li>

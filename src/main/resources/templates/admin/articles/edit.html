@@ -69,7 +69,15 @@
                       <div id="editor"></div>
                     </div>
                   </div>
-                  <!--状态修改为管理员权限，不在此处-->
+                  <div shiro:hasAnyRoles="2,3" class="form-group">
+                    <label class="col-md-12">状态</label>
+                    <div class="col-md-12">
+                      <input type="radio" name="enableStatus" class="radio-inline"
+                             th:each="status:${T(com.lirui.boat.enums.EnableStatus).values()}"
+                             th:value="${status.value}" th:text="${status.desc}"
+                             th:checked="${status.value eq article.enableStatus}">
+                    </div>
+                  </div>
                   <div class="form-group">
                     <div class="col-sm-12">
                       <button class="btn btn-success" type="submit" id="save">保存</button>
@@ -150,6 +158,9 @@
     }
   }
   editor.create();
+  var content = htmlRestore('[[${article.content}]]')
+  console.log(content);
+  editor.txt.html(content)
 
   //表单提交时将内容写入input
   function check() {
@@ -158,8 +169,36 @@
     $('#content').val(content);
     return true;
   }
-
-
+  $('form').submit(function () {
+    $(this).ajaxSubmit({
+      success:function(data){
+        layer.msg(data.msg,{time:1000},function () {
+          var url = '/manage/'+ data.referer
+          window.location.href = document.referrer
+        })
+      }
+    });
+    return false;//阻止表单本身提交
+  });
+  /**
+   *  转义字符还原成html字符
+   * @param str
+   * @returns {string}
+   * @constructor
+   */
+  function htmlRestore(str) {
+    var s = "";
+    if (str.length === 0) {
+      return "";
+    }
+    s = str.replace(/&amp;/g, "&");
+    s = s.replace(/&lt;/g, "<");
+    s = s.replace(/&gt;/g, ">");
+    s = s.replace(/&nbsp;/g, " ");
+    s = s.replace(/&#39;/g, "\'");
+    s = s.replace(/&quot;/g, "\"");
+    return s;
+  }
 </script>
 </body>
 

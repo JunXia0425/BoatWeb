@@ -153,7 +153,7 @@
           '<a class="btn btn-primary" href="[[@{/user/form}]]?id=' + value + '" >',
           '<i class="fa fa-edit">编辑</i>',
           '</a>  ',
-          '<a class="btn btn-danger" href="[[@{/user/del}]]?id=' + value + '" >',
+          '<a class="btn btn-danger" onclick="del(\''+ value +'\')" href="javascript:void(0)" >',
           '<i class="fa fa-remove">删除</i>',
           '</a>'
         ].join('');
@@ -161,6 +161,21 @@
     }
   ]
   InitTable('#dataList', '[[@{/admin/list}]]', columns);
+
+  function del(id) {
+    const url = '[[@{/user/del}]]?id=' + id
+    layer.confirm('删除后与该用户相关联的数据将全部删除,确定删除？', function () {
+      $.ajax({
+        url: url,
+        type: 'get',
+        success: function (data) {
+          layer.msg(data.msg + ',即将刷新页面', {time: 1500}, function () {
+            window.location.reload()
+          })
+        }
+      })
+    })
+  }
 
 </script>
 </body>

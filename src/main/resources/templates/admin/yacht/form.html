@@ -114,7 +114,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" id="path" name="imgPath" th:value="${yacht.imgPath}"/>
-                                    <div class="form-group">
+                                    <div shiro:hasAnyRoles="2,3" class="form-group">
                                         <label class="col-md-12">状态</label>
                                         <div class="col-md-12">
                                             <input type="radio" name="enableStatus" class="radio-inline"

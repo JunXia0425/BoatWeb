@@ -4,27 +4,16 @@ package com.lirui.boat.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.User;
-import com.lirui.boat.enums.Role;
-import com.lirui.boat.service.UserService;
 import com.lirui.boat.service.impl.UserServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
-import java.time.LocalDateTime;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -95,9 +84,13 @@ public class UserController {
   }
 
   @PostMapping("user/save")
-  public String doSave(User user){
+  @ResponseBody
+  public ModelMap doSave(User user){
     boolean save = userService.updateById(user);
-    return "redirect:/user/list";
+    if (save){
+      return ReturnUtil.success("保存成功");
+    }
+    return ReturnUtil.error("保存失败");
   }
   /**
    * 根据id删除用户
@@ -111,6 +104,4 @@ public class UserController {
     }
     return ReturnUtil.error("删除失败", null, null);
   }
-
-
 }

@@ -85,7 +85,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <div shiro:hasAnyRoles="2,3" class="form-group">
                     <label class="col-md-12">状态</label>
                     <div class="col-md-12">
                       <input type="radio" name="enableStatus" class="radio-inline"
@@ -134,7 +134,17 @@
 <!--scripts-->
 <div class="scripts" th:replace="/admin/footer"></div>
 <script>
-
+  $('form').submit(function () {
+    $(this).ajaxSubmit({
+      success:function(data){
+        layer.msg(data.msg,{time:1500},function () {
+          var url = '/manage/'+ data.referer
+          window.location.reload()
+        })
+      }
+    });
+    return false;//阻止表单本身提交
+  });
 </script>
 </body>
 

@@ -121,9 +121,9 @@ public class MenuController {
       menu.setLastEditTime(LocalDateTime.now());
       boolean save = menuService.updateById(menu);
       if (save) {
-        return ReturnUtil.success("更新成功", null, null);
+        return ReturnUtil.success("更新成功", null, "menu/list");
       } else {
-        return ReturnUtil.error("更新失败", null, null);
+        return ReturnUtil.error("更新失败", null, "menu/list");
       }
     } else {
       log.info("栏目不存在，本次操作为：新增栏目");
@@ -131,9 +131,9 @@ public class MenuController {
       menu.setLastEditTime(LocalDateTime.now());
       boolean save = menuService.save(menu);
       if (save) {
-        return ReturnUtil.success("保存成功", null, "menu-list");
+        return ReturnUtil.success("新增栏目成功", null, "menu/list");
       } else {
-        return ReturnUtil.error("操作失败", null, null);
+        return ReturnUtil.error("新增栏目失败", null, "menu/list");
       }
     }
   }
