@@ -5,6 +5,7 @@ import com.lirui.boat.service.impl.UserServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -84,6 +85,9 @@ public class CommonController {
         } catch (IncorrectCredentialsException e) {
             log.error("密码错误", e.getMessage());
             return ReturnUtil.error("密码错误");
+        }catch (ExcessiveAttemptsException e){
+            log.error(e.getMessage());
+            return ReturnUtil.error(e.getMessage());
         }
     }
 

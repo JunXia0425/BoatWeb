@@ -1,14 +1,11 @@
 package com.lirui.boat.shiro;
 
 import com.lirui.boat.entity.User;
+import com.lirui.boat.enums.EnableStatus;
 import com.lirui.boat.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -51,6 +48,9 @@ public class ShiroRealm extends AuthorizingRealm {
     User user = userService.getByAccount(username);
     if (user == null) {
       throw new UnknownAccountException("没有此用户->" + username);
+    }
+    if (user.getEnableStatus().equals(EnableStatus.DISABLE.getValue())) {
+      throw new ExcessiveAttemptsException("用户被锁定，请联系管理员进行解锁");
     }
     return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
   }
