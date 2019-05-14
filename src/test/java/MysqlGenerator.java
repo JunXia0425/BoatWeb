@@ -1,3 +1,4 @@
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -64,6 +65,8 @@ public class MysqlGenerator {
     gc.setServiceName("%sService");
     gc.setServiceImplName("%sServiceImpl");
     gc.setControllerName("%sController");
+    gc.setIdType(IdType.UUID);
+    gc.setFileOverride(true);
     mpg.setGlobalConfig(gc);
 
     // 数据源配置

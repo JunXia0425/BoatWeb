@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Li Rui
- * @since 2019-04-27
+ * @since 2019-05-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -31,7 +31,7 @@ public class Yacht implements Serializable {
     /**
      * id
      */
-    @TableId(value = "id",type = IdType.UUID)
+    @TableId(value = "id", type = IdType.UUID)
     private String id;
 
     /**
@@ -51,6 +51,12 @@ public class Yacht implements Serializable {
      */
     @TableField("length")
     private Float length;
+
+    /**
+     * 最高航速，单位节
+     */
+    @TableField("max_speed")
+    private Float maxSpeed;
 
     /**
      * 产地
