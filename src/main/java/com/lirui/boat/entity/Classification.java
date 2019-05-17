@@ -11,17 +11,17 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 游艇类别表
  * </p>
  *
  * @author Li Rui
- * @since 2019-05-14
+ * @since 2019-05-16
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("purpers")
-public class Purpers implements Serializable {
+@TableName("classification")
+public class Classification implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,10 +29,10 @@ public class Purpers implements Serializable {
     private String id;
 
     /**
-     * 出航目的
+     * 游艇类别
      */
-    @TableField("purpers")
-    private String purpers;
+    @TableField("classification")
+    private String classification;
 
 
 }

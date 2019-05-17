@@ -14,4 +14,5 @@ import lombok.Data;
 @Data
 public class YachtVO extends Yacht {
     private String owner;
+    private String classificationName;
 }

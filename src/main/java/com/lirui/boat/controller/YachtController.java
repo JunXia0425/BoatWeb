@@ -2,8 +2,10 @@ package com.lirui.boat.controller;
 
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.lirui.boat.entity.Classification;
 import com.lirui.boat.entity.User;
 import com.lirui.boat.entity.Yacht;
+import com.lirui.boat.service.impl.ClassificationServiceImpl;
 import com.lirui.boat.service.impl.YachtServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -28,7 +32,8 @@ import org.springframework.web.bind.annotation.*;
 public class YachtController {
     @Autowired
     private YachtServiceImpl yachtService;
-
+    @Autowired
+    private ClassificationServiceImpl classificationService;
 
     /**
      * 跳转到游艇列表
@@ -54,8 +59,10 @@ public class YachtController {
             yacht1 = yachtService.getById(yacht.getId());
         }
         User principal = (User) SecurityUtils.getSubject().getPrincipal();
+        List<Classification> classifications = classificationService.list();
         model.addAttribute("yacht", yacht1);
         model.addAttribute("ownerId",principal.getId());
+        model.addAttribute("classifications",classifications);
         return "/admin/yacht/form";
     }
 

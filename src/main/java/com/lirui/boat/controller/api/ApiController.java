@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Article;
 import com.lirui.boat.entity.Menu;
+import com.lirui.boat.entity.Yacht;
 import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.entity.vo.MenuVO;
 import com.lirui.boat.entity.vo.ProductVO;
@@ -115,5 +116,17 @@ public class ApiController {
     public ModelMap getArticle(@PathVariable("articleId") String id) {
         Article article = articleService.getById(id);
         return ReturnUtil.success("ok", article, null);
+    }
+
+    /**
+     * 根据id查询对应游艇信息并以JSON格式返回
+     * @param yacht
+     * @return
+     */
+    @PostMapping("/yacht/getYacht")
+    @ResponseBody
+    public ModelMap getYacht(@RequestBody Yacht yacht){
+        yacht = yachtService.getById(yacht.getId());
+        return ReturnUtil.success("ok",yacht);
     }
 }

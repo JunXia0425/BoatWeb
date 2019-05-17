@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : utf-8
 
- Date: 05/14/2019 21:40:09 PM
+ Date: 05/18/2019 02:42:08 AM
 */
 
 SET NAMES utf8mb4;
@@ -62,6 +62,30 @@ CREATE TABLE `article` (
   CONSTRAINT `article_ibfk_1` FOREIGN KEY (`editor_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
   CONSTRAINT `article_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='文章信息表';
+
+-- ----------------------------
+--  Records of `article`
+-- ----------------------------
+BEGIN;
+INSERT INTO `article` VALUES ('857d8c545b531e11e82fe37795f50259', 'dcce7b55d3c5a0de62503a888d833f95', '54e014ff3fb1e1e1bcb38c9c009f1cba', '测试', '<div id=\"navCategory\"><ul><li><em>•</em><a href=\"https://www.cnblogs.com/zjf-1992/p/7841156.html#_label0\">&nbsp; &nbsp; 一、Vue.js简要说明</a></li><li><em>•</em><a href=\"https://www.cnblogs.com/zjf-1992/p/7841156.html#_label1\">&nbsp; &nbsp; 二、Vue.js优雅的实现任务列表的操作预览</a></li><li><em>•</em><a href=\"https://www.cnblogs.com/zjf-1992/p/7841156.html#_label2\">&nbsp; &nbsp; 三、HTML骨架CSS样式代码</a></li><li><em>•</em><a href=\"https://www.cnblogs.com/zjf-1992/p/7841156.html#_label3\">&nbsp; &nbsp; 四、实例化Vue及应用Vue指令Directives添加项目中</a></li></ul></div><div><a name=\"_label0\"></a></div><h4><strong>&nbsp; &nbsp; 一、Vue.js简要说明</strong></h4><p>Vue.js (读音 /vjuː/) 是一套构建用户界面的渐进式框架。与前端框架Angular一样， Vue.js在设计上采用MVVM模式，当View视图层发生变化时，会自动更新到ViewModel.反之亦然，View与ViewModel之间通过数据双向绑定(&gt;<img src=\"https://images2017.cnblogs.com/blog/819169/201711/819169-20171112193914544-2117333055.png\" alt=\"\" width=\"400\"></p><p>Vue.js通过MVVM模式将视图与数据分成两部分(或者说视图代码与业务逻辑的解耦)，因此我们只需关心数据的操作，DOM的视图的更新等一系列事情，Vue会帮我们自动搞定。</p><p><br></p>', '1', '2019-05-16 15:04:14', '2019-05-16 15:04:14');
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `classification`
+-- ----------------------------
+DROP TABLE IF EXISTS `classification`;
+CREATE TABLE `classification` (
+  `id` varchar(32) NOT NULL,
+  `classification` varchar(255) NOT NULL COMMENT '游艇类别',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='游艇类别表';
+
+-- ----------------------------
+--  Records of `classification`
+-- ----------------------------
+BEGIN;
+INSERT INTO `classification` VALUES ('300ae21de8b6c6e55448b608d352fd46', '双体船'), ('5bd17a13f72f81dde9ed501e3b930337', '舒适性游艇'), ('65dab9cf9f0a61a6d9671f7cec6f3e1b', '经济型游艇'), ('7bd516cdd705e9a87b15726bb0489a65', '钓鱼艇'), ('a122a0b8e290598d926a0f42570a8512', '奢华型游艇'), ('a3219058222c9577a26b0cb0cec17b55', '豪华型游艇'), ('b21fa4ce35e0ffb1a2904d44b3ed459f', '活动会议艇'), ('c34645964e8c9a70bacbfd453643ba59', '游船'), ('e91dcd58485172f9312e2f333dd7d93b', '单体帆船'), ('f494ad48fe4d4eb525e14d625f938a42', '运动快艇');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `invoice`
@@ -153,6 +177,13 @@ CREATE TABLE `purpose` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出行目的表';
 
 -- ----------------------------
+--  Records of `purpose`
+-- ----------------------------
+BEGIN;
+INSERT INTO `purpose` VALUES ('0794b66071813bef8ee2318c31934823', '亲友活动'), ('203b7af4283229c4caada638ecec4b72', '放生礼拜'), ('22d4d26beae6f679e9fcfe7778a0f305', '主题Party'), ('2fac46cdf8408a9d70fbd8e24b7f485b', '商务接待'), ('346845ed8b51afbd8727a87244b75c2f', '亲友活动'), ('371fa3a175ae857fdb117e976f681a89', '放生礼拜'), ('61ac238e9f283db2294867415dbf844e', '同学聚会'), ('6e6e50e37139317a6a375b1ee35e0ada', '家庭体验'), ('7ad7200e7872da11e9c986f9f8de4a6d', '主题Party'), ('975b6647c55f773e989a1879d936f738', '其它'), ('9bd72a53a0efbab851a573f7d8344086', '潜水'), ('a3dec500e09e3e5c7c458ffd533bb4c4', '专业海钓'), ('a6b73939d3d2bd5bd972c20f072ce88e', '潜水'), ('aae70e2b13bf6d2e9c46d36ae73f33ba', '专业海钓'), ('b93b4a13a5c747075d3d6c980201fbf6', '摄影'), ('c9385b8821ed49fa1ff9a9aa3d5cc064', '其它'), ('d7ae0024dbdf752c31a41b4bba7da130', '休闲海钓'), ('dff2c73fdddd5407bf2e5e1ca14525fc', '摄影'), ('dff8dd18b14d27018a8e0cbee0545ca2', '商务接待'), ('e7032591dc7bf3302fadbc6e9b45606f', '玩艇尝试'), ('e9e512865fe64a8f00c7262c91b014a3', '家庭体验'), ('f674df48056020c7509519c5f8e9a6fd', '玩艇尝试'), ('f7bfa2c44b65cad318e0333b1a534a05', '休闲海钓'), ('f902954c4ec4ea5980d84666c58aa6d1', '同学聚会');
+COMMIT;
+
+-- ----------------------------
 --  Table structure for `route`
 -- ----------------------------
 DROP TABLE IF EXISTS `route`;
@@ -206,7 +237,7 @@ CREATE TABLE `user` (
 --  Records of `user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES ('53f7f03086981fb61a1d8fa5683fda70', 'zhangsan', '111', '张三', '2', '1', '2019-04-28 00:46:02', '2019-05-05 16:41:30'), ('dcce7b55d3c5a0de62503a888d833f95', 'tianqi', '123456', '田七', '1', '3', '2019-05-01 04:02:48', '2019-05-01 14:39:48'), ('dd30b6c4a0ec052a43cb2ac1db5babf3', 'xx', '111', 'xx', '2', '2', '2019-05-05 16:46:11', '2019-05-05 16:46:11'), ('ea8513a7c8fa4d0bf6b49429c2005345', 'lisi', '111', '李四', '1', '1', '2019-05-02 00:22:26', '2019-05-02 00:22:26');
+INSERT INTO `user` VALUES ('53f7f03086981fb61a1d8fa5683fda70', 'zhangsan', '111', '张三', '2', '1', '2019-04-28 00:46:02', '2019-05-05 16:41:30'), ('dcce7b55d3c5a0de62503a888d833f95', 'admin', '123456', '田七', '1', '3', '2019-05-01 04:02:48', '2019-05-16 13:38:35'), ('dd30b6c4a0ec052a43cb2ac1db5babf3', 'xx', '111', 'xx', '2', '2', '2019-05-05 16:46:11', '2019-05-05 16:46:11'), ('ea8513a7c8fa4d0bf6b49429c2005345', 'lisi', '111', '李四', '1', '1', '2019-05-02 00:22:26', '2019-05-02 00:22:26');
 COMMIT;
 
 -- ----------------------------
@@ -237,16 +268,20 @@ CREATE TABLE `yacht` (
   `enable_status` int(11) NOT NULL DEFAULT '0' COMMENT '是否可用 1：可用，0：不可用',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `classification` varchar(32) NOT NULL COMMENT '游艇类型，外键',
   PRIMARY KEY (`id`),
   KEY `owner_id` (`owner_id`),
-  CONSTRAINT `yacht_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `USER` (`id`) ON DELETE CASCADE
+  KEY `classification` (`classification`),
+  KEY `classification_2` (`classification`),
+  CONSTRAINT `yacht_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `USER` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `yacht_ibfk_2` FOREIGN KEY (`classification`) REFERENCES `classification` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='游艇信息';
 
 -- ----------------------------
 --  Records of `yacht`
 -- ----------------------------
 BEGIN;
-INSERT INTO `yacht` VALUES ('82e80b32718e71431467fc5f7ad970b7', 'Hanse 315', 'upload/2017127109645061.jpg', '8.12', null, '美国', '2018', '23.74', '很大<p>hhhh<img src=\"http://localhost:8082/manage/upload/2013115159364265.jpg\" style=\"font-size: 1rem; max-width: 100%;\"></p>', '53f7f03086981fb61a1d8fa5683fda70', '1', '2019-04-30 23:32:55', '2019-05-01 18:28:09');
+INSERT INTO `yacht` VALUES ('a6759d1169147f1c4174bf9267def351', 'Hanse 316', 'upload/2018917127073778.jpg', '8.12', null, '美国', '2018', '12.23', '<p>很好</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:21', '2019-05-18 02:02:21', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('a6759d1169147f1c4174bf9267def352', 'Hanse 316', 'upload/2018917127073778.jpg', '8.12', null, '美国', '2018', '12.23', '<p>很好</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:21', '2019-05-18 02:02:21', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('a6759d1169147f1c4174bf9267def353', 'Hanse 316', 'upload/2018917127073778.jpg', '8.12', null, '美国', '2018', '12.23', '<p>很好</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:21', '2019-05-18 02:02:21', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('c58bcf7738c54280ab57e1ca0592ea11', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 02:06:00', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea12', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:14', '2019-05-18 02:06:14', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea13', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:14', '2019-05-18 02:06:14', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea14', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 02:06:00', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea15', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 02:06:00', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea1f', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 02:04:09', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea20', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 02:04:09', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea21', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 02:04:09', '7bd516cdd705e9a87b15726bb0489a65'), ('d3764c9d1582b50b7e85e064340afbf3', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '美国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-16 13:42:21', '2019-05-16 13:42:21', 'a122a0b8e290598d926a0f42570a8512'), ('d3764c9d1582b50b7e85e064340afbf4', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '美国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-16 13:42:21', '2019-05-16 13:42:21', 'a122a0b8e290598d926a0f42570a8512'), ('d3764c9d1582b50b7e85e064340afbfd', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '美国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-16 13:42:21', '2019-05-16 13:42:21', 'a122a0b8e290598d926a0f42570a8512'), ('e4922209fbbdbf24db52459ac1b792b2', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '美国', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 02:02:52', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('e4922209fbbdbf24db52459ac1b792b3', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '美国', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 02:02:52', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('e4922209fbbdbf24db52459ac1b792b4', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '美国', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 02:02:52', '65dab9cf9f0a61a6d9671f7cec6f3e1b');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

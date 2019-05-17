@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Yacht;
 import com.lirui.boat.entity.vo.YachtVO;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -22,6 +21,5 @@ public interface YachtMapper extends BaseMapper<Yacht> {
      * @param page 分页
      * @return
      */
-    @Select("select y.*,u.nickname owner from yacht y join user u on y.owner_id = u.id")
     List<YachtVO> getYachts(Page<YachtVO> page);
 }
