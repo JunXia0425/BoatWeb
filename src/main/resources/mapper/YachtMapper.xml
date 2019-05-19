@@ -5,6 +5,21 @@
         select y.*, u.nickname owner, c.classification classificationName
         from yacht y
                  join user u
-                 join classification c on y.owner_id = u.id and c.id = y.classification
+                 join classification c on y.owner_id = u.id and c.id = y.classification_id
     </select>
+    <select id="selectById" resultType="com.lirui.boat.entity.vo.YachtVO">
+        select y.*, u.nickname owner, c.classification classificationName
+        from yacht y
+                 join user u
+                 join classification c on y.owner_id = u.id and c.id = y.classification_id where y.id = #{id}
+    </select>
+    <select id="getYachtsOnCondition" resultType="com.lirui.boat.entity.vo.YachtVO" parameterType="object">
+        select y.*, u.nickname owner, c.classification classificationName
+        from yacht y
+                 join user u
+                 join classification c on y.owner_id = u.id and c.id = y.classification_id
+            ${ew.customSqlSegment}
+    </select>
+
+
 </mapper>

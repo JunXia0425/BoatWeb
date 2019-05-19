@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Article;
 import com.lirui.boat.entity.Menu;
 import com.lirui.boat.entity.Yacht;
+import com.lirui.boat.entity.dto.YachtDTO;
 import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.entity.vo.MenuVO;
 import com.lirui.boat.entity.vo.ProductVO;
@@ -100,8 +101,9 @@ public class ApiController {
      */
     @PostMapping("/yacht/list")
     @ResponseBody
-    public ModelMap listYacht(@RequestBody Page<YachtVO> yachtPage) {
-        Page<YachtVO> page = yachtService.page(yachtPage);
+    public ModelMap listYacht(@RequestBody YachtDTO data) {
+
+        Page<YachtVO> page = yachtService.page(data.getYachtPage(),data.getQuery());
         return ReturnUtil.success("ok", page, null);
     }
 

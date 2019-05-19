@@ -1,10 +1,13 @@
 package com.lirui.boat.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Yacht;
 import com.lirui.boat.entity.vo.YachtVO;
+import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -22,4 +25,9 @@ public interface YachtMapper extends BaseMapper<Yacht> {
      * @return
      */
     List<YachtVO> getYachts(Page<YachtVO> page);
+
+    List<YachtVO> getYachtsOnCondition(Page<YachtVO> page, @Param("ew") QueryWrapper query);
+
+    @Override
+    YachtVO selectById(Serializable id);
 }

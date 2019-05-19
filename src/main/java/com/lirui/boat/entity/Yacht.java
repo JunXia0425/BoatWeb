@@ -91,8 +91,8 @@ public class Yacht implements Serializable {
     /**
      * 游艇类型，外键
      */
-    @TableField("classification")
-    private String classification;
+    @TableField("classification_id")
+    private String classificationId;
 
     /**
      * 是否可用 1：可用，0：不可用
