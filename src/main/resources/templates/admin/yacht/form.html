@@ -100,7 +100,7 @@
                                     <div class="form-group">
                                         <label class="col-md-12">游艇类型</label>
                                         <div class="col-sm-12">
-                                            <select class="form-control form-control-line" name=classification required>
+                                            <select class="form-control form-control-line" name=classificationId required>
                                                 <option th:each="classification:${classifications}"
                                                         th:value="${classification.id}" th:text="${classification.classification}"
                                                         th:selected="${yacht.classificationId eq classification.classification}"></option>

@@ -24,7 +24,9 @@ public interface YachtMapper extends BaseMapper<Yacht> {
      * @param page 分页
      * @return
      */
-    List<YachtVO> getYachts(Page<YachtVO> page);
+    List<YachtVO> getYachtsByAdmin(Page<YachtVO> page);
+
+    List<YachtVO> getYachts(Page<YachtVO> page, @Param("ew") QueryWrapper queryWrapper);
 
     List<YachtVO> getYachtsOnCondition(Page<YachtVO> page, @Param("ew") QueryWrapper query);
 

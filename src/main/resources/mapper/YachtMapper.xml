@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lirui.boat.mapper.YachtMapper">
-    <select id="getYachts" resultType="com.lirui.boat.entity.vo.YachtVO">
+    <select id="getYachts" resultType="com.lirui.boat.entity.vo.YachtVO" parameterType="object">
         select y.*, u.nickname owner, c.classification classificationName
         from yacht y
                  join user u
-                 join classification c on y.owner_id = u.id and c.id = y.classification_id
+                 join classification c on y.owner_id = u.id and c.id = y.classification_id ${ew.customSqlSegment}
     </select>
     <select id="selectById" resultType="com.lirui.boat.entity.vo.YachtVO">
         select y.*, u.nickname owner, c.classification classificationName
@@ -19,6 +19,12 @@
                  join user u
                  join classification c on y.owner_id = u.id and c.id = y.classification_id
             ${ew.customSqlSegment} and y.enable_status = 1
+    </select>
+    <select id="getYachtsByAdmin" resultType="com.lirui.boat.entity.vo.YachtVO">
+        select y.*, u.nickname owner, c.classification classificationName
+        from yacht y
+                 join user u
+                 join classification c on y.owner_id = u.id and c.id = y.classification_id
     </select>
 
 

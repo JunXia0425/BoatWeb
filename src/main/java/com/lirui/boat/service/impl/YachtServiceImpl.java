@@ -3,12 +3,16 @@ package com.lirui.boat.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lirui.boat.entity.User;
 import com.lirui.boat.entity.Yacht;
 import com.lirui.boat.entity.dto.Query;
 import com.lirui.boat.entity.vo.YachtVO;
+import com.lirui.boat.enums.Role;
 import com.lirui.boat.mapper.YachtMapper;
 import com.lirui.boat.service.YachtService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +35,14 @@ public class YachtServiceImpl extends ServiceImpl<YachtMapper, Yacht> implements
 
     @Override
     public Page<YachtVO> page(Page<YachtVO> page) {
-        return page.setRecords(yachtMapper.getYachts(page));
+        Subject subject = SecurityUtils.getSubject();
+        User curUser = (User) subject.getPrincipal();
+        if (curUser.getUserType().equals(Role.USER.getUserType())) {
+            QueryWrapper<YachtVO> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("owner_id",curUser.getId());
+            return page.setRecords(yachtMapper.getYachts(page,queryWrapper));
+        }
+        return page.setRecords(yachtMapper.getYachtsByAdmin(page));
     }
 
     @Override
