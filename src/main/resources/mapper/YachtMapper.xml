@@ -18,7 +18,7 @@
         from yacht y
                  join user u
                  join classification c on y.owner_id = u.id and c.id = y.classification_id
-            ${ew.customSqlSegment}
+            ${ew.customSqlSegment} and y.enable_status = 1
     </select>
 
 

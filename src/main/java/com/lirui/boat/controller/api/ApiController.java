@@ -6,11 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Article;
 import com.lirui.boat.entity.Menu;
 import com.lirui.boat.entity.Yacht;
-import com.lirui.boat.entity.dto.YachtDTO;
 import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.entity.vo.MenuVO;
 import com.lirui.boat.entity.vo.ProductVO;
-import com.lirui.boat.entity.vo.YachtVO;
 import com.lirui.boat.service.impl.ArticleServiceImpl;
 import com.lirui.boat.service.impl.MenuServiceImpl;
 import com.lirui.boat.service.impl.ProductServiceImpl;
@@ -96,16 +94,7 @@ public class ApiController {
         return ReturnUtil.success("ok", page, null);
     }
 
-    /**
-     * 分页条件查询符合条件的所有游艇，JSON格式返回
-     */
-    @PostMapping("/yacht/list")
-    @ResponseBody
-    public ModelMap listYacht(@RequestBody YachtDTO data) {
 
-        Page<YachtVO> page = yachtService.page(data.getYachtPage(),data.getQuery());
-        return ReturnUtil.success("ok", page, null);
-    }
 
     /**
      * 根据id查询对应文章并以JSON格式返回

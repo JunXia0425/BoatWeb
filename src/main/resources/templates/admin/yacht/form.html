@@ -103,7 +103,7 @@
                                             <select class="form-control form-control-line" name=classification required>
                                                 <option th:each="classification:${classifications}"
                                                         th:value="${classification.id}" th:text="${classification.classification}"
-                                                        th:selected="${yacht.classification eq classification.classification}"></option>
+                                                        th:selected="${yacht.classificationId eq classification.classification}"></option>
                                             </select>
                                         </div>
                                     </div>
