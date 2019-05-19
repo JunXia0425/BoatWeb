@@ -28,6 +28,7 @@ import java.util.List;
 public class YachtServiceImpl extends ServiceImpl<YachtMapper, Yacht> implements YachtService {
     @Autowired
     private YachtMapper yachtMapper;
+
     @Override
     public Page<YachtVO> page(Page<YachtVO> page) {
         return page.setRecords(yachtMapper.getYachts(page));
@@ -40,25 +41,25 @@ public class YachtServiceImpl extends ServiceImpl<YachtMapper, Yacht> implements
         String classification = query.getClassification();
         String region = query.getRegion();
         QueryWrapper<YachtVO> queryWrapper = new QueryWrapper<>();
-        if (region!=null) {
-            queryWrapper.eq("region",region);
+        if (region != null) {
+            queryWrapper.eq("region", region);
         }
-        if (classification!=null) {
-            queryWrapper.eq("classification_id",classification);
+        if (classification != null) {
+            queryWrapper.eq("classification_id", classification);
         }
-        if (price!=null&&!price.getMax().isNaN()){
-            queryWrapper.lt("price",price.getMax());
+        if (price != null && price.getMax() != null) {
+            queryWrapper.lt("price", price.getMax());
         }
-        if (price!=null&&!price.getMin().isNaN()){
-            queryWrapper.ge("price",price.getMin());
+        if (price != null && price.getMin() != null) {
+            queryWrapper.ge("price", price.getMin());
         }
-        if (length!=null&&!length.getMax().isNaN()){
-            queryWrapper.lt("length",length.getMax());
+        if (length != null && length.getMax() != null) {
+            queryWrapper.lt("length", length.getMax());
         }
-        if (length!=null&&!length.getMax().isNaN()){
-            queryWrapper.ge("length",length.getMax());
+        if (length != null && length.getMin() != null) {
+            queryWrapper.ge("length", length.getMin());
         }
-        return page.setRecords(yachtMapper.getYachtsOnCondition(page,queryWrapper));
+        return page.setRecords(yachtMapper.getYachtsOnCondition(page, queryWrapper));
     }
 
     @Override
