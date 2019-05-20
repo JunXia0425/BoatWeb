@@ -94,14 +94,6 @@
       align: 'center',
       formatter: getIndex('#dataList')
     }, {
-      title: '图片',
-      field: 'imgPath',
-      align: 'center',
-      formatter:function (value,row) {
-        var url = '/manage/'+ row.imgPath
-        return '<img style="height: 100%" src="'+url+'"/>';
-      }
-    }, {
       field: 'name',
       title: '游艇名称',
       align: 'center'
@@ -115,6 +107,10 @@
       field: 'length',
       title: '艇长',
       align: 'center'
+    },{
+      field: 'maxpeople',
+      title: '限载',
+      align: 'center'
     },
     {
       field: 'region',
@@ -122,42 +118,14 @@
       align: 'center'
     },
     {
-      field: 'year',
-      title: '年份',
-      align: 'center'
+      field: 'wharfName',
+      title:'停靠码头'
     },
     {
-      field: 'price',
-      title: '售价',
+      field: 'stock',
+      title:'库存',
       align: 'center'
     },
-    {
-      field: 'enableStatus',
-      title: '状态',
-      align: 'center',
-      formatter:
-
-          function (value) {
-            if (value === 1) {
-              return '启用';
-            } else {
-              return '不可用';
-            }
-          }
-    }
-    ,
-    {
-      field: 'createTime',
-      title: '创建时间',
-      align: 'center'
-    }
-    ,
-    {
-      field: 'lastEditTime',
-      title: '上次修改时间',
-      align: 'center'
-    }
-    ,
     {
       field: 'id',
       title: '操作',

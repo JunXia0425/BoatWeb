@@ -1,7 +1,10 @@
 package com.lirui.boat.mapper;
 
-import com.lirui.boat.entity.LeasingYacht;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lirui.boat.entity.LeasingYacht;
+import com.lirui.boat.entity.vo.LeasingYachtVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface LeasingYachtMapper extends BaseMapper<LeasingYacht> {
 
+
+    List<LeasingYachtVO> selectList();
 }

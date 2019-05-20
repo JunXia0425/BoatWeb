@@ -53,6 +53,7 @@ public class LeasingYachtController {
         return "/admin/leasing/form";
     }
 
+
     /**
      * 保存表单内容
      * @param dto 表单传入数据对象
@@ -61,8 +62,12 @@ public class LeasingYachtController {
     @PostMapping("save")
     @ResponseBody
     public ModelMap save(@RequestBody LeasingYachtDTO dto) {
-        leasingYachtService.save(dto);
-        return null;
+        boolean save = leasingYachtService.save(dto);
+        try {
+            return ReturnUtil.success("出租成功",null,"leasing-yacht/list");
+        } catch (Exception e) {
+            return ReturnUtil.error(e.getMessage(),null,"leasing-yacht/list");
+        }
     }
 
 

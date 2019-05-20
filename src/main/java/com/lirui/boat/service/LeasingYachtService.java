@@ -1,8 +1,10 @@
 package com.lirui.boat.service;
 
-import com.lirui.boat.entity.LeasingYacht;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lirui.boat.entity.LeasingYacht;
 import com.lirui.boat.entity.dto.LeasingYachtDTO;
+import com.lirui.boat.entity.vo.LeasingYachtVO;
 
 /**
  * <p>
@@ -20,4 +22,19 @@ public interface LeasingYachtService extends IService<LeasingYacht> {
      * @return
      */
     boolean save(LeasingYachtDTO dto);
+
+    /**
+     * 分页查询商品信息（连表查询查出持有者昵称）
+     * @param page 分页对象
+     * @return
+     */
+    Page<LeasingYachtVO> page(Page<LeasingYachtVO> page);
+
+    /**
+     * 分页按筛选条件查询商品信息
+     * @param page 分页对象
+     * @param query 接收过滤条件
+     * @return
+     */
+//    Page<LeasingYachtVO> page(Page<LeasingYachtVO> page, LeasingQuery query);
 }
