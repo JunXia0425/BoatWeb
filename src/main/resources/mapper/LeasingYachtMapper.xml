@@ -6,6 +6,7 @@
     <select id="selectList" resultType="com.lirui.boat.entity.vo.LeasingYachtVO">
         select ly.*,
                y.name      as name,
+               y.img_path  as path,
                u.nickname  as owner,
                y.region    as region,
                y.length    as length,

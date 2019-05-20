@@ -19,6 +19,7 @@ public class LeasingYachtVO extends LeasingYacht {
     private String owner;
     private String name;
     private Float maxSpeed;
+    private String path;
     private Float length;
     private String region;
     private String wharfName;
