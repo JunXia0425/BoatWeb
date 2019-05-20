@@ -28,7 +28,13 @@
             商品管理
           </a>
         </li>
-        <li shiro:hasAnyRole="3">
+        <li shiro:hasAnyRoles="2,3">
+          <a th:href="@{/leasing-yacht/list}" class="waves-effect">
+            <i class="fa fa-font m-r-10" aria-hidden="true"></i>
+            租赁管理
+          </a>
+        </li>
+        <li shiro:hasRole="3">
           <a th:href="@{/menu/list}" class="waves-effect">
             <i class="fa fa-globe m-r-10" aria-hidden="true"></i>
             菜单管理

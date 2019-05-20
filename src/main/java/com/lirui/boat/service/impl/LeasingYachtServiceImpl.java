@@ -1,10 +1,16 @@
 package com.lirui.boat.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lirui.boat.entity.LeasingYacht;
+import com.lirui.boat.entity.Route;
+import com.lirui.boat.entity.Stock;
+import com.lirui.boat.entity.dto.LeasingYachtDTO;
 import com.lirui.boat.mapper.LeasingYachtMapper;
 import com.lirui.boat.service.LeasingYachtService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +22,25 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, LeasingYacht> implements LeasingYachtService {
+    @Autowired
+    private StockServiceImpl stockService;
+    @Autowired
+    private RouteServiceImpl routeService;
 
+    @Override
+    public boolean save(LeasingYachtDTO dto) {
+        List<Route> routes = dto.getRoutes();
+        Stock stock = dto.getStock();
+        LeasingYacht leasingYacht = dto.getLeasingYacht();
+        leasingYacht.setBelonging(1);
+        for (Route route : routes) {
+            route.setYachtId(leasingYacht.getYachtId());
+        }
+        boolean save = this.save(leasingYacht);
+        boolean stockSave = stockService.save(stock);
+        boolean routesSave = routeService.saveBatch(routes);
+
+
+        return save && stockSave && routesSave;
+    }
 }

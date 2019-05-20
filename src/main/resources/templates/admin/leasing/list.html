@@ -32,7 +32,7 @@
           <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="javascript:void(0)">游艇管理</a>
+              <a href="javascript:void(0)">游艇租赁管理</a>
             </li>
           </ol>
         </div>
@@ -49,7 +49,7 @@
           <div class="card">
             <div class="card-block">
               <div id="toolbar">
-                <a th:href="@{/yacht/form}" class="btn btn-primary">添加商品</a>
+                <a th:href="@{/leasing-yacht/form}" class="btn btn-primary">游艇出租</a>
               </div>
               <table id="dataList"></table>
             </div>
@@ -167,9 +167,6 @@
           '<a class="btn btn-primary" href="[[@{/yacht/form}]]?id=' + value + '" >',
           '<i class="fa fa-edit">编辑</i>',
           '</a>  ',
-          '<a class="btn btn-danger"  href="[[@{/leasing-yacht/form}]]?id=' + value + '" >',
-          '<i class="fa fa-remove">出租</i>',
-          '</a>',
           '<a class="btn btn-danger" onclick="del(\''+ value +'\')" href="javascript:void(0)" >',
           '<i class="fa fa-remove">删除</i>',
           '</a>'
@@ -177,10 +174,10 @@
       }
     }
   ]
-  InitTable('#dataList', '[[@{/api/yacht/list}]]', columns);
+  InitTable('#dataList', '[[@{/api/leasing-yacht/list}]]', columns);
 
   function del(id) {
-    const url = '[[@{/yacht/del}]]?id='+id
+    const url = '[[@{/leasing-yacht/del}]]?id='+id
     layer.confirm('确定删除？',function () {
       $.ajax({
         url:url,
