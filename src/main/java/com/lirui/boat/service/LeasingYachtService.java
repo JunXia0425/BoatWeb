@@ -37,4 +37,11 @@ public interface LeasingYachtService extends IService<LeasingYacht> {
      * @return
      */
 //    Page<LeasingYachtVO> page(Page<LeasingYachtVO> page, LeasingQuery query);
+
+    /**
+     * 判断该id是否被出租
+     * @param id 传入id
+     * @return
+     */
+    public boolean exist(String id);
 }

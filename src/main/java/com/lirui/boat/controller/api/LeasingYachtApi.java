@@ -1,15 +1,13 @@
 package com.lirui.boat.controller.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lirui.boat.entity.LeasingYacht;
 import com.lirui.boat.entity.vo.LeasingYachtVO;
 import com.lirui.boat.service.impl.LeasingYachtServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -29,5 +27,21 @@ public class LeasingYachtApi {
     public ModelMap doList(@RequestBody Page<LeasingYachtVO> page){
         page = leasingYachtService.page(page);
         return ReturnUtil.success("ok",page);
+    }
+
+    @GetMapping("exist")
+    public ModelMap exist(@RequestParam("id") String id){
+        boolean exist = leasingYachtService.exist(id);
+        return ReturnUtil.success("ok",exist);
+    }
+
+    @GetMapping("info")
+    public ModelMap info(@RequestParam("id") String id){
+        LeasingYacht leasingYacht = leasingYachtService.getById(id);
+        try {
+            return ReturnUtil.success("ok",leasingYacht);
+        } catch (Exception e) {
+            return ReturnUtil.error(e.getMessage());
+        }
     }
 }

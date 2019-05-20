@@ -54,11 +54,13 @@
                                     <el-input v-model="name" disabled></el-input>
                                 </el-form-item>
                                 <el-form-item label="库存数量">
-                                    <el-input-number v-model="form.stock.count" :min="1" :max="1000" label="库存数量"></el-input-number>
+                                    <el-input-number v-model="form.stock.count" :min="1" :max="1000"
+                                                     label="库存数量"></el-input-number>
                                 </el-form-item>
                                 <el-form-item label="停靠码头">
                                     <el-select v-model="form.leasingYacht.wharf" placeholder="请选择停靠码头">
-                                        <el-option v-for="item in wharf" :label="item.wharf" :value="item.id" :key="item.id"></el-option>
+                                        <el-option v-for="item in wharf" :label="item.wharf" :value="item.id"
+                                                   :key="item.id"></el-option>
                                     </el-select>
                                 </el-form-item>
                                 <el-row v-for="(route,index) in form.routes" :key="index">
@@ -73,17 +75,20 @@
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="6">
-                                        <el-button @click="removeRoute(route)" v-if="form.routes.length!==1">删除</el-button>
+                                        <el-button @click="removeRoute(route)" v-if="form.routes.length!==1">删除
+                                        </el-button>
                                     </el-col>
                                 </el-row>
                                 <el-form-item>
                                     <el-button @click="addRoute()">添加航线</el-button>
                                 </el-form-item>
                                 <el-form-item label="限载人数">
-                                    <el-input-number v-model="form.leasingYacht.maxpeople" :min="1" :max="10" label="限载人数"></el-input-number>
+                                    <el-input-number v-model="form.leasingYacht.maxpeople" :min="1" :max="10"
+                                                     label="限载人数"></el-input-number>
                                 </el-form-item>
                                 <el-form-item label="游艇卧室">
-                                    <el-input-number v-model="form.leasingYacht.bedroom" :min="1" :max="10" label="游艇卧室"></el-input-number>
+                                    <el-input-number v-model="form.leasingYacht.bedroom" :min="1" :max="10"
+                                                     label="游艇卧室"></el-input-number>
                                 </el-form-item>
                                 <el-form-item label="标配船员">
                                     <el-input
@@ -165,8 +170,8 @@
 <script th:src="@{/assets/plugins/vue-tree/axios.min.js}"></script>
 <script>
     var vm = new Vue({
-        el:'#app',
-        data:{
+        el: '#app',
+        data: {
             form: {
                 leasingYacht: {
                     yachtId: '[[${yacht.id}]]',
@@ -190,42 +195,73 @@
                 ]
             },
             wharf: [],
-            name: '[[${yacht.name}]]'
+            name: '[[${yacht.name}]]',
         },
-        methods:{
-            onSubmit () {
-                axios.post('/manage/leasing-yacht/save',this.form).then(res=>{
-                    let data = res.data
-                    if (data.status === 1){
-                        layer.msg(data.msg,{time:1500},function () {
-                            var url = '/manage/'+ data.referer
+        methods: {
+            onSubmit() {
+                axios.post('/manage/leasing-yacht/save', this.form).then(res => {
+                    let data = res.data;
+                    if (data.status === 1) {
+                        layer.msg(data.msg, {time: 1500}, function () {
+                            var url = '/manage/' + data.referer;
                             window.location.replace(url)
                         })
                     }
-                })
+                });
                 console.log('submit!')
             },
-            getWharfs () {
+            getWharfs() {
                 axios.get('/manage/api/wharf/list').then(res => {
-                    var data = res.data.result
+                    var data = res.data.result;
                     this.wharf = data
                 })
             },
-            addRoute () {
+            addRoute() {
                 this.form.routes.push({
                     routeDesc: '',
                     price: 0
                 })
             },
-            removeRoute (route) {
-                var index = this.form.routes.indexOf(route)
+            removeRoute(route) {
+                var index = this.form.routes.indexOf(route);
                 if (index !== -1) {
                     this.form.routes.splice(index, 1)
+                }
+            },
+            init(exist) {
+                if (exist) {
+                    axios.get('/manage/api/leasing-yacht/info?id=' + '[[${yacht.id}]]').then(
+                        res => {
+                            let data = res.data.result;
+                            try {
+
+                                console.log(data)
+                                this.form.leasingYacht.yachtId = data.yachtId
+                                this.form.leasingYacht.maxpeople = data.maxpeople
+                                this.form.leasingYacht.bedroom = data.bedroom
+                                this.form.leasingYacht.wharf = data.wharf
+                                this.form.leasingYacht.standardSeaman = data.standardSeaman
+                                this.form.leasingYacht.standardSubject = data.standardSubject
+                                this.form.leasingYacht.apolegamySubject = data.apolegamySubject
+                                this.form.leasingYacht.insuranceDeclare = data.insuranceDeclare
+                                this.form.stock.count = data.stock
+                                this.form.routes = data.routes
+                                console.log(this.form)
+                            } catch (e) {
+                                if (data === null) {
+                                    console.log("没有租出")
+                                }
+                            }
+                        }
+                    )
+                } else {
+                    console.log('没有被出租')
                 }
             }
         },
         mounted() {
-            this.getWharfs()
+            this.getWharfs();
+            this.init(true)
         }
     })
 </script>

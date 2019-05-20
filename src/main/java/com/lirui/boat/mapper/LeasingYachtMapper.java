@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lirui.boat.entity.LeasingYacht;
 import com.lirui.boat.entity.vo.LeasingYachtVO;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,4 +19,7 @@ public interface LeasingYachtMapper extends BaseMapper<LeasingYacht> {
 
 
     List<LeasingYachtVO> selectList();
+
+
+    LeasingYachtVO selectById(Serializable id);
 }

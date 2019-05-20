@@ -48,9 +48,6 @@
         <div class="col-12">
           <div class="card">
             <div class="card-block">
-              <div id="toolbar">
-                <a th:href="@{/leasing-yacht/form}" class="btn btn-primary">游艇出租</a>
-              </div>
               <table id="dataList"></table>
             </div>
           </div>
@@ -127,12 +124,12 @@
       align: 'center'
     },
     {
-      field: 'id',
+      field: 'yachtId',
       title: '操作',
       align: 'center',
       formatter: function (value, row) {
         return [
-          '<a class="btn btn-primary" href="[[@{/yacht/form}]]?id=' + value + '" >',
+          '<a class="btn btn-primary" href="[[@{/leasing-yacht/form}]]?id=' + value + '" >',
           '<i class="fa fa-edit">编辑</i>',
           '</a>  ',
           '<a class="btn btn-danger" onclick="del(\''+ value +'\')" href="javascript:void(0)" >',

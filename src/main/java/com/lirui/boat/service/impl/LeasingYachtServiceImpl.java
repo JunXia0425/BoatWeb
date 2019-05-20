@@ -16,6 +16,7 @@ import com.lirui.boat.service.LeasingYachtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -52,7 +53,7 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
         //3。 如果用户是普通用户-游艇所属为个人，否则为企业
         if (owner.getUserType().equals(Role.USER)) {
             leasingYacht.setBelonging(1);
-        }else {
+        } else {
             leasingYacht.setBelonging(0);
         }
         leasingYacht.setBelonging(1);
@@ -70,9 +71,27 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
         List<LeasingYachtVO> leasingYachtVOS = leasingYachtMapper.selectList();
         for (LeasingYachtVO leasingYachtVO : leasingYachtVOS) {
             QueryWrapper<Route> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("yacht_id",leasingYachtVO.getYachtId());
+            queryWrapper.eq("yacht_id", leasingYachtVO.getYachtId());
             leasingYachtVO.setRoutes(routeService.list(queryWrapper));
         }
         return page.setRecords(leasingYachtVOS);
+    }
+
+
+    @Override
+    public boolean exist(String id) {
+        LeasingYacht leasingYacht = leasingYachtMapper.selectById(id);
+        return leasingYacht == null ? false : true;
+    }
+
+    @Override
+    public LeasingYacht getById(Serializable id) {
+        LeasingYachtVO leasingYachtVO = leasingYachtMapper.selectById(id);
+        if (leasingYachtVO != null) {
+            QueryWrapper<Route> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("yacht_id", leasingYachtVO.getYachtId());
+            leasingYachtVO.setRoutes(routeService.list(queryWrapper));
+        }
+        return leasingYachtVO;
     }
 }
