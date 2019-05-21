@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface InvoiceService extends IService<Invoice> {
 
+    /**
+     * 保存开票信息，并返回id
+     * @param entity
+     * @return
+     */
+    String saveAndreturnId(Invoice entity);
 }

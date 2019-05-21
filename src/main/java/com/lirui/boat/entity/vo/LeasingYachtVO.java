@@ -25,5 +25,4 @@ public class LeasingYachtVO extends LeasingYacht {
     private String wharfName;
     private Integer stock;
     private List<Route> routes;
-
 }

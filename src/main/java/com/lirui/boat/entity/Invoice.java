@@ -1,13 +1,14 @@
 package com.lirui.boat.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -50,7 +51,7 @@ public class Invoice implements Serializable {
      * 邮政编码
      */
     @TableField("postcode")
-    private Integer postcode;
+    private String postcode;
 
     /**
      * 收件人
