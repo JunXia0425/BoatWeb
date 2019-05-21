@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : utf-8
 
- Date: 05/21/2019 03:41:47 AM
+ Date: 05/21/2019 22:01:48 PM
 */
 
 SET NAMES utf8mb4;
@@ -96,7 +96,7 @@ CREATE TABLE `invoice` (
   `invoice_title` varchar(255) NOT NULL COMMENT '发票抬头',
   `invoice_details` varchar(255) NOT NULL DEFAULT '游艇项目咨询费' COMMENT '发票明细',
   `post_address` varchar(255) NOT NULL COMMENT '邮寄地址',
-  `postcode` int(6) NOT NULL COMMENT '邮政编码',
+  `postcode` varchar(6) NOT NULL COMMENT '邮政编码',
   `addressee` varchar(255) NOT NULL COMMENT '收件人',
   `phone` varchar(13) NOT NULL COMMENT '联系电话',
   PRIMARY KEY (`id`)
@@ -123,6 +123,13 @@ CREATE TABLE `leasing_yacht` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='租赁游艇表';
 
 -- ----------------------------
+--  Records of `leasing_yacht`
+-- ----------------------------
+BEGIN;
+INSERT INTO `leasing_yacht` VALUES ('a6759d1169147f1c4174bf9267def352', '1', '596f46e64b9d811a43cc6cd5671ecbd7', '1', '1231', '23', '1231', '23', '1');
+COMMIT;
+
+-- ----------------------------
 --  Table structure for `menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
@@ -144,7 +151,7 @@ CREATE TABLE `menu` (
 --  Records of `menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `menu` VALUES ('1ea19b9f2e33446fb46ebf3ff8aac1e3', '', '玩游艇', '/play', '3', '', '1', '2019-05-04 16:28:13', '2019-05-04 16:28:13'), ('510be10ee91daa4d549336c64e9de25b', '', '新技术', '/newtech', '5', '', '1', '2019-05-04 16:29:27', '2019-05-04 16:30:12'), ('54e014ff3fb1e1e1bcb38c9c009f1cba', '', '新闻资讯', '/news', '6', '', '1', '2019-05-04 16:29:46', '2019-05-04 16:30:39'), ('b8cbb569f8f1c16948fd0e028a4a32f8', '', '游艇配套', '/suporting', '4', '', '1', '2019-05-04 16:28:58', '2019-05-04 16:30:25'), ('bf6f4414cda8eb19713fc8c78e128b8b', '', '游艇展', '/yachtshow', '1', '', '1', '2019-05-04 16:26:59', '2019-05-04 16:26:59'), ('db6701caae23f61669f7b2c96ce92358', '', '租游艇', '/rent', '2', '', '1', '2019-05-04 16:27:45', '2019-05-04 16:27:45');
+INSERT INTO `menu` VALUES ('19c14db97cf0a96f82d693eea7562e83', 'db6701caae23f61669f7b2c96ce92358', '游艇出租', '/rentout', '0', '', '1', '2019-05-21 21:45:24', '2019-05-21 21:45:24'), ('1ea19b9f2e33446fb46ebf3ff8aac1e3', '', '玩游艇', '/play', '3', '', '1', '2019-05-04 16:28:13', '2019-05-04 16:28:13'), ('510be10ee91daa4d549336c64e9de25b', '', '新技术', '/newtech', '5', '', '1', '2019-05-04 16:29:27', '2019-05-04 16:30:12'), ('519b2238cd8fe16490546c330d4ed6d7', '1ea19b9f2e33446fb46ebf3ff8aac1e3', '政策法规', '/regulations', '0', '', '1', '2019-05-21 21:48:43', '2019-05-21 21:48:43'), ('54e014ff3fb1e1e1bcb38c9c009f1cba', '', '新闻资讯', '/news', '6', '', '1', '2019-05-04 16:29:46', '2019-05-04 16:30:39'), ('56ba82cd011e2a2a856578a8ef6c5292', 'db6701caae23f61669f7b2c96ce92358', '游艇服务', '/yacht-service', '0', '', '1', '2019-05-21 21:47:45', '2019-05-21 21:47:45'), ('89e70edc7ec16c3fc35b2197f665ade9', '1ea19b9f2e33446fb46ebf3ff8aac1e3', '游艇知识', '/yacht-knowlege', '0', '', '1', '2019-05-21 21:49:24', '2019-05-21 21:54:02'), ('a982bb1a483e3108822ab5c26d65e8d5', 'db6701caae23f61669f7b2c96ce92358', '求租', '/qrent', '0', '', '1', '2019-05-21 21:45:53', '2019-05-21 21:45:53'), ('b868bd55922f236443cf4f54d845dad6', '1ea19b9f2e33446fb46ebf3ff8aac1e3', '驾照培训', '/license', '0', '', '1', '2019-05-21 21:49:54', '2019-05-21 21:49:54'), ('b8cbb569f8f1c16948fd0e028a4a32f8', '', '游艇配套', '/suporting', '4', '', '1', '2019-05-04 16:28:58', '2019-05-04 16:30:25'), ('bf6f4414cda8eb19713fc8c78e128b8b', '', '游艇展', '/yachtshow', '1', '', '1', '2019-05-04 16:26:59', '2019-05-04 16:26:59'), ('db6701caae23f61669f7b2c96ce92358', '', '租游艇', '/rent', '2', '', '1', '2019-05-04 16:27:45', '2019-05-04 16:27:45'), ('df121075d5b7c055c61666a2721f12bb', '1ea19b9f2e33446fb46ebf3ff8aac1e3', '航海知识', '/nautical-knowledge', '0', '', '1', '2019-05-21 21:51:18', '2019-05-21 21:51:18'), ('eb664d934b770bfbf94e6ffea52522e4', 'db6701caae23f61669f7b2c96ce92358', '游艇入驻', '/yacht-entering', '0', '', '1', '2019-05-21 21:47:06', '2019-05-21 21:47:06');
 COMMIT;
 
 -- ----------------------------
@@ -180,7 +187,7 @@ CREATE TABLE `purpose` (
 --  Records of `purpose`
 -- ----------------------------
 BEGIN;
-INSERT INTO `purpose` VALUES ('04986be560f9a57d2ea21026e48dcb2a', '同学聚会'), ('0794b66071813bef8ee2318c31934823', '亲友活动'), ('0beb67fa1776686879e7f4faef57ae5c', '家庭体验'), ('203b7af4283229c4caada638ecec4b72', '放生礼拜'), ('22d4d26beae6f679e9fcfe7778a0f305', '主题Party'), ('2fac46cdf8408a9d70fbd8e24b7f485b', '商务接待'), ('346845ed8b51afbd8727a87244b75c2f', '亲友活动'), ('371fa3a175ae857fdb117e976f681a89', '放生礼拜'), ('3ffced3c86c053d316e59151c0566080', '放生礼拜'), ('61ac238e9f283db2294867415dbf844e', '同学聚会'), ('663f0f63b66db36d905c7c4844ddf4d8', '商务接待'), ('6e6e50e37139317a6a375b1ee35e0ada', '家庭体验'), ('7ad7200e7872da11e9c986f9f8de4a6d', '主题Party'), ('975b6647c55f773e989a1879d936f738', '其它'), ('9bd72a53a0efbab851a573f7d8344086', '潜水'), ('a3dec500e09e3e5c7c458ffd533bb4c4', '专业海钓'), ('a6b73939d3d2bd5bd972c20f072ce88e', '潜水'), ('a6c8765e84f1e0d99b1c8b1cfecad095', '其它'), ('aae70e2b13bf6d2e9c46d36ae73f33ba', '专业海钓'), ('b6ca0420d6a6ddce7c7953b34de51ccc', '专业海钓'), ('b93b4a13a5c747075d3d6c980201fbf6', '摄影'), ('bb7096f365b7bf2eb4185e83d84086c5', '摄影'), ('c3e7ed906c97af19f21b3c84748b5df2', '玩艇尝试'), ('c9385b8821ed49fa1ff9a9aa3d5cc064', '其它'), ('d7ae0024dbdf752c31a41b4bba7da130', '休闲海钓'), ('dbe698ccf7a79cee13e82911d545f9af', '亲友活动'), ('dff2c73fdddd5407bf2e5e1ca14525fc', '摄影'), ('dff8dd18b14d27018a8e0cbee0545ca2', '商务接待'), ('e22883d5fa797a98f0ba1f13ce4ebd2c', '休闲海钓'), ('e7032591dc7bf3302fadbc6e9b45606f', '玩艇尝试'), ('e9e512865fe64a8f00c7262c91b014a3', '家庭体验'), ('eae78148edfd7bb799632f7b4958a944', '主题Party'), ('f2fd1ccb86324f275e61833483f6548b', '潜水'), ('f674df48056020c7509519c5f8e9a6fd', '玩艇尝试'), ('f7bfa2c44b65cad318e0333b1a534a05', '休闲海钓'), ('f902954c4ec4ea5980d84666c58aa6d1', '同学聚会');
+INSERT INTO `purpose` VALUES ('1acb1efad65eb8e585b96e7e44612452', '亲友活动'), ('2e99fdf5114b52cc3ee2aad4dff84509', '放生礼拜'), ('4cc10965277fb4c3e489ae6402e7b94b', '潜水'), ('56e95b7ef7b53d74f325416384986bbd', '专业海钓'), ('8d0de8e0eedc5adf8ff1e104ef4b09e5', '同学聚会'), ('8f6bcfa2d30f6cc50fbd4388a6577fa5', '玩艇尝试'), ('9e2844edfe1e1afb5c785a99fa9072ef', '休闲海钓'), ('a883a163f7b4994c896538a3b61da45f', '主题Party'), ('aaf32805ef56dfa22815aa8e1c031a0c', '商务接待'), ('d8793c3f25d464db5c24ccd6b0f94f34', '其它'), ('e5189c774c24d254778d7f88100fc8ba', '摄影'), ('fc8ad8931aeb6d979f0a503c1b7d9b19', '家庭体验');
 COMMIT;
 
 -- ----------------------------
@@ -197,6 +204,13 @@ CREATE TABLE `route` (
   KEY `yacht_id_2` (`yacht_id`),
   CONSTRAINT `route_ibfk_1` FOREIGN KEY (`yacht_id`) REFERENCES `leasing_yacht` (`yacht_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='航线表';
+
+-- ----------------------------
+--  Records of `route`
+-- ----------------------------
+BEGIN;
+INSERT INTO `route` VALUES ('5958d9e890e3e2397cf163c3a753c7eb', '123123', '0', 'a6759d1169147f1c4174bf9267def352');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `slider_img`
@@ -220,6 +234,13 @@ CREATE TABLE `stock` (
   KEY `id` (`id`),
   CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`id`) REFERENCES `leasing_yacht` (`yacht_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='库存表';
+
+-- ----------------------------
+--  Records of `stock`
+-- ----------------------------
+BEGIN;
+INSERT INTO `stock` VALUES ('a6759d1169147f1c4174bf9267def352', '7');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `user`
