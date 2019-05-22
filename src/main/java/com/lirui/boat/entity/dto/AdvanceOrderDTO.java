@@ -1,6 +1,7 @@
 package com.lirui.boat.entity.dto;
 
 import com.lirui.boat.entity.AdvanceOrder;
+import com.lirui.boat.entity.Invoice;
 import lombok.Data;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Data;
  * @since 2019-05-21
  */
 @Data
-public class AdvanceOrderDTO extends AdvanceOrder {
-    private String yachtId;
+public class AdvanceOrderDTO {
+    private AdvanceOrder advanceOrder;
+    private Invoice invoice;
 }

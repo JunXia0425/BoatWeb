@@ -18,15 +18,17 @@ import java.util.List;
  */
 public interface YachtService extends IService<Yacht> {
     /**
-     * 分页查询商品信息（连表查询查出持有者昵称）
+     * 分页查询游艇信息（连表查询查出持有者昵称）
+     *
      * @param page 分页对象
      * @return
      */
     Page<YachtVO> page(Page<YachtVO> page);
 
     /**
-     * 分页按筛选条件查询商品信息
-     * @param page 分页对象
+     * 分页按筛选条件查询游艇信息
+     *
+     * @param page  分页对象
      * @param query 接收过滤条件
      * @return
      */
@@ -34,6 +36,7 @@ public interface YachtService extends IService<Yacht> {
 
     /**
      * 查询表中现有游艇的产地
+     *
      * @return
      */
     List<Object> getRegions();

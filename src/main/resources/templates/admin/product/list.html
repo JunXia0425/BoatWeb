@@ -111,9 +111,14 @@
       align: 'left'
     },
     {
-      field: 'ownner',
+      field: 'owner',
       title: '所有者',
       align: 'left'
+    },
+    {
+      field: 'region',
+      title: '产地',
+      align: 'center'
     },
     {
       field: 'type',
@@ -122,9 +127,11 @@
       formatter: function (value) {
         switch (value) {
           case 1:
-            return '游艇';
+            return '发电机';
           case 2:
-            return '零件';
+            return '蓄电池';
+          case 3:
+            return '传感器';
         }
       }
     },
@@ -165,7 +172,7 @@
           '<a class="btn btn-primary" href="[[@{/product/form}]]?id=' + value + '" >',
           '<i class="fa fa-edit">编辑</i>',
           '</a>  ',
-          '<a class="btn btn-danger" href="[[@{/product/del}]]?id=' + value + '" >',
+          '<a class="btn btn-danger" onclick="del(\''+ value +'\')" href="javascript:void(0)">',
           '<i class="fa fa-remove">删除</i>',
           '</a>'
         ].join('');
@@ -173,7 +180,20 @@
     }
   ]
   InitTable('#dataList', '[[@{/api/product/list}]]', columns);
-
+  function del(id) {
+    const url = '[[@{/product/del}]]?id='+id
+    layer.confirm('确定删除？',function () {
+      $.ajax({
+        url:url,
+        type:'get',
+        success:function (data) {
+          layer.msg(data.msg+',即将刷新页面',{time:1000},function () {
+            window.location.reload()
+          })
+        }
+      })
+    })
+  }
 </script>
 </body>
 

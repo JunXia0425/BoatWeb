@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lirui.boat.mapper.LeasingYachtMapper">
-
-
-    <select id="selectList" resultType="com.lirui.boat.entity.vo.LeasingYachtVO">
-        select ly.*,
-               y.name      as name,
-               y.img_path  as path,
-               u.nickname  as owner,
-               y.region    as region,
-               y.length    as length,
-               y.max_speed as max_speed,
-               s.count     as stock,
-               w.wharf     as wharf_name
-        from leasing_yacht ly
-                 left join yacht y on y.id = ly.yacht_id
-                 left join wharf w on ly.wharf = w.id
-                 left join stock s on ly.yacht_id = s.id
-                 left join user u on y.owner_id = u.id;
-    </select>
     <select id="selectById" resultType="com.lirui.boat.entity.vo.LeasingYachtVO">
         select ly.*,
                y.name      as name,
+               y.owner_id as owner_id,
                u.nickname  as owner,
                y.region    as region,
                y.length    as length,
@@ -33,6 +16,60 @@
                  left join wharf w on ly.wharf = w.id
                  left join stock s on ly.yacht_id = s.id
                  left join user u on y.owner_id = u.id
-        where ly.yacht_id = #{id};
+        where ly.yacht_id = #{id}
+    </select>
+    <select id="getYachtsByAdmin" resultType="com.lirui.boat.entity.vo.LeasingYachtVO">
+        select ly.*,
+               y.name      as name,
+               y.img_path  as path,
+               y.owner_id as owner_id,
+               u.nickname  as owner,
+               y.region    as region,
+               y.length    as length,
+               y.max_speed as max_speed,
+               s.count     as stock,
+               w.wharf     as wharf_name
+        from leasing_yacht ly
+                 left join yacht y on y.id = ly.yacht_id
+                 left join wharf w on ly.wharf = w.id
+                 left join stock s on ly.yacht_id = s.id
+                 left join user u on y.owner_id = u.id
+    </select>
+    <select id="getYachts" resultType="com.lirui.boat.entity.vo.LeasingYachtVO">
+        select ly.*,
+               y.name      as name,
+               y.img_path  as path,
+               u.nickname  as owner,
+               y.owner_id as owner_id,
+               y.region    as region,
+               y.length    as length,
+               y.max_speed as max_speed,
+               s.count     as stock,
+               w.wharf     as wharf_name
+        from leasing_yacht ly
+                 left join yacht y on y.id = ly.yacht_id
+                 left join wharf w on ly.wharf = w.id
+                 left join stock s on ly.yacht_id = s.id
+                 left join user u on y.owner_id = u.id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="getYachtsOnCondition" resultType="com.lirui.boat.entity.vo.LeasingYachtVO">
+        select ly.*,
+               y.name      as name,
+               y.img_path  as path,
+               u.nickname  as owner,
+               y.owner_id as owner_id,
+               y.region    as region,
+               y.length    as length,
+               y.max_speed as max_speed,
+               s.count     as stock,
+               w.wharf     as wharf_name
+        from leasing_yacht ly
+                 left join yacht y on y.id = ly.yacht_id
+                 left join wharf w on ly.wharf = w.id
+                 left join stock s on ly.yacht_id = s.id
+                 left join user u on y.owner_id = u.id
+            ${ew.customSqlSegment}
+            and y.enable_status = 1
     </select>
 </mapper>

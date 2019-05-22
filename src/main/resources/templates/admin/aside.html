@@ -10,6 +10,12 @@
             首页
           </a>
         </li>
+        <li>
+          <a th:href="@{/profile}" class="waves-effect">
+            <i class="fa fa-user-circle m-r-10" aria-hidden="true"></i>
+            个人信息修改
+          </a>
+        </li>
         <li shiro:hasRole="3">
           <a th:href="@{/admin/list}" class="waves-effect">
             <i class="fa fa-user m-r-10" aria-hidden="true"></i>
@@ -25,12 +31,18 @@
         <li>
           <a th:href="@{/yacht/list}" class="waves-effect">
             <i class="fa fa-font m-r-10" aria-hidden="true"></i>
-            商品管理
+            游艇管理
           </a>
         </li>
-        <li shiro:hasAnyRoles="2,3">
+        <li>
+          <a th:href="@{/product/list}" class="waves-effect">
+            <i class="fa fa-cogs m-r-10" aria-hidden="true"></i>
+            配件管理
+          </a>
+        </li>
+        <li>
           <a th:href="@{/leasing-yacht/list}" class="waves-effect">
-            <i class="fa fa-font m-r-10" aria-hidden="true"></i>
+            <i class="fa fa-cubes m-r-10" aria-hidden="true"></i>
             租赁管理
           </a>
         </li>

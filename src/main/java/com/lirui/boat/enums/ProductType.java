@@ -4,20 +4,25 @@ import lombok.Getter;
 
 @Getter
 public enum ProductType {
-  /**
-   * 游艇
-   */
-  YACHT(1,"游艇"),
-  /**
-   * 零件
-   */
-  ITEM(2,"零件");
+    /**
+     * 游艇
+     */
+    ENGINE(1, "发电机"),
+    /**
+     * 零件
+     */
+    BATTERY(2, "蓄电池"),
 
-  private Integer type;
-  private String desc;
+    /**
+     * 传感器
+     */
+    SENSOR(3, "传感器");
 
-  ProductType(Integer type, String desc) {
-    this.type = type;
-    this.desc = desc;
-  }
+    private Integer type;
+    private String desc;
+
+    ProductType(Integer type, String desc) {
+        this.type = type;
+        this.desc = desc;
+    }
 }

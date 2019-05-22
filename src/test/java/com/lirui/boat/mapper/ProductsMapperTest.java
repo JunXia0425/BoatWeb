@@ -1,12 +1,9 @@
 package com.lirui.boat.mapper;
 
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lirui.boat.entity.Product;
 import com.lirui.boat.entity.User;
-import java.util.HashMap;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,6 +11,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.HashMap;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -46,7 +46,7 @@ public class ProductsMapperTest {
     product.setType(1);
     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
     queryWrapper.eq("nickname","zhangsan");
-    product.setOwnnerId(userMapper.selectOne(queryWrapper).getId());
+    product.setOwnerId(userMapper.selectOne(queryWrapper).getId());
     int insert = productMapper.insert(product);
     Assert.assertEquals(1,insert);
   }

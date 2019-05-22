@@ -13,6 +13,8 @@ import com.lirui.boat.entity.vo.YachtVO;
 import com.lirui.boat.enums.Role;
 import com.lirui.boat.mapper.LeasingYachtMapper;
 import com.lirui.boat.service.LeasingYachtService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +70,19 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
 
     @Override
     public Page<LeasingYachtVO> page(Page<LeasingYachtVO> page) {
-        List<LeasingYachtVO> leasingYachtVOS = leasingYachtMapper.selectList();
+        Subject subject = SecurityUtils.getSubject();
+
+        List<LeasingYachtVO> leasingYachtVOS;
+        //获取当前用户
+        User curUser = (User) subject.getPrincipal();
+        //如果是普通用户，只查询自己的
+        if (curUser.getUserType().equals(Role.USER.getUserType())) {
+            QueryWrapper<LeasingYachtVO> wrapper = new QueryWrapper<>();
+            wrapper.eq("owner_id", curUser.getId());
+            leasingYachtVOS = leasingYachtMapper.getYachts(page, wrapper);
+        } else {
+            leasingYachtVOS = leasingYachtMapper.getYachtsByAdmin(page);
+        }
         for (LeasingYachtVO leasingYachtVO : leasingYachtVOS) {
             QueryWrapper<Route> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("yacht_id", leasingYachtVO.getYachtId());

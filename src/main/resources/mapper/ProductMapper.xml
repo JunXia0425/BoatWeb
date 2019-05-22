@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lirui.boat.mapper.ProductMapper">
+
+
+    <select id="getProductsByAdmin" resultType="com.lirui.boat.entity.vo.ProductVO">
+        select product.*, user.nickname as owner
+        from product
+                 left join user on product.owner_id = user.id
+    </select>
+    <select id="getProducts" resultType="com.lirui.boat.entity.vo.ProductVO">
+        select product.*, user.nickname as owner
+        from product
+                 left join user on product.owner_id = user.id ${ew.customSqlSegment}
+    </select>
+    <select id="getProductsOnCondition" resultType="com.lirui.boat.entity.vo.ProductVO">
+        select product.*, user.nickname as owner
+        from product
+                 left join user on product.owner_id = user.id
+            ${ew.customSqlSegment} and y.enable_status = 1
+    </select>
+</mapper>

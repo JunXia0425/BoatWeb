@@ -1,15 +1,15 @@
 package com.lirui.boat.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Li Rui
- * @since 2019-04-09
+ * @since 2019-05-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,7 +30,7 @@ public class Product implements Serializable {
     /**
      * 商品id
      */
-    @TableId(value = "id",type = IdType.UUID)
+    @TableId(value = "id", type = IdType.UUID)
     private String id;
 
     /**
@@ -40,7 +40,7 @@ public class Product implements Serializable {
     private String productName;
 
     /**
-     * 商品类别，1：游艇，2：零件
+     * 商品类别，1：发电机，2：蓄电池，3：传感器
      */
     @TableField("type")
     private Integer type;
@@ -60,8 +60,8 @@ public class Product implements Serializable {
     /**
      * 商品所有者id,关联user.id
      */
-    @TableField("ownner_id")
-    private String ownnerId;
+    @TableField("owner_id")
+    private String ownerId;
 
     /**
      * 是否可用 1：可用，0：不可用
@@ -73,15 +73,19 @@ public class Product implements Serializable {
      * 创建时间
      */
     @TableField("create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     /**
      * 最后修改时间
      */
     @TableField("last_edit_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastEditTime;
+
+    /**
+     * 产地
+     */
+    @TableField("region")
+    private String region;
 
 
 }

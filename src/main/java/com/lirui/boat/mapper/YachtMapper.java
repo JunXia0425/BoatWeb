@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface YachtMapper extends BaseMapper<Yacht> {
     /**
-     * 连表查询商品表和用户信息表中的用户昵称
+     * 连表查询游艇表和用户信息表中的用户昵称
      * @param page 分页
      * @return
      */

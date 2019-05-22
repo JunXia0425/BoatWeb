@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : utf-8
 
- Date: 05/21/2019 22:01:48 PM
+ Date: 05/22/2019 15:43:56 PM
 */
 
 SET NAMES utf8mb4;
@@ -34,6 +34,7 @@ CREATE TABLE `advance_order` (
   `customer_name` varchar(50) NOT NULL,
   `gender` int(2) DEFAULT NULL COMMENT '性别 0：男，1：女',
   `invoice` varchar(32) DEFAULT NULL COMMENT '票据id，如果选择开票则存在一个id指向另外一张表',
+  `yacht_id` varchar(32) NOT NULL COMMENT '记录游艇id，修改库存',
   PRIMARY KEY (`id`),
   KEY `route` (`route`),
   KEY `trip_ purpose` (`trip_purpose`),
@@ -126,7 +127,7 @@ CREATE TABLE `leasing_yacht` (
 --  Records of `leasing_yacht`
 -- ----------------------------
 BEGIN;
-INSERT INTO `leasing_yacht` VALUES ('a6759d1169147f1c4174bf9267def352', '1', '596f46e64b9d811a43cc6cd5671ecbd7', '1', '1231', '23', '1231', '23', '1');
+INSERT INTO `leasing_yacht` VALUES ('a6759d1169147f1c4174bf9267def352', '1', '596f46e64b9d811a43cc6cd5671ecbd7', '1', '1231', '23', '1231', '23', '1'), ('5f42965b32aba35d6257e173b51fabf6', '3', '05195cf29c3fc6297633fa066a48f5b5', '3', '税后', '1ada', 'scz', 'sad', '1');
 COMMIT;
 
 -- ----------------------------
@@ -161,16 +162,17 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` varchar(32) NOT NULL COMMENT '商品id',
   `product_name` varchar(20) NOT NULL COMMENT '商品名称',
-  `type` int(11) NOT NULL COMMENT '商品类别，1：游艇，2：零件',
+  `type` int(11) NOT NULL COMMENT '商品类别，1：发电机，2：蓄电池，3：传感器',
   `description` varchar(50) DEFAULT NULL COMMENT '商品描述',
   `img_url` varchar(1024) DEFAULT NULL COMMENT '商品图片的路径',
-  `ownner_id` varchar(32) NOT NULL COMMENT '商品所有者id,关联user.id',
+  `owner_id` varchar(32) NOT NULL COMMENT '商品所有者id,关联user.id',
   `enable_status` int(11) NOT NULL DEFAULT '0' COMMENT '是否可用 1：可用，0：不可用',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `region` varchar(255) DEFAULT NULL COMMENT '产地',
   PRIMARY KEY (`id`),
-  KEY `ownner_id` (`ownner_id`),
-  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`ownner_id`) REFERENCES `USER` (`id`) ON DELETE CASCADE
+  KEY `ownner_id` (`owner_id`),
+  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `USER` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='商品信息表';
 
 -- ----------------------------
@@ -209,7 +211,7 @@ CREATE TABLE `route` (
 --  Records of `route`
 -- ----------------------------
 BEGIN;
-INSERT INTO `route` VALUES ('5958d9e890e3e2397cf163c3a753c7eb', '123123', '0', 'a6759d1169147f1c4174bf9267def352');
+INSERT INTO `route` VALUES ('5958d9e890e3e2397cf163c3a753c7eb', '123123', '0', 'a6759d1169147f1c4174bf9267def352'), ('d28bd3795fac4b96c6f06fd4e6a5898d', '三亚-泰姬陵', '11200', '5f42965b32aba35d6257e173b51fabf6');
 COMMIT;
 
 -- ----------------------------
@@ -239,7 +241,7 @@ CREATE TABLE `stock` (
 --  Records of `stock`
 -- ----------------------------
 BEGIN;
-INSERT INTO `stock` VALUES ('a6759d1169147f1c4174bf9267def352', '7');
+INSERT INTO `stock` VALUES ('a6759d1169147f1c4174bf9267def352', '6'), ('5f42965b32aba35d6257e173b51fabf6', '1');
 COMMIT;
 
 -- ----------------------------

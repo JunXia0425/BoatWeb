@@ -1,6 +1,7 @@
 package com.lirui.boat.controller.api;
 
 
+import com.lirui.boat.entity.AdvanceOrder;
 import com.lirui.boat.entity.dto.AdvanceOrderDTO;
 import com.lirui.boat.service.impl.AdvanceOrderServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
@@ -28,23 +29,28 @@ public class AdvanceOrderApi {
     private AdvanceOrderServiceImpl advanceOrderService;
 
     /**
-     * 开票保存
+     * 开票预定
      *
-     * @param advanceOrder
+     * @param advanceOrder 包含订单和开票信息
      * @return
      */
     @PostMapping("save")
     public ModelMap save(@RequestBody AdvanceOrderDTO advanceOrder) {
         try {
-            return ReturnUtil.success("ok", advanceOrderService.save(advanceOrder));
+            return ReturnUtil.success("恭喜您，预定成功！", advanceOrderService.save(advanceOrder));
         } catch (Exception e) {
             e.printStackTrace();
             return ReturnUtil.error(e.getMessage());
         }
     }
 
+    /**
+     * 不开票预定，直接传回订单并保存
+     * @param advanceOrder 订单信息
+     * @return
+     */
     @PostMapping("save-no-invoice")
-    public ModelMap saveNoInvoice(@RequestBody AdvanceOrderDTO advanceOrderDTO) {
-        return null;
+    public ModelMap saveNoInvoice(@RequestBody AdvanceOrder advanceOrder) {
+        return ReturnUtil.success("恭喜您，预定成功！",advanceOrderService.save(advanceOrder));
     }
 }

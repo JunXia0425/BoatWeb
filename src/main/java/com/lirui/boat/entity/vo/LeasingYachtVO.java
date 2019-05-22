@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Data
 public class LeasingYachtVO extends LeasingYacht {
+    private String ownerId;
     private String owner;
     private String name;
     private Float maxSpeed;

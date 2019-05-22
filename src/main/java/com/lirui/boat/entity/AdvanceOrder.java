@@ -93,5 +93,11 @@ public class AdvanceOrder implements Serializable {
     @TableField("invoice")
     private String invoice;
 
+    /**
+     * 游艇id
+     */
+    @TableField("yacht_id")
+    private String yachtId;
+
 
 }
