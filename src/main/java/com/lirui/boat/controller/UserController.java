@@ -9,6 +9,7 @@ import com.lirui.boat.utils.ReturnUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,13 @@ public class UserController {
     return "/admin/user/user-list";
   }
 
+  @GetMapping("profile")
+  public String toProfile(Model model){
+    Subject subject = SecurityUtils.getSubject();
+    User curUser = (User) subject.getPrincipal();
+    model.addAttribute("user",curUser);
+    return "/admin/user/profile";
+  }
 
   /**
    * 分页条件查询符合条件的所有用户，JSON格式返回
