@@ -1,6 +1,9 @@
 package com.lirui.boat.controller.api;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.AdvanceOrder;
 import com.lirui.boat.entity.dto.AdvanceOrderDTO;
 import com.lirui.boat.service.impl.AdvanceOrderServiceImpl;
@@ -46,12 +49,24 @@ public class AdvanceOrderApi {
 
     /**
      * 不开票预定，直接传回订单并保存
+     *
      * @param advanceOrder 订单信息
      * @return
      */
     @PostMapping("save-no-invoice")
     public ModelMap saveNoInvoice(@RequestBody AdvanceOrder advanceOrder) {
         advanceOrder.setInvoice(null);
-        return ReturnUtil.success("恭喜您，预定成功！",advanceOrderService.save(advanceOrder));
+        return ReturnUtil.success("恭喜您，预定成功！", advanceOrderService.save(advanceOrder));
+    }
+
+    /**
+     * 分页查询所有订单，JSON格式返回
+     */
+    @PostMapping("list")
+    public ModelMap userList(@RequestBody Page<AdvanceOrder> advanceOrderPage) {
+        QueryWrapper<AdvanceOrder> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("create_time");
+        IPage<AdvanceOrder> page = advanceOrderService.page(advanceOrderPage, wrapper);
+        return ReturnUtil.success("ok", page, null);
     }
 }

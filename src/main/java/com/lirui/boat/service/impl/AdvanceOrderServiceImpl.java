@@ -45,7 +45,9 @@ public class AdvanceOrderServiceImpl extends ServiceImpl<AdvanceOrderMapper, Adv
         stock.setCount(--count);
         //4. 更新减1之后的库存
         boolean update = stockService.updateById(stock);
-        return  update;
+        //5.保存订单信息
+        boolean save = this.save(advanceOrder);
+        return update && save;
 
     }
 }

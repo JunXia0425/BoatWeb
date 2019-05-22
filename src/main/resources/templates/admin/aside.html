@@ -46,6 +46,12 @@
             租赁管理
           </a>
         </li>
+        <li shiro:hasAnyRoles="2,3">
+          <a th:href="@{/advance-order/list}" class="waves-effect">
+            <i class="fa fa-file-text-o m-r-10" aria-hidden="true"></i>
+            订单列表
+          </a>
+        </li>
         <li shiro:hasRole="3">
           <a th:href="@{/menu/list}" class="waves-effect">
             <i class="fa fa-globe m-r-10" aria-hidden="true"></i>
