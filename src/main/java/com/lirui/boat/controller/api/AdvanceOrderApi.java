@@ -51,6 +51,7 @@ public class AdvanceOrderApi {
      */
     @PostMapping("save-no-invoice")
     public ModelMap saveNoInvoice(@RequestBody AdvanceOrder advanceOrder) {
+        advanceOrder.setInvoice(null);
         return ReturnUtil.success("恭喜您，预定成功！",advanceOrderService.save(advanceOrder));
     }
 }

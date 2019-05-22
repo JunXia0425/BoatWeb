@@ -8,6 +8,7 @@ import com.lirui.boat.entity.Route;
 import com.lirui.boat.entity.Stock;
 import com.lirui.boat.entity.User;
 import com.lirui.boat.entity.dto.LeasingYachtDTO;
+import com.lirui.boat.entity.dto.Query;
 import com.lirui.boat.entity.vo.LeasingYachtVO;
 import com.lirui.boat.entity.vo.YachtVO;
 import com.lirui.boat.enums.Role;
@@ -37,6 +38,35 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
     private RouteServiceImpl routeService;
     @Autowired
     private LeasingYachtMapper leasingYachtMapper;
+
+    @Override
+    public Page<LeasingYachtVO> page(Page<LeasingYachtVO> page, Query query) {
+        Query.Range length = query.getLength();
+        Query.Range price = query.getPrice();
+        String classification = query.getClassification();
+        String region = query.getRegion();
+        QueryWrapper<YachtVO> queryWrapper = new QueryWrapper<>();
+        if (region != null) {
+            queryWrapper.eq("region", region);
+        }
+        if (classification != null) {
+            queryWrapper.eq("classification_id", classification);
+        }
+        if (price != null && price.getMax() != null) {
+            queryWrapper.lt("price", price.getMax());
+        }
+        if (price != null && price.getMin() != null) {
+            queryWrapper.ge("price", price.getMin());
+        }
+        if (length != null && length.getMax() != null) {
+            queryWrapper.lt("length", length.getMax());
+        }
+        if (length != null && length.getMin() != null) {
+            queryWrapper.ge("length", length.getMin());
+        }
+        return page.setRecords(leasingYachtMapper.getYachtsOnCondition(page,queryWrapper));
+    }
+
     @Autowired
     private YachtServiceImpl yachtService;
     @Autowired

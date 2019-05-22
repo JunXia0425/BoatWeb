@@ -2,6 +2,7 @@ package com.lirui.boat.controller.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.LeasingYacht;
+import com.lirui.boat.entity.dto.LeasingYachtQueryDTO;
 import com.lirui.boat.entity.vo.LeasingYachtVO;
 import com.lirui.boat.service.impl.LeasingYachtServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
@@ -43,5 +44,15 @@ public class LeasingYachtApi {
         } catch (Exception e) {
             return ReturnUtil.error(e.getMessage());
         }
+    }
+
+    /**
+     * 分页条件查询符合条件的所有游艇，JSON格式返回
+     */
+    @PostMapping("list/condition")
+    public ModelMap listYacht(@RequestBody LeasingYachtQueryDTO data) {
+
+        Page<LeasingYachtVO> page = leasingYachtService.page(data.getYachtPage(),data.getQuery());
+        return ReturnUtil.success("ok", page, null);
     }
 }
