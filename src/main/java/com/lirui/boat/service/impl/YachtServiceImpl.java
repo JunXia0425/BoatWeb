@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lirui.boat.entity.User;
 import com.lirui.boat.entity.Yacht;
 import com.lirui.boat.entity.dto.Query;
+import com.lirui.boat.entity.dto.Range;
 import com.lirui.boat.entity.vo.YachtVO;
 import com.lirui.boat.enums.Role;
 import com.lirui.boat.mapper.YachtMapper;
@@ -47,8 +48,8 @@ public class YachtServiceImpl extends ServiceImpl<YachtMapper, Yacht> implements
 
     @Override
     public Page<YachtVO> page(Page<YachtVO> page, Query query) {
-        Query.Range length = query.getLength();
-        Query.Range price = query.getPrice();
+        Range length = query.getLength();
+        Range price = query.getPrice();
         String classification = query.getClassification();
         String region = query.getRegion();
         QueryWrapper<YachtVO> queryWrapper = new QueryWrapper<>();

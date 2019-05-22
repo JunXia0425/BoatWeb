@@ -1,9 +1,9 @@
 package com.lirui.boat.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lirui.boat.entity.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lirui.boat.entity.dto.Query;
+import com.lirui.boat.entity.Product;
+import com.lirui.boat.entity.dto.ProductQuery;
 import com.lirui.boat.entity.vo.ProductVO;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public interface ProductService extends IService<Product> {
      * @param query 接收过滤条件
      * @return
      */
-    Page<ProductVO> page(Page<ProductVO> page, Query query);
+    Page<ProductVO> page(Page<ProductVO> page, ProductQuery query);
 
     /**
      * 查询表中现有商品的产地

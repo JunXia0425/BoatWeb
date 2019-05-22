@@ -8,7 +8,6 @@ import com.lirui.boat.entity.Menu;
 import com.lirui.boat.entity.Yacht;
 import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.entity.vo.MenuVO;
-import com.lirui.boat.entity.vo.ProductVO;
 import com.lirui.boat.service.impl.ArticleServiceImpl;
 import com.lirui.boat.service.impl.MenuServiceImpl;
 import com.lirui.boat.service.impl.ProductServiceImpl;
@@ -83,18 +82,6 @@ public class ApiController {
         IPage<ArticleVO> page = articleService.page(articlePage, id);
         return ReturnUtil.success("ok", page, null);
     }
-
-    /**
-     * 分页条件查询符合条件的所有商品，JSON格式返回
-     */
-    @PostMapping("/product/list")
-    @ResponseBody
-    public ModelMap listProduct(@RequestBody Page<ProductVO> productPage) {
-        Page<ProductVO> page = productService.page(productPage);
-        return ReturnUtil.success("ok", page, null);
-    }
-
-
 
     /**
      * 根据id查询对应文章并以JSON格式返回

@@ -5,7 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lirui.boat.entity.Product;
 import com.lirui.boat.entity.User;
-import com.lirui.boat.entity.dto.Query;
+import com.lirui.boat.entity.dto.ProductQuery;
+import com.lirui.boat.entity.dto.Range;
 import com.lirui.boat.entity.vo.ProductVO;
 import com.lirui.boat.enums.Role;
 import com.lirui.boat.mapper.ProductMapper;
@@ -43,9 +44,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
-    public Page<ProductVO> page(Page<ProductVO> page, Query query) {
-        Query.Range price = query.getPrice();
+    public Page<ProductVO> page(Page<ProductVO> page, ProductQuery query) {
+        Range price = query.getPrice();
         String region = query.getRegion();
+        Integer type = query.getType();
         QueryWrapper<ProductVO> queryWrapper = new QueryWrapper<>();
         if (region != null) {
             queryWrapper.eq("region", region);
@@ -55,6 +57,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         }
         if (price != null && price.getMin() != null) {
             queryWrapper.ge("price", price.getMin());
+        }
+        if (type !=null){
+            queryWrapper.eq("type",type);
         }
         return page.setRecords(productMapper.getProductsOnCondition(page, queryWrapper));
     }

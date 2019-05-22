@@ -4,18 +4,15 @@ import lombok.Data;
 
 /**
  * <p>
- * Query
+ * ProductQuery
  * </p>
  *
  * @author Li Rui
- * @since 2019-05-19
+ * @since 2019-05-22
  */
 @Data
-public class Query {
-
+public class ProductQuery {
     private Range price;
-    private Range length;
-    private String classification;
+    private Integer type;
     private String region;
 }
-

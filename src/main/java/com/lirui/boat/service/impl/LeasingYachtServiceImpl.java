@@ -9,6 +9,7 @@ import com.lirui.boat.entity.Stock;
 import com.lirui.boat.entity.User;
 import com.lirui.boat.entity.dto.LeasingYachtDTO;
 import com.lirui.boat.entity.dto.Query;
+import com.lirui.boat.entity.dto.Range;
 import com.lirui.boat.entity.vo.LeasingYachtVO;
 import com.lirui.boat.entity.vo.YachtVO;
 import com.lirui.boat.enums.Role;
@@ -41,8 +42,8 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
 
     @Override
     public Page<LeasingYachtVO> page(Page<LeasingYachtVO> page, Query query) {
-        Query.Range length = query.getLength();
-        Query.Range price = query.getPrice();
+        Range length = query.getLength();
+        Range price = query.getPrice();
         String classification = query.getClassification();
         String region = query.getRegion();
         QueryWrapper<YachtVO> queryWrapper = new QueryWrapper<>();
