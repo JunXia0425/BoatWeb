@@ -40,7 +40,7 @@ public class CommonController {
     @GetMapping("login")
     public String toIndex(Model model) {
         model.addAttribute("user", new User());
-        return "/general/login";
+        return "/general/index";
     }
 
     /**

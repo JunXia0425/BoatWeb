@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>登录页</title>
+    <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+    <meta name="author" content="Vincent Garreau"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link th:href="@{/assets/plugins/vue-tree/css/index.css}" rel="stylesheet">
+    <link rel="stylesheet" media="screen" th:href="@{/login/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{login/css/reset.css}"/>
+</head>
+<body>
+
+<div id="particles-js">
+    <div class="login">
+        <div id="app">
+                        <el-tabs v-model="activeName" :stretch="true">
+                            <el-tab-pane label="登陆" name="first">
+                                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" style="padding-top: 115px"
+                                         class="demo-ruleForm" :inline="true">
+                                    <el-form-item label="账号" prop="account">
+                                        <el-input v-model="ruleForm.account" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="密码" prop="password">
+                                        <el-input type="password" v-model="ruleForm.password"
+                                                  autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label=" ">
+                                        <el-button type="primary" @click="submitForm('ruleForm')">登陆</el-button>
+                                        <el-button @click="resetForm('ruleForm')">重置</el-button>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="注册" name="second">
+                                <el-form :model="ruleForm2" status-icon :rules="rules" ref="ruleForm2"
+                                         label-width="100px"
+                                         class="demo-ruleForm" :inline="true" style="padding-top: 40px;">
+                                    <el-form-item label="账号" prop="account">
+                                        <el-input v-model="ruleForm2.account" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="昵称" prop="nickname">
+                                        <el-input v-model="ruleForm2.nickname" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="密码" prop="password">
+                                        <el-input type="password" v-model="ruleForm2.password"
+                                                  autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="确认密码" prop="checkPass">
+                                        <el-input type="password" v-model="ruleForm2.checkPass"
+                                                  autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="角色">
+                                        <el-switch v-model="ruleForm2.userType" active-text="管理员"
+                                                   inactive-text="普通用户" active-value="2" inactive-value="1"></el-switch>
+                                    </el-form-item>
+                                    <el-form-item label=" ">
+                                        <el-button type="primary" @click="submitForm('ruleForm2')">注册</el-button>
+                                        <el-button @click="resetForm('ruleForm2')">重置</el-button>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                        </el-tabs>
+
+
+        </div>
+    </div>
+    <div class="sk-rotating-plane"></div>
+</div>
+
+<!-- scripts -->
+<script th:src="@{/login/js/particles.min.js}"></script>
+<script th:src="@{login/js/app.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/vue.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/index.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/axios.min.js}"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            var validateAccount = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('用户名不能为空'));
+                }
+                callback()
+            }
+            var validateNickname = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('昵称不能为空'));
+                }
+                callback()
+            }
+            var validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                }
+                callback();
+
+            }
+            var validatePass2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.ruleForm2.password) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                ruleForm: {
+                    account: '',
+                    password: ''
+                },
+                ruleForm2: {
+                    account: '',
+                    password: '',
+                    checkPass: '',
+                    userType: 1
+                },
+                rules: {
+                    password: [
+                        {validator: validatePass, trigger: 'blur'}
+                    ],
+                    account: [
+                        {validator: validateAccount, trigger: 'blur'}
+                    ],
+                    checkPass: [
+                        {validator: validatePass2, trigger: 'blur'}
+                    ],
+                    nickname: [
+                        {validator: validateNickname, trigger: 'blur'}
+                    ]
+                },
+                activeName: 'first'
+            }
+        },
+        methods: {
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        //根据表单名称决定提交url
+                        let url = formName === 'ruleForm' ? '[[ @{/login} ]]' : '[[ @{/regist} ]]'
+                        // 根据表单决定提交对象
+                        let data = formName === 'ruleForm' ? this.ruleForm : this.ruleForm2
+                        // ajax提交
+
+                        axios.post(url, data).then((res) => {
+                            console.log(res.data);
+                            var result = res.data
+                            if (result.status) {
+                                // 登陆成功
+                                if (formName === 'ruleForm') {
+                                    window.location.replace('/manage/' + result.referer)
+                                }
+                                // 注册成功-提示
+                                if (formName === 'ruleForm2') {
+                                    this.$message({
+                                        message: '注册成功，赶紧登陆吧～',
+                                        type: 'success'
+                                    })
+                                    setTimeout(() => {
+                                        this.activeName = 'first'
+                                    }, 1000)
+
+                                }
+                            } else {
+                                this.$message({
+                                    message: result.msg,
+                                    type: 'error'
+                                })
+                                this.resetForm(formName)
+                            }
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            }
+        }
+    });
+</script>
+</body>
+</html>
