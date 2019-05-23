@@ -14,7 +14,6 @@ import com.lirui.boat.service.impl.ProductServiceImpl;
 import com.lirui.boat.service.impl.YachtServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +28,7 @@ import java.util.Map;
  * @author Li Rui
  * @since 2019/4/22
  */
-@Controller
+@RestController
 @RequestMapping("api")
 public class ApiController {
 
@@ -53,7 +52,6 @@ public class ApiController {
      * 分页条件查询符合条件的所有栏目，JSON格式返回
      */
     @PostMapping("/menu/list")
-    @ResponseBody
     public ModelMap listMenu(@RequestBody Page<MenuVO> menuPage) {
         menuPage.setAsc("num");
         IPage<MenuVO> page = menuService.page(menuPage);
@@ -61,10 +59,18 @@ public class ApiController {
     }
 
     /**
+     * 请求目录名称
+     */
+    @PostMapping("/menu")
+    public ModelMap getMenu(@RequestBody Menu menu){
+        menu = menuService.getById(menu.getId());
+        return ReturnUtil.success("ok",menu);
+    }
+
+    /**
      * 查询所有启用目录(仅查询id，栏目名称，父级栏目id,url)，用于展示树形图
      */
     @PostMapping("/menu/all")
-    @ResponseBody
     public ModelMap allMenu() {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("id", "pid", "url", "name").eq("enable_status", 1).orderByAsc("num");
@@ -76,7 +82,6 @@ public class ApiController {
      * 分页条件查询符合条件的所有文章，JSON格式返回
      */
     @PostMapping("/article/list/{menuId}")
-    @ResponseBody
     public ModelMap listArticle(@RequestBody Page<ArticleVO> articlePage,
                                 @PathVariable("menuId") String id) {
         IPage<ArticleVO> page = articleService.page(articlePage, id);
@@ -90,7 +95,6 @@ public class ApiController {
      * @return JSON对象
      */
     @PostMapping("/article/{articleId}")
-    @ResponseBody
     public ModelMap getArticle(@PathVariable("articleId") String id) {
         Article article = articleService.getById(id);
         return ReturnUtil.success("ok", article, null);
@@ -102,7 +106,6 @@ public class ApiController {
      * @return
      */
     @PostMapping("/yacht/getYacht")
-    @ResponseBody
     public ModelMap getYacht(@RequestBody Yacht yacht){
         yacht = yachtService.getById(yacht.getId());
         return ReturnUtil.success("ok",yacht);
