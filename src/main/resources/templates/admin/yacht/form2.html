@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head th:replace="/admin/head"></head>
+<link th:href="@{/assets/plugins/vue-tree/css/index.css}" rel="stylesheet">
+<style>
+    .bootstrap-table .btn-group label {
+        color: black !important;
+    }
+
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 240px;
+        height: 135px;
+        line-height: 135px;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 240px;
+        height: 135px;
+        display: block;
+    }
+</style>
+<body class="fix-header card-no-border">
+
+<div id="main-wrapper">
+
+    <header th:replace="/admin/header"></header>
+
+    <div th:replace="/admin/aside"></div>
+
+    <div class="page-wrapper">
+
+        <!-- Container fluid  -->
+
+        <div class="container-fluid">
+
+            <!-- Bread crumb and right sidebar toggle -->
+
+            <div class="row page-titles">
+                <div class="col-md-6 col-8 align-self-center">
+                    <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0)"
+                               th:text="游艇 + ${#strings.isEmpty(yacht.id)?'添加':'修改'}"></a>
+                        </li>
+                    </ol>
+                </div>
+
+            </div>
+
+            <!-- End Bread crumb and right sidebar toggle -->
+
+
+            <!-- Start Page Content -->
+
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="card-block" id="app">
+                                <form class="form-horizontal form-material" th:action="@{/yacht/save}"
+                                      method="post">
+                                    <input type="hidden" name="id" th:value="${yacht.id}"/>
+                                    <div th:switch="${#strings.isEmpty(yacht.id)}">
+                                        <input type="hidden" name="ownerId" th:case="false"
+                                               th:value="${yacht.ownerId}"/>
+                                        <input type="hidden" name="ownerId" th:case="true" th:value="${ownerId}"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">游艇名称</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name="name" class="form-control form-control-line"
+                                                   th:value="${yacht.name}">
+                                        </div>
+                                    </div>
+                                    <!--图片上传-->
+                                    <!--艇长-->
+                                    <div class="form-group">
+                                        <label class="col-md-12">艇长（单位：m）</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="length"
+                                                   th:value="${yacht.length}">
+                                        </div>
+                                    </div>
+                                    <!--                                    产地-->
+                                    <div class="form-group">
+                                        <label class="col-md-12">产地</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="region"
+                                                   th:value="${yacht.region}">
+                                        </div>
+                                    </div>
+                                    <!--                                    年份-->
+                                    <div class="form-group">
+                                        <label class="col-md-12">年份</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="year"
+                                                   th:value="${yacht.year}">
+                                        </div>
+                                    </div>
+                                    <!--                                    售价-->
+                                    <div class="form-group">
+                                        <label class="col-md-12">售价（单位：万元）</label>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-line" name="price"
+                                                   th:value="${yacht.price}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">游艇类型</label>
+                                        <div class="col-sm-12">
+                                            <select class="form-control form-control-line" name=classificationId
+                                                    required>
+                                                <option th:each="classification:${classifications}"
+                                                        th:value="${classification.id}"
+                                                        th:text="${classification.classification}"
+                                                        th:selected="${yacht.classificationId eq classification.classification}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12">游艇描述</label>
+                                        <div class="col-md-12">
+                                            <input type="hidden" class="form-control form-control-line"
+                                                   name="description"
+                                                   th:value="${yacht.description}" id="desc">
+                                            <a class="btn btn-custom" onclick="openlayer()">点击填写</a>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-12">游艇封面图片</label>
+                                        <div class="col-sm-12">
+                                            <input type="hidden" v-model="imgPath" name="imgPath">
+                                            <el-upload
+                                                    class="avatar-uploader"
+                                                    :action="target"
+                                                    name="img"
+                                                    :show-file-list="false"
+                                                    :on-success="handleAvatarSuccess"
+                                                    :before-upload="beforeAvatarUpload">
+                                                <img v-if="imgUrl" :src="imgUrl" class="avatar">
+                                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                            </el-upload>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" th:unless="${#strings.isEmpty(yacht.id)}">
+                                        <label class="col-sm-12">游艇轮播图片</label>
+                                        <div class="col-sm-12">
+                                            <el-upload
+                                                    class="upload-demo"
+                                                    :action="target"
+                                                    name="img"
+                                                    :on-success="handlePreview"
+                                                    :on-remove="handleRemove"
+                                                    :file-list="fileList"
+                                                    list-type="picture">
+                                                <el-button size="small" type="primary">点击上传</el-button>
+                                                <el-button @click="saveSlider" size="small" type="success">保存轮播图
+                                                </el-button>
+                                                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                                            </el-upload>
+
+                                        </div>
+                                    </div>
+                                    <!--                                    <input type="hidden" id="path" name="imgPath" th:value="${yacht.imgPath}"/>-->
+                                    <div shiro:hasAnyRoles="2,3" class="form-group">
+                                        <label class="col-md-12">状态</label>
+                                        <div class="col-md-12">
+                                            <input type="radio" name="enableStatus" class="radio-inline"
+                                                   th:each="status:${T(com.lirui.boat.enums.EnableStatus).values()}"
+                                                   th:value="${status.value}" th:text="${status.desc}"
+                                                   th:checked="${status.value eq yacht.enableStatus}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-success">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End PAge Content -->
+
+        </div>
+
+        <!-- End Container fluid  -->
+
+
+        <!-- footer -->
+
+        <footer class="footer text-center">
+            © 2017 Monster Admin by wrappixel.More Templates
+            <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a>
+            - Collect from
+            <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+        </footer>
+
+        <!-- End footer -->
+
+    </div>
+
+    <!-- End Page wrapper  -->
+
+</div>
+<div id="editor" style="display: none"></div>
+<!-- End Wrapper -->
+<!--scripts-->
+<div class="scripts" th:replace="/admin/footer"></div>
+<script th:src="@{/assets/plugins/wangEditor/wangEditor.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/vue.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/index.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/axios.min.js}"></script>
+<script>
+    function openlayer() {
+        layer.open({
+            title: '游艇描述',
+            type: 1,
+            content: $('#editor'),
+            area: ['655px', '400px'],
+            //窗口关闭时，内容填写到表单中
+            cancel: function () {
+                var content = editor.txt.html();
+                $('#desc').val(content)
+            }
+        })
+    }
+
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.customConfig.menus = [
+        'head',  // 标题
+        'bold',  // 粗体
+        'fontSize',  // 字号
+        'fontName',  // 字体
+        'italic',  // 斜体
+        'underline',  // 下划线
+        'strikeThrough',  // 删除线
+        'foreColor',  // 文字颜色
+        'backColor',  // 背景颜色
+        'link',  // 插入链接
+        'list',  // 列表
+        'justify',  // 对齐方式
+        'quote',  // 引用
+        'emoticon',  // 表情
+        'table',  // 表格
+        'image',
+        'undo',  // 撤销
+        'redo'  // 重复
+    ];
+    editor.customConfig.uploadImgServer = '[[@{/upload/img}]]'
+    editor.customConfig.uploadFileName = 'img'
+    editor.customConfig.uploadImgHooks = {
+        customInsert: function (insertImg, result, editor) {
+            // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+            // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+            // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+            //插入完整路径，方便vue端访问图片
+            var url = 'http://localhost:8082/manage/' + result.result.path
+            console.log(result);
+            insertImg(url)
+
+            // result 必须是一个 JSON 格式字符串！！！否则报错
+        }
+    }
+    editor.create();
+    var content = htmlRestore('[[${yacht.description}]]')
+    console.log(content);
+    editor.txt.html(content)
+
+    /**
+     *  转义字符还原成html字符
+     * @param str
+     * @returns {string}
+     * @constructor
+     */
+    function htmlRestore(str) {
+        var s = "";
+        if (str.length === 0) {
+            return "";
+        }
+        s = str.replace(/&amp;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/&#39;/g, "\'");
+        s = s.replace(/&quot;/g, "\"");
+        return s;
+    }
+</script>
+<script>
+    var vm1 = new Vue({
+        el: '#app',
+        data: {
+            yachtId: '[[${yacht.id}]]',
+            target: '[[@{/upload/img}]]',
+            fileList: [],
+            pics: [],
+            imgPath: '',
+            imgUrl:''
+        },
+        methods: {
+            handleRemove(file, fileList) {
+                console.log(file);
+                let path = file.response.result.path
+                let index = this.pics.indexOf(path)
+                if (index > -1) {
+                    this.pics.splice(index, 1)
+                }
+            },
+            handlePreview(res) {
+                console.log(res.result.path);
+                this.pics.push(res.result.path)
+            },
+            handleAvatarSuccess(res, file) {
+                this.imgUrl = URL.createObjectURL(file.raw);
+                this.imgPath = res.result.path
+            },
+            beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isLt2M) {
+                    this.$message.error('上传封面图片大小不能超过 2MB!');
+                }
+                return isLt2M;
+            },
+            saveSlider() {
+                let url = '[[@{/api/slider-img/save}]]'
+                axios.post(url, {id:this.yachtId,pics:this.pics}).then(res => {
+                    if (res.data.status === 1) {
+                        this.$message({
+                            message: '轮播图保存成功',
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message({
+                            message: '轮播保存失败，错误信息：' + res.data.msg,
+                            type: 'error'
+                        });
+                    }
+                })
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
