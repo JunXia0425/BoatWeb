@@ -8,12 +8,12 @@
         from product
                  left join user on product.owner_id = user.id
     </select>
-    <select id="getProducts" resultType="com.lirui.boat.entity.vo.ProductVO">
+    <select id="getProducts" resultType="com.lirui.boat.entity.vo.ProductVO" parameterType="object">
         select product.*, user.nickname as owner
         from product
                  left join user on product.owner_id = user.id ${ew.customSqlSegment}
     </select>
-    <select id="getProductsOnCondition" resultType="com.lirui.boat.entity.vo.ProductVO">
+    <select id="getProductsOnCondition" resultType="com.lirui.boat.entity.vo.ProductVO" parameterType="object">
         select product.*, user.nickname as owner
         from product
                  left join user on product.owner_id = user.id

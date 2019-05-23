@@ -41,8 +41,8 @@ public class LeasingYacht implements Serializable {
     /**
      * 停靠码头（外键）
      */
-    @TableField("wharf")
-    private String wharf;
+    @TableField("wharf_id")
+    private String wharfId;
 
     /**
      * 游艇卧室数量

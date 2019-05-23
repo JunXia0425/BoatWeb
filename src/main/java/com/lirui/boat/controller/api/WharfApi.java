@@ -1,4 +1,4 @@
-package com.lirui.boat.controller;
+package com.lirui.boat.controller.api;
 
 
 import com.lirui.boat.service.impl.WharfServiceImpl;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/wharf")
-public class WharfController {
+public class WharfApi {
     @Autowired
     private WharfServiceImpl wharfService;
 

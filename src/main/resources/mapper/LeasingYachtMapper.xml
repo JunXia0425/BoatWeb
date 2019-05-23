@@ -35,7 +35,7 @@
                  left join stock s on ly.yacht_id = s.id
                  left join user u on y.owner_id = u.id
     </select>
-    <select id="getYachts" resultType="com.lirui.boat.entity.vo.LeasingYachtVO">
+    <select id="getYachts" resultType="com.lirui.boat.entity.vo.LeasingYachtVO" parameterType="object">
         select ly.*,
                y.name      as name,
                y.img_path  as path,
@@ -53,7 +53,7 @@
                  left join user u on y.owner_id = u.id
             ${ew.customSqlSegment}
     </select>
-    <select id="getYachtsOnCondition" resultType="com.lirui.boat.entity.vo.LeasingYachtVO">
+    <select id="getYachtsOnCondition" resultType="com.lirui.boat.entity.vo.LeasingYachtVO" parameterType="object">
         select ly.*,
                y.name      as name,
                y.img_path  as path,
@@ -66,7 +66,7 @@
                w.wharf     as wharf_name
         from leasing_yacht ly
                  left join yacht y on y.id = ly.yacht_id
-                 left join wharf w on ly.wharf = w.id
+                 left join wharf w on ly.wharf_id = w.id
                  left join stock s on ly.yacht_id = s.id
                  left join user u on y.owner_id = u.id
             ${ew.customSqlSegment}

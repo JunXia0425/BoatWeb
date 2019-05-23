@@ -48,7 +48,8 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
         Range price = query.getPrice();
         String classification = query.getClassification();
         String region = query.getRegion();
-        QueryWrapper<YachtVO> queryWrapper = new QueryWrapper<>();
+        String wharf = query.getWharf();
+        QueryWrapper<LeasingYachtVO> queryWrapper = new QueryWrapper<>();
         if (region != null) {
             queryWrapper.eq("region", region);
         }
@@ -66,6 +67,9 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
         }
         if (length != null && length.getMin() != null) {
             queryWrapper.ge("length", length.getMin());
+        }
+        if (wharf != null) {
+            queryWrapper.eq("wharf_id", wharf);
         }
         return page.setRecords(leasingYachtMapper.getYachtsOnCondition(page, queryWrapper));
     }
@@ -104,7 +108,7 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
             QueryWrapper<Route> wrapper = new QueryWrapper<>();
             wrapper.eq("yacht_id", yachtId);
             //删除原来的
-            log.info("删除原来存储的航线，条件为{}",yachtId);
+            log.info("删除原来存储的航线，条件为{}", yachtId);
             boolean remove = routeService.remove(wrapper);
             log.info("添加最新航线");
             boolean routesSave = routeService.saveBatch(routes);

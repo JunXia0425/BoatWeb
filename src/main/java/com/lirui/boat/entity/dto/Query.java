@@ -17,5 +17,6 @@ public class Query {
     private Range length;
     private String classification;
     private String region;
+    private String wharf;
 }
 
