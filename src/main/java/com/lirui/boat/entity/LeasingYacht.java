@@ -1,6 +1,7 @@
 package com.lirui.boat.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +28,7 @@ public class LeasingYacht implements Serializable {
     /**
      * 游艇id，外键
      */
+    @TableId
     @TableField("yacht_id")
     private String yachtId;
 

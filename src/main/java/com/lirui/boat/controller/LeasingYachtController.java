@@ -1,7 +1,6 @@
 package com.lirui.boat.controller;
 
 
-import com.lirui.boat.entity.Yacht;
 import com.lirui.boat.entity.dto.LeasingYachtDTO;
 import com.lirui.boat.entity.vo.YachtVO;
 import com.lirui.boat.service.impl.ClassificationServiceImpl;
@@ -9,7 +8,6 @@ import com.lirui.boat.service.impl.LeasingYachtServiceImpl;
 import com.lirui.boat.service.impl.YachtServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,31 +80,5 @@ public class LeasingYachtController {
             return ReturnUtil.success("删除成功", null, "yacht/list");
         }
         return ReturnUtil.error("删除失败", null, "yacht/list");
-    }
-
-    /**
-     * 具体的保存方法，根据id判断游艇是否存在，存在执行update，否则执行insert
-     *
-     * @param yacht 表单传入的Yacht对象
-     */
-    //TODO:经常使用，后期改成泛型的，用反射改造
-    public ModelMap saveyacht(Yacht yacht) {
-        if (!StringUtils.isEmpty(yacht.getId())) {
-            log.info("此游艇存在，本次操作为：更新游艇");
-            boolean save = yachtService.updateById(yacht);
-            if (save) {
-                return ReturnUtil.success("更新成功", null, "yacht/list");
-            } else {
-                return ReturnUtil.error("更新失败", null, "yacht/list");
-            }
-        } else {
-            log.info("游艇不存在，本次操作为：新增游艇");
-            boolean save = yachtService.save(yacht);
-            if (save) {
-                return ReturnUtil.success("保存成功", null, "yacht/list");
-            } else {
-                return ReturnUtil.error("操作失败", null, "yacht/list");
-            }
-        }
     }
 }

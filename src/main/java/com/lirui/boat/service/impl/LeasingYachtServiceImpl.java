@@ -15,6 +15,7 @@ import com.lirui.boat.entity.vo.YachtVO;
 import com.lirui.boat.enums.Role;
 import com.lirui.boat.mapper.LeasingYachtMapper;
 import com.lirui.boat.service.LeasingYachtService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import java.util.List;
  * @since 2019-05-14
  */
 @Service
+@Slf4j
 public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, LeasingYacht> implements LeasingYachtService {
     @Autowired
     private StockServiceImpl stockService;
@@ -65,7 +67,7 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
         if (length != null && length.getMin() != null) {
             queryWrapper.ge("length", length.getMin());
         }
-        return page.setRecords(leasingYachtMapper.getYachtsOnCondition(page,queryWrapper));
+        return page.setRecords(leasingYachtMapper.getYachtsOnCondition(page, queryWrapper));
     }
 
     @Autowired
@@ -80,7 +82,8 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
         LeasingYacht leasingYacht = dto.getLeasingYacht();
         //判断所属
         //1. 根据租赁游艇的id查找游艇元信息
-        YachtVO yacht = yachtService.getById(leasingYacht.getYachtId());
+        String yachtId = leasingYacht.getYachtId();
+        YachtVO yacht = yachtService.getById(yachtId);
         //2. 根据游艇元信息中owner_id 查询用户信息
         User owner = userService.getById(yacht.getOwnerId());
         //3。 如果用户是普通用户-游艇所属为个人，否则为企业
@@ -91,12 +94,34 @@ public class LeasingYachtServiceImpl extends ServiceImpl<LeasingYachtMapper, Lea
         }
         leasingYacht.setBelonging(1);
         for (Route route : routes) {
-            route.setYachtId(leasingYacht.getYachtId());
+            route.setYachtId(yachtId);
         }
-        boolean save = this.save(leasingYacht);
-        boolean stockSave = stockService.save(stock);
-        boolean routesSave = routeService.saveBatch(routes);
-        return save && stockSave && routesSave;
+        // 判断是否已经存在，如果存在则保存，将原route全部删除，加入新的
+
+        boolean exist = this.exist(yachtId);
+        if (exist) {
+            log.info("租赁已存在，现在开始更新");
+            QueryWrapper<Route> wrapper = new QueryWrapper<>();
+            wrapper.eq("yacht_id", yachtId);
+            //删除原来的
+            log.info("删除原来存储的航线，条件为{}",yachtId);
+            boolean remove = routeService.remove(wrapper);
+            log.info("添加最新航线");
+            boolean routesSave = routeService.saveBatch(routes);
+            //更新库存
+            log.info("更新库存");
+            boolean updateStock = stockService.updateById(stock);
+            //更新出租游艇
+            log.info("更新游艇");
+            boolean updateLeasingYacht = this.saveOrUpdate(leasingYacht);
+            return remove && updateLeasingYacht && updateStock;
+        } else {
+            boolean save = this.save(leasingYacht);
+            boolean stockSave = stockService.save(stock);
+            boolean routesSave = routeService.saveBatch(routes);
+            return save && stockSave && routesSave;
+        }
+
     }
 
     @Override
