@@ -41,7 +41,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     String keyWord = articleDTO.getKeyWord();
     Page<ArticleVO> articlePage = articleDTO.getArticlePage();
     String menuId = articleDTO.getMenuId();
-    wrapper.like("content",keyWord).eq("menu_id",menuId).orderByDesc("last_edit_time");
+    wrapper.like("content",keyWord)
+            .eq("menu_id",menuId)
+            .or()
+            .like("title",keyWord)
+            .eq("menu_id",menuId).orderByDesc("last_edit_time");
 
     return articlePage.setRecords(articleMapper.getArticles(articlePage,wrapper));
   }
