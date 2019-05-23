@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : utf-8
 
- Date: 05/22/2019 22:36:33 PM
+ Date: 05/23/2019 16:08:12 PM
 */
 
 SET NAMES utf8mb4;
@@ -35,6 +35,7 @@ CREATE TABLE `advance_order` (
   `gender` int(2) DEFAULT NULL COMMENT '性别 0：男，1：女',
   `invoice` varchar(32) DEFAULT NULL COMMENT '票据id，如果选择开票则存在一个id指向另外一张表',
   `yacht_id` varchar(32) NOT NULL COMMENT '记录游艇id，修改库存',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '订单创建时间',
   PRIMARY KEY (`id`),
   KEY `route` (`route`),
   KEY `trip_ purpose` (`trip_purpose`),
@@ -43,13 +44,6 @@ CREATE TABLE `advance_order` (
   CONSTRAINT `advance_order_ibfk_2` FOREIGN KEY (`trip_purpose`) REFERENCES `purpose` (`id`),
   CONSTRAINT `advance_order_ibfk_3` FOREIGN KEY (`invoice`) REFERENCES `invoice` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='预定订单表';
-
--- ----------------------------
---  Records of `advance_order`
--- ----------------------------
-BEGIN;
-INSERT INTO `advance_order` VALUES ('7665140ff512305882e5cb9ad1d21ccc', 'Hanse 316', '2019-05-27', '23:47:00', '5958d9e890e3e2397cf163c3a753c7eb', '5', '56e95b7ef7b53d74f325416384986bbd', '好', '13888888888', '猪猪', '1', null, 'a6759d1169147f1c4174bf9267def352'), ('bffff9647d503c14fd29d9483e5cd0eb', 'Sky 001', '2019-05-26', '18:59:00', 'd28bd3795fac4b96c6f06fd4e6a5898d', '5', '8f6bcfa2d30f6cc50fbd4388a6577fa5', 'asda', 'asda', 'asda', '0', null, '5f42965b32aba35d6257e173b51fabf6');
-COMMIT;
 
 -- ----------------------------
 --  Table structure for `article`
@@ -117,7 +111,7 @@ DROP TABLE IF EXISTS `leasing_yacht`;
 CREATE TABLE `leasing_yacht` (
   `yacht_id` varchar(32) NOT NULL COMMENT '游艇id，外键',
   `maxpeople` int(11) DEFAULT NULL COMMENT '限载人数',
-  `wharf` varchar(32) DEFAULT NULL COMMENT '停靠码头（外键）',
+  `wharf_id` varchar(32) DEFAULT NULL COMMENT '停靠码头（外键）',
   `bedroom` int(2) DEFAULT NULL COMMENT '游艇卧室数量',
   `standard_seaman` varchar(255) DEFAULT NULL COMMENT '标配船员',
   `standard_subject` varchar(255) NOT NULL COMMENT '标配项目',
@@ -125,16 +119,16 @@ CREATE TABLE `leasing_yacht` (
   `insurance_declare` varchar(255) DEFAULT NULL COMMENT '保险说明',
   `belonging` int(2) NOT NULL COMMENT '游艇隶属，如果拥有者不是管理员，隶属为私人，否则为企业；0:企业 1:私人',
   KEY `yacht_id` (`yacht_id`),
-  KEY `wharf` (`wharf`),
+  KEY `wharf` (`wharf_id`),
   CONSTRAINT `leasing_yacht_ibfk_1` FOREIGN KEY (`yacht_id`) REFERENCES `yacht` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `leasing_yacht_ibfk_2` FOREIGN KEY (`wharf`) REFERENCES `wharf` (`id`)
+  CONSTRAINT `leasing_yacht_ibfk_2` FOREIGN KEY (`wharf_id`) REFERENCES `wharf` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='租赁游艇表';
 
 -- ----------------------------
 --  Records of `leasing_yacht`
 -- ----------------------------
 BEGIN;
-INSERT INTO `leasing_yacht` VALUES ('a6759d1169147f1c4174bf9267def352', '1', '596f46e64b9d811a43cc6cd5671ecbd7', '1', '1231', '23', '1231', '23', '1'), ('5f42965b32aba35d6257e173b51fabf6', '3', '05195cf29c3fc6297633fa066a48f5b5', '3', '税后', '1ada', 'scz', 'sad', '1');
+INSERT INTO `leasing_yacht` VALUES ('5f42965b32aba35d6257e173b51fabf6', '5', '0fabbf96e13ac0143956f314c8b7fc59', '4', '企鹅我打车', '阿萨', '强大的是', '已购', '1');
 COMMIT;
 
 -- ----------------------------
@@ -186,7 +180,7 @@ CREATE TABLE `product` (
 --  Records of `product`
 -- ----------------------------
 BEGIN;
-INSERT INTO `product` VALUES ('50faa59455ce7b08cca4af2566d980a0', '传感器', '3', '萨达', '', 'ea8513a7c8fa4d0bf6b49429c2005345', '1', '2019-05-22 15:49:03', '2019-05-22 15:49:03', '法国'), ('ef0604ea72566a20387e25dceae2cb93', '发动机', '1', '萨达', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-22 15:48:31', '2019-05-22 15:48:31', '上海');
+INSERT INTO `product` VALUES ('50faa59455ce7b08cca4af2566d980a0', '传感器', '3', '萨达', 'upload/201932610594640624.jpg', 'ea8513a7c8fa4d0bf6b49429c2005345', '1', '2019-05-22 15:49:03', '2019-05-23 02:52:22', '法国'), ('ef0604ea72566a20387e25dceae2cb93', '发动机', '1', '萨达', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-22 15:48:31', '2019-05-22 15:48:31', '上海');
 COMMIT;
 
 -- ----------------------------
@@ -225,7 +219,7 @@ CREATE TABLE `route` (
 --  Records of `route`
 -- ----------------------------
 BEGIN;
-INSERT INTO `route` VALUES ('5958d9e890e3e2397cf163c3a753c7eb', '123123', '0', 'a6759d1169147f1c4174bf9267def352'), ('d28bd3795fac4b96c6f06fd4e6a5898d', '三亚-泰姬陵', '11200', '5f42965b32aba35d6257e173b51fabf6');
+INSERT INTO `route` VALUES ('19b984e30fa8bd738af83975945c332d', '三亚港-三亚角 1动2静 3小时', '1200', '5f42965b32aba35d6257e173b51fabf6'), ('b04ba7ebb02972b163a836f3fb82c84e', 'boolean routesSave = routeService.saveBatch(routes);', '12312', '5f42965b32aba35d6257e173b51fabf6');
 COMMIT;
 
 -- ----------------------------
@@ -255,7 +249,7 @@ CREATE TABLE `stock` (
 --  Records of `stock`
 -- ----------------------------
 BEGIN;
-INSERT INTO `stock` VALUES ('a6759d1169147f1c4174bf9267def352', '6'), ('5f42965b32aba35d6257e173b51fabf6', '1');
+INSERT INTO `stock` VALUES ('5f42965b32aba35d6257e173b51fabf6', '6');
 COMMIT;
 
 -- ----------------------------
