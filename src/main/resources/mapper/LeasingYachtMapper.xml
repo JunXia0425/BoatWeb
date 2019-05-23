@@ -13,7 +13,7 @@
                w.wharf     as wharf_name
         from leasing_yacht ly
                  left join yacht y on y.id = ly.yacht_id
-                 left join wharf w on ly.wharf = w.id
+                 left join wharf w on ly.wharf_id = w.id
                  left join stock s on ly.yacht_id = s.id
                  left join user u on y.owner_id = u.id
         where ly.yacht_id = #{id}
@@ -31,7 +31,7 @@
                w.wharf     as wharf_name
         from leasing_yacht ly
                  left join yacht y on y.id = ly.yacht_id
-                 left join wharf w on ly.wharf = w.id
+                 left join wharf w on ly.wharf_id = w.id
                  left join stock s on ly.yacht_id = s.id
                  left join user u on y.owner_id = u.id
     </select>
@@ -48,7 +48,7 @@
                w.wharf     as wharf_name
         from leasing_yacht ly
                  left join yacht y on y.id = ly.yacht_id
-                 left join wharf w on ly.wharf = w.id
+                 left join wharf w on ly.wharf_id = w.id
                  left join stock s on ly.yacht_id = s.id
                  left join user u on y.owner_id = u.id
             ${ew.customSqlSegment}
