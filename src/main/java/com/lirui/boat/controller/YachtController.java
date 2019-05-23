@@ -63,7 +63,7 @@ public class YachtController {
         model.addAttribute("yacht", yacht1);
         model.addAttribute("ownerId",principal.getId());
         model.addAttribute("classifications",classifications);
-        return "/admin/yacht/form";
+        return "/admin/yacht/form2";
     }
 
     /**

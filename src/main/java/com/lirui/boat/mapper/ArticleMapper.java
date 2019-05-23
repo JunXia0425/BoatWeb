@@ -1,14 +1,16 @@
 package com.lirui.boat.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Article;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lirui.boat.entity.vo.ArticleVO;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -39,5 +41,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
    */
   @Select("select a.*,u.nickname ownner from article a join user u on a.editor_id = u.id where menu_id = #{menuId}")
   List<ArticleVO> getArticlesInMenu(IPage<ArticleVO> page, @Param(value = "menuId") String menuId);
+
+
+  List<ArticleVO> getArticles(Page<ArticleVO> page, @Param("ew") Wrapper queryWrapper);
 
 }

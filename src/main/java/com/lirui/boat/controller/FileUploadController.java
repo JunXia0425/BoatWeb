@@ -38,10 +38,22 @@ public class FileUploadController {
         if (!file.isEmpty()) {
             //获取原文件名
             String saveFileName = file.getOriginalFilename();
+//            获取系统路径分隔符
+            String pathSeparator = File.separator;
+            //形成基本路径
+            String basePath
+                    = "src"
+                    + pathSeparator
+                    + "main"
+                    + pathSeparator
+                    + "resources"
+                    + pathSeparator
+                    + "static"
+                    + pathSeparator
+                    + "upload"
+                    + pathSeparator;
             //新建文件对象，用来存储文件
-            //TODO 上传路径应该可以配置，保存的文件名应该有统一规则
-
-            File saveFile = new File("src/main/resources/static/upload/" + saveFileName);
+            File saveFile = new File(basePath + saveFileName);
             log.info("文件路径:=>{}", saveFile.getPath());
             //如果路径不存在创建路径
             if (!saveFile.getParentFile().exists()) {

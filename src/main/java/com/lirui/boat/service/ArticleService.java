@@ -1,8 +1,10 @@
 package com.lirui.boat.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lirui.boat.entity.Article;
+import com.lirui.boat.entity.dto.ArticleDTO;
 import com.lirui.boat.entity.vo.ArticleVO;
 
 /**
@@ -20,4 +22,19 @@ public interface ArticleService extends IService<Article> {
    * @return
    */
   Page<ArticleVO> page(Page<ArticleVO> page);
+
+  /**
+   * 分页某个栏目下查询文章列表
+   * @param page 分页对象
+   * @param menuId 指定栏目id
+   * @return
+   */
+  IPage<ArticleVO> page(IPage<ArticleVO> page, String menuId);
+
+  /**
+   * 分页按照指定参数查询文章列表
+   * @param articleDTO 参数集合
+   * @return
+   */
+  IPage<ArticleVO> page(ArticleDTO articleDTO);
 }

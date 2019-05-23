@@ -3,10 +3,8 @@ package com.lirui.boat.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lirui.boat.entity.Article;
 import com.lirui.boat.entity.Menu;
 import com.lirui.boat.entity.Yacht;
-import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.entity.vo.MenuVO;
 import com.lirui.boat.service.impl.ArticleServiceImpl;
 import com.lirui.boat.service.impl.MenuServiceImpl;
@@ -15,7 +13,10 @@ import com.lirui.boat.service.impl.YachtServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -78,27 +79,7 @@ public class ApiController {
         return ReturnUtil.success("ok", maps, null);
     }
 
-    /**
-     * 分页条件查询符合条件的所有文章，JSON格式返回
-     */
-    @PostMapping("/article/list/{menuId}")
-    public ModelMap listArticle(@RequestBody Page<ArticleVO> articlePage,
-                                @PathVariable("menuId") String id) {
-        IPage<ArticleVO> page = articleService.page(articlePage, id);
-        return ReturnUtil.success("ok", page, null);
-    }
 
-    /**
-     * 根据id查询对应文章并以JSON格式返回
-     *
-     * @param id 文章id
-     * @return JSON对象
-     */
-    @PostMapping("/article/{articleId}")
-    public ModelMap getArticle(@PathVariable("articleId") String id) {
-        Article article = articleService.getById(id);
-        return ReturnUtil.success("ok", article, null);
-    }
 
     /**
      * 根据id查询对应游艇信息并以JSON格式返回
