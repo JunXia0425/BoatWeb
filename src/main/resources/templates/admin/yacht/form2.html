@@ -111,8 +111,15 @@
                                     <div class="form-group">
                                         <label class="col-md-12">年份</label>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control form-control-line" name="year"
-                                                   th:value="${yacht.year}">
+<!--                                            <input type="text" class="form-control form-control-line" name="year"-->
+<!--                                                   th:value="${yacht.year}">-->
+                                            <input type="hidden" v-model="year" name="year">
+                                            <el-date-picker
+                                                    v-model="year"
+                                                    type="year"
+                                                    value-format="yyyy"
+                                                    placeholder="选择年">
+                                            </el-date-picker>
                                         </div>
                                     </div>
                                     <!--                                    售价-->
@@ -319,7 +326,8 @@
             target: '[[@{/upload/img}]]',
             fileList: [],
             pics: [],
-            imgPath: '',
+            year:'[[${yacht.year}]]',
+            imgPath: '[[${yacht.imgPath}]]',
             imgUrl:''
         },
         methods: {
