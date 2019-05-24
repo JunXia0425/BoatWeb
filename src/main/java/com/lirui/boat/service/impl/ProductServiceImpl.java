@@ -16,6 +16,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -70,5 +71,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("region").groupBy("region");
         return productMapper.selectObjs(queryWrapper);
+    }
+
+    @Override
+    public ProductVO getById(Serializable id) {
+        return productMapper.selectById(id);
     }
 }

@@ -87,5 +87,10 @@ public class Product implements Serializable {
     @TableField("region")
     private String region;
 
+    /**
+     * 价格
+     */
+    @TableField("price")
+    private Float price;
 
 }

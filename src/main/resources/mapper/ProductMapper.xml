@@ -4,22 +4,29 @@
 
 
     <select id="getProductsByAdmin" resultType="com.lirui.boat.entity.vo.ProductVO">
-        select product.*, user.nickname as owner
+        select product.*, user.nickname as owner, pt.type as type_name
         from product
                  left join user on product.owner_id = user.id
                  left join product_type pt on product.type_id = pt.id
     </select>
     <select id="getProducts" resultType="com.lirui.boat.entity.vo.ProductVO" parameterType="object">
-        select product.*, user.nickname as owner
+        select product.*, user.nickname as owner, pt.type as type_name
         from product
                  left join user on product.owner_id = user.id
                  left join product_type pt on product.type_id = pt.id ${ew.customSqlSegment}
     </select>
     <select id="getProductsOnCondition" resultType="com.lirui.boat.entity.vo.ProductVO" parameterType="object">
-        select product.*, user.nickname as owner
+        select product.*, user.nickname as owner, pt.type as type_name
         from product
                  left join user on product.owner_id = user.id
                  left join product_type pt on product.type_id = pt.id
             ${ew.customSqlSegment} and product.enable_status = 1
+    </select>
+    <select id="selectById" resultType="com.lirui.boat.entity.vo.ProductVO">
+        select product.*, user.nickname as owner, pt.type as type_name
+        from product
+                 left join user on product.owner_id = user.id
+                 left join product_type pt on product.type_id = pt.id
+        where product.id = #{id}
     </select>
 </mapper>

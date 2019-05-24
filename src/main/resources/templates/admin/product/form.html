@@ -100,20 +100,26 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    <label class="col-md-12">价格</label>
+                    <div class="col-md-12">
+                      <input type="text" class="form-control form-control-line" name="price"
+                             th:value="${product.price}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-12">产地</label>
+                    <div class="col-md-12">
+                      <input type="text" class="form-control form-control-line" name="region"
+                             th:value="${product.region}">
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <label class="col-md-12">商品描述</label>
                     <div class="col-md-12">
                       <input type="hidden" class="form-control form-control-line"
                              name="description"
                              th:value="${product.description}" id="desc">
                       <a class="btn btn-custom" onclick="openlayer()">点击填写</a>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="col-md-12">产地</label>
-                    <div class="col-md-12">
-                      <input type="text" class="form-control form-control-line" name="region"
-                             th:value="${product.region}">
                     </div>
                   </div>
                   <div class="form-group">

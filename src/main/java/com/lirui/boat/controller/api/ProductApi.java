@@ -46,9 +46,18 @@ public class ProductApi {
      * 分页条件查询符合条件的所有游艇，JSON格式返回
      */
     @PostMapping("/list/condition")
-    public ModelMap listYacht(@RequestBody ProductDTO data) {
+    public ModelMap listProduct(@RequestBody ProductDTO data) {
 
         Page<ProductVO> page = productService.page(data.getProductPage(),data.getQuery());
         return ReturnUtil.success("ok", page, null);
+    }
+
+    /**
+     * 获取指定产品
+     */
+    @PostMapping("getProduct")
+    public ModelMap getProduct(@RequestBody ProductVO productVO){
+        productVO = productService.getById(productVO);
+        return ReturnUtil.success("ok",productVO);
     }
 }

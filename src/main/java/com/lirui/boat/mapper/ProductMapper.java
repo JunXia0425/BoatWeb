@@ -7,6 +7,7 @@ import com.lirui.boat.entity.Product;
 import com.lirui.boat.entity.vo.ProductVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,6 +25,9 @@ public interface ProductMapper extends BaseMapper<Product> {
      * @return
      */
     List<ProductVO> getProductsByAdmin(Page<ProductVO> page);
+
+    @Override
+    ProductVO selectById(Serializable id);
 
     List<ProductVO> getProducts(Page<ProductVO> page, @Param("ew") QueryWrapper queryWrapper);
 

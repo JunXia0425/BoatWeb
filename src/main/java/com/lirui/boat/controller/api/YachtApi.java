@@ -1,6 +1,7 @@
 package com.lirui.boat.controller.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lirui.boat.entity.Yacht;
 import com.lirui.boat.entity.dto.YachtDTO;
 import com.lirui.boat.entity.vo.YachtVO;
 import com.lirui.boat.service.impl.YachtServiceImpl;
@@ -47,5 +48,17 @@ public class YachtApi {
 
         Page<YachtVO> page = yachtService.page(data.getYachtPage(),data.getQuery());
         return ReturnUtil.success("ok", page, null);
+    }
+
+
+    /**
+     * 根据id查询对应游艇信息并以JSON格式返回
+     * @param yacht
+     * @return
+     */
+    @PostMapping("/yacht/getYacht")
+    public ModelMap getYacht(@RequestBody Yacht yacht){
+        yacht = yachtService.getById(yacht.getId());
+        return ReturnUtil.success("ok",yacht);
     }
 }
