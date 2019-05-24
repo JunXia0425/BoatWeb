@@ -3,11 +3,36 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head th:replace="/admin/head"></head>
-
-<style th:href="@{/assets/plugins/bootstrap/css/fileinput.min.css}"></style>
+<link th:href="@{/assets/plugins/vue-tree/css/index.css}" rel="stylesheet">
 <style>
   .bootstrap-table .btn-group label {
     color: black !important;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 240px;
+    height: 135px;
+    line-height: 135px;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 240px;
+    height: 135px;
+    display: block;
   }
 </style>
 <body class="fix-header card-no-border">
@@ -48,7 +73,7 @@
         <div class="col-6 offset-3">
           <div class="card">
             <div class="card-block">
-              <div class="card-block">
+              <div class="card-block" id="app">
                 <form class="form-horizontal form-material" th:action="@{/product/save}"
                       method="post">
                   <input type="hidden" name="id" th:value="${product.id}"/>
@@ -77,8 +102,10 @@
                   <div class="form-group">
                     <label class="col-md-12">商品描述</label>
                     <div class="col-md-12">
-                      <input type="text" class="form-control form-control-line" name="description"
-                             th:value="${product.description}">
+                      <input type="hidden" class="form-control form-control-line"
+                             name="description"
+                             th:value="${product.description}" id="desc">
+                      <a class="btn btn-custom" onclick="openlayer()">点击填写</a>
                     </div>
                   </div>
 
@@ -92,11 +119,19 @@
                   <div class="form-group">
                     <label class="col-sm-12">商品图片</label>
                     <div class="col-sm-12">
-                      <input id="input-id" name="img" multiple="multiple" type="file"
-                             data-show-caption="true"/>
+                      <input type="hidden" v-model="imgUrl" name="imgUrl">
+                      <el-upload
+                              class="avatar-uploader"
+                              :action="target"
+                              name="img"
+                              :show-file-list="false"
+                              :on-success="handleAvatarSuccess"
+                              :before-upload="beforeAvatarUpload">
+                        <img v-if="imgPath" :src="imgPath" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                      </el-upload>
                     </div>
                   </div>
-                  <input type="hidden" id="path" name="imgUrl" th:value="${product.imgUrl}"/>
                   <div class="form-group">
                     <label class="col-md-12">状态</label>
                     <div class="col-md-12">
@@ -141,49 +176,130 @@
   <!-- End Page wrapper  -->
 
 </div>
-
+<div id="editor" style="display: none"></div>
 <!-- End Wrapper -->
 <!--scripts-->
 <div class="scripts" th:replace="/admin/footer"></div>
-<script th:src="@{/assets/plugins/bootstrap/js/fileinput.min.js}"></script>
-<script th:src="@{/assets/plugins/bootstrap/js/zh.js}"></script>
+<script th:src="@{/assets/plugins/wangEditor/wangEditor.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/vue.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/index.js}"></script>
+<script th:src="@{/assets/plugins/vue-tree/axios.min.js}"></script>
 <script>
-  $(function () {
-    initFileInput("input-id");
-  });
-
-  function initFileInput(ctrlName) {
-    var control = $('#' + ctrlName);
-    control.fileinput({
-      language: 'zh', //设置语言
-      uploadUrl: "[[@{/upload/img}]]", //上传的地址
-      allowedFileExtensions: ['jpg', 'gif', 'png', 'jpeg'],//接收的文件后缀
-      uploadAsync: true, //默认异步上传
-      showUpload: true, //是否显示上传按钮
-      showRemove: true, //显示移除按钮
-      showPreview: true, //是否显示预览
-      showCaption: true,//是否显示标题
-      dropZoneEnabled: false,
-      browseClass: "btn btn-primary", //按钮样式
-      maxFileCount: 1, //允许同时上传的最大文件个数
-      enctype: 'multipart/form-data',
-      validateInitialCount: true,
-      msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-
-    }).on('filepreupload', function (event, data, previewId, index) {     //上传中
-      console.log('文件正在上传');
-    }).on("fileuploaded", function (event, data, previewId, index) {    //一个文件上传成功
-      var form = data.form, files = data.files, extra = data.extra,
-          response = data.response, reader = data.reader;
-      console.log(response);//打印出返回的json
-      var path = response.result.path;
-      console.log(path);
-      $('#path').val(path);
-      $('#input-id').removeAttr('name');//移除上传组件name，防止提交
-    }).on('fileerror', function (event, data, msg) {  //一个文件上传失败
-      console.log('文件上传失败！' + data.status);
+  function openlayer() {
+    layer.open({
+      title: '游艇描述',
+      type: 1,
+      content: $('#editor'),
+      area: ['655px', '400px'],
+      //窗口关闭时，内容填写到表单中
+      cancel: function () {
+        var content = editor.txt.html();
+        $('#desc').val(content)
+      }
     })
   }
+
+  var E = window.wangEditor;
+  var editor = new E('#editor');
+  editor.customConfig.menus = [
+    'head',  // 标题
+    'bold',  // 粗体
+    'fontSize',  // 字号
+    'fontName',  // 字体
+    'italic',  // 斜体
+    'underline',  // 下划线
+    'strikeThrough',  // 删除线
+    'foreColor',  // 文字颜色
+    'backColor',  // 背景颜色
+    'link',  // 插入链接
+    'list',  // 列表
+    'justify',  // 对齐方式
+    'quote',  // 引用
+    'emoticon',  // 表情
+    'table',  // 表格
+    'image',
+    'undo',  // 撤销
+    'redo'  // 重复
+  ];
+  editor.customConfig.uploadImgServer = '[[@{/upload/img}]]'
+  editor.customConfig.uploadFileName = 'img'
+  editor.customConfig.uploadImgHooks = {
+    customInsert: function (insertImg, result, editor) {
+      // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+      // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+      // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+      //插入完整路径，方便vue端访问图片
+      var url = 'http://localhost:8082/manage/' + result.result.path
+      console.log(result);
+      insertImg(url)
+
+      // result 必须是一个 JSON 格式字符串！！！否则报错
+    }
+  }
+  editor.create();
+  var content = htmlRestore('[[${product.description}]]')
+  console.log(content);
+  editor.txt.html(content)
+
+  /**
+   *  转义字符还原成html字符
+   * @param str
+   * @returns {string}
+   * @constructor
+   */
+  function htmlRestore(str) {
+    var s = "";
+    if (str.length === 0) {
+      return "";
+    }
+    s = str.replace(/&amp;/g, "&");
+    s = s.replace(/&lt;/g, "<");
+    s = s.replace(/&gt;/g, ">");
+    s = s.replace(/&nbsp;/g, " ");
+    s = s.replace(/&#39;/g, "\'");
+    s = s.replace(/&quot;/g, "\"");
+    return s;
+  }
+</script>
+<script>
+  var vm1 = new Vue({
+    el: '#app',
+    data: {
+      yachtId: '[[${product.id}]]',
+      target: '[[@{/upload/img}]]',
+      fileList: [],
+      pics: [],
+      imgUrl: '[[${product.imgUrl}]]',
+      imgPath:''
+    },
+    methods: {
+      handleRemove(file, fileList) {
+        console.log(file);
+        let path = file.response.result.path
+        let index = this.pics.indexOf(path)
+        if (index > -1) {
+          this.pics.splice(index, 1)
+        }
+      },
+      handlePreview(res) {
+        console.log(res.result.path);
+        this.pics.push(res.result.path)
+      },
+      handleAvatarSuccess(res, file) {
+        this.imgPath = URL.createObjectURL(file.raw);
+        this.imgUrl = res.result.path
+      },
+      beforeAvatarUpload(file) {
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          this.$message.error('上传封面图片大小不能超过 2MB!');
+        }
+        return isLt2M;
+      }
+    }
+  })
+
   $('form').submit(function () {
     $(this).ajaxSubmit({
       success:function(data){

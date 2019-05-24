@@ -55,6 +55,7 @@ public class ProductsMapperTest {
    * 级联删除测试
    */
   @Test
+  @Ignore
   public void delUserCascade(){
     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
     queryWrapper.eq("account","123");
