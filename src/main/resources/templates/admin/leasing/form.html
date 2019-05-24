@@ -58,7 +58,7 @@
                                                      label="库存数量"></el-input-number>
                                 </el-form-item>
                                 <el-form-item label="停靠码头">
-                                    <el-select v-model="form.leasingYacht.wharf" placeholder="请选择停靠码头">
+                                    <el-select v-model="form.leasingYacht.wharfId" placeholder="请选择停靠码头">
                                         <el-option v-for="item in wharf" :label="item.wharf" :value="item.id"
                                                    :key="item.id"></el-option>
                                     </el-select>
@@ -176,7 +176,7 @@
                 leasingYacht: {
                     yachtId: '[[${yacht.id}]]',
                     maxpeople: 0,
-                    wharf: '',
+                    wharfId: '',
                     bedroom: 0,
                     standardSeaman: '',
                     standardSubject: '',

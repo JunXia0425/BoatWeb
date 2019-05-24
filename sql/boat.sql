@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : utf-8
 
- Date: 05/23/2019 16:08:12 PM
+ Date: 05/24/2019 12:59:36 PM
 */
 
 SET NAMES utf8mb4;
@@ -128,7 +128,7 @@ CREATE TABLE `leasing_yacht` (
 --  Records of `leasing_yacht`
 -- ----------------------------
 BEGIN;
-INSERT INTO `leasing_yacht` VALUES ('5f42965b32aba35d6257e173b51fabf6', '5', '0fabbf96e13ac0143956f314c8b7fc59', '4', '企鹅我打车', '阿萨', '强大的是', '已购', '1');
+INSERT INTO `leasing_yacht` VALUES ('5f42965b32aba35d6257e173b51fabf6', '5', '0fabbf96e13ac0143956f314c8b7fc59', '4', '企鹅我打车', '阿萨', '强大的是', '已购', '1'), ('d30ed7c5aad8446107c908922ca0b02a', '2', null, '2', '萨达', '说的是', '请问请问', '请问', '1');
 COMMIT;
 
 -- ----------------------------
@@ -184,6 +184,16 @@ INSERT INTO `product` VALUES ('50faa59455ce7b08cca4af2566d980a0', '传感器', '
 COMMIT;
 
 -- ----------------------------
+--  Table structure for `product_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `product_type`;
+CREATE TABLE `product_type` (
+  `id` varchar(32) NOT NULL,
+  `type` varchar(255) NOT NULL COMMENT '商品类别',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
 --  Table structure for `purpose`
 -- ----------------------------
 DROP TABLE IF EXISTS `purpose`;
@@ -219,7 +229,7 @@ CREATE TABLE `route` (
 --  Records of `route`
 -- ----------------------------
 BEGIN;
-INSERT INTO `route` VALUES ('19b984e30fa8bd738af83975945c332d', '三亚港-三亚角 1动2静 3小时', '1200', '5f42965b32aba35d6257e173b51fabf6'), ('b04ba7ebb02972b163a836f3fb82c84e', 'boolean routesSave = routeService.saveBatch(routes);', '12312', '5f42965b32aba35d6257e173b51fabf6');
+INSERT INTO `route` VALUES ('19b984e30fa8bd738af83975945c332d', '三亚港-三亚角 1动2静 3小时', '1200', '5f42965b32aba35d6257e173b51fabf6'), ('7c973d9182e898fe887a6755899e3337', '啊打死', '0', 'd30ed7c5aad8446107c908922ca0b02a'), ('b04ba7ebb02972b163a836f3fb82c84e', 'boolean routesSave = routeService.saveBatch(routes);', '12312', '5f42965b32aba35d6257e173b51fabf6');
 COMMIT;
 
 -- ----------------------------
@@ -227,12 +237,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `slider_img`;
 CREATE TABLE `slider_img` (
-  `id` varchar(32) DEFAULT NULL,
+  `id` varchar(32) NOT NULL,
   `path` varchar(255) DEFAULT NULL COMMENT '轮播图路径',
   `num` int(2) DEFAULT '0' COMMENT '图片次序，默认0',
+  `yacht_id` varchar(32) NOT NULL COMMENT '游艇id，外键',
+  PRIMARY KEY (`id`),
   KEY `id` (`id`),
-  CONSTRAINT `slider_img_ibfk_1` FOREIGN KEY (`id`) REFERENCES `leasing_yacht` (`yacht_id`) ON DELETE CASCADE
+  KEY `yacht_id` (`yacht_id`),
+  CONSTRAINT `slider_img_ibfk_1` FOREIGN KEY (`yacht_id`) REFERENCES `yacht` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='轮播图片表';
+
+-- ----------------------------
+--  Records of `slider_img`
+-- ----------------------------
+BEGIN;
+INSERT INTO `slider_img` VALUES ('523b7304cd1b11947578c5b0daf40568', 'upload/2019326106480599.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('740d0f2c532c967c9513498ae9364ab0', 'upload/2018918957730346.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('7ac84fd03b2d606f0a489512ac00d434', 'upload/2013115159364265.jpg', '0', '5f42965b32aba35d6257e173b51fabf6'), ('a537e114124772aa060806aec6267778', 'upload/2018918957730346.jpg', '0', 'd30ed7c5aad8446107c908922ca0b02a'), ('ae8a2f4c2978d52e71c7f8e0951c9fb1', 'upload/2017824125423519.jpg', '0', '5f42965b32aba35d6257e173b51fabf6'), ('cd73a86d9f4db37ed9dc0f5e3d3732bd', 'upload/2017824125423519.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('ffc7057d90f82b3b27f62579057afc8a', 'upload/2017127109645061.jpg', '0', 'd30ed7c5aad8446107c908922ca0b02a');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `stock`
@@ -249,7 +269,7 @@ CREATE TABLE `stock` (
 --  Records of `stock`
 -- ----------------------------
 BEGIN;
-INSERT INTO `stock` VALUES ('5f42965b32aba35d6257e173b51fabf6', '6');
+INSERT INTO `stock` VALUES ('5f42965b32aba35d6257e173b51fabf6', '6'), ('d30ed7c5aad8446107c908922ca0b02a', '1');
 COMMIT;
 
 -- ----------------------------
@@ -323,7 +343,7 @@ CREATE TABLE `yacht` (
 --  Records of `yacht`
 -- ----------------------------
 BEGIN;
-INSERT INTO `yacht` VALUES ('5f42965b32aba35d6257e173b51fabf6', 'Sky 001', 'upload/2015420172766542.jpg', '26', null, '法国', '2019', '66', '<p>豪华</p>', 'ea8513a7c8fa4d0bf6b49429c2005345', '1', '2019-05-20 00:06:29', '2019-05-20 00:07:42', '300ae21de8b6c6e55448b608d352fd46'), ('a6759d1169147f1c4174bf9267def352', 'Hanse 316', 'upload/2018917127073778.jpg', '8.12', null, '美国', '2018', '12.23', '<p>很好</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:21', '2019-05-18 02:02:21', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('a6759d1169147f1c4174bf9267def353', 'Hanse 316', 'upload/2018917127073778.jpg', '8.12', null, '美国', '2018', '12.23', '<p>很好</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:21', '2019-05-18 02:02:21', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('c58bcf7738c54280ab57e1ca0592ea11', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 02:06:00', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea12', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '英国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:14', '2019-05-18 16:47:49', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea13', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:14', '2019-05-18 02:06:14', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea14', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '法国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 16:47:52', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea15', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 02:06:00', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea1f', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '中国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 16:47:58', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea20', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '中国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 16:48:01', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea21', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 02:04:09', '7bd516cdd705e9a87b15726bb0489a65'), ('d3764c9d1582b50b7e85e064340afbf3', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '美国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '2', '2019-05-16 13:42:21', '2019-05-19 17:18:01', 'a122a0b8e290598d926a0f42570a8512'), ('d3764c9d1582b50b7e85e064340afbf4', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '法国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-16 13:42:21', '2019-05-18 16:48:05', 'a122a0b8e290598d926a0f42570a8512'), ('d3764c9d1582b50b7e85e064340afbfd', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '美国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-16 13:42:21', '2019-05-16 13:42:21', 'a122a0b8e290598d926a0f42570a8512'), ('e4922209fbbdbf24db52459ac1b792b2', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '美国', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 02:02:52', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('e4922209fbbdbf24db52459ac1b792b3', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '美国', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 02:02:52', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('e4922209fbbdbf24db52459ac1b792b4', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '日本', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 16:48:09', '65dab9cf9f0a61a6d9671f7cec6f3e1b');
+INSERT INTO `yacht` VALUES ('3c86c85f0d89ecd3bf5e1695c086b9ad', '123', 'upload/20178241625739256.jpg', '123', null, '123', '123', '123', '<p>豪华大气</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-24 10:47:37', '2019-05-24 10:47:37', '300ae21de8b6c6e55448b608d352fd46'), ('5f42965b32aba35d6257e173b51fabf6', 'Sky 001', 'upload/2017127109645061.jpg', '26', null, '法国', '2019', '66', '<p>豪华</p>', 'ea8513a7c8fa4d0bf6b49429c2005345', '1', '2019-05-20 00:06:29', '2019-05-24 03:17:31', '08f90a13fc27aada9b678cde84a4c058'), ('a6759d1169147f1c4174bf9267def352', 'Hanse 316', 'upload/2018917127073778.jpg', '8.12', null, '美国', '2018', '12.23', '<p>很好</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:21', '2019-05-18 02:02:21', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('a6759d1169147f1c4174bf9267def353', 'Hanse 316', 'upload/2018917127073778.jpg', '8.12', null, '美国', '2018', '12.23', '<p>很好</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:21', '2019-05-18 02:02:21', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('c58bcf7738c54280ab57e1ca0592ea11', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 02:06:00', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea12', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '英国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:14', '2019-05-18 16:47:49', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea13', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:14', '2019-05-18 02:06:14', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea14', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '法国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 16:47:52', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea15', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:06:00', '2019-05-18 02:06:00', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea1f', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '中国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 16:47:58', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea20', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '中国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 16:48:01', '7bd516cdd705e9a87b15726bb0489a65'), ('c58bcf7738c54280ab57e1ca0592ea21', 'asdas21', 'upload/2015431743529268.jpg', '23', null, '美国', '2018', '23.74', '<p>哈哈哈哈</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:04:09', '2019-05-18 02:04:09', '7bd516cdd705e9a87b15726bb0489a65'), ('d30ed7c5aad8446107c908922ca0b02a', 'Hanse 700', 'upload/20178241241025587.jpg', '20', null, '日本', '2015', '66', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-24 10:54:14', '2019-05-24 10:54:14', '08f90a13fc27aada9b678cde84a4c058'), ('d3764c9d1582b50b7e85e064340afbf3', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '美国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '2', '2019-05-16 13:42:21', '2019-05-19 17:18:01', 'a122a0b8e290598d926a0f42570a8512'), ('d3764c9d1582b50b7e85e064340afbf4', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '法国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-16 13:42:21', '2019-05-18 16:48:05', 'a122a0b8e290598d926a0f42570a8512'), ('d3764c9d1582b50b7e85e064340afbfd', 'Hanse 315', 'upload/2017824125423519.jpg', '8.12', null, '美国', '2018', '23.74', '<p>奢华型，hanse315</p><p><span style=\"color: rgb(194, 79, 74);\">bang bang bang</span></p><p><img src=\"http://localhost:8082/manage/upload/2017824125423519.jpg\" style=\"max-width:100%;\"><span style=\"color: rgb(194, 79, 74);\"><br></span></p><p style=\"text-align: right;\">联系1888888888</p>', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-16 13:42:21', '2019-05-16 13:42:21', 'a122a0b8e290598d926a0f42570a8512'), ('e4922209fbbdbf24db52459ac1b792b2', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '美国', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 02:02:52', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('e4922209fbbdbf24db52459ac1b792b3', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '美国', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 02:02:52', '65dab9cf9f0a61a6d9671f7cec6f3e1b'), ('e4922209fbbdbf24db52459ac1b792b4', 'Hanse 315', 'upload/2017824133297253.jpg', '23', null, '日本', '2015', '12.33', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-18 02:02:52', '2019-05-18 16:48:09', '65dab9cf9f0a61a6d9671f7cec6f3e1b');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
