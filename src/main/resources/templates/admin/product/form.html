@@ -67,10 +67,11 @@
                   <div class="form-group">
                     <label class="col-md-12">商品类型</label>
                     <div class="col-md-12">
-                      <input type="radio" name="type" class="radio-inline"
-                             th:each="status:${T(com.lirui.boat.enums.ProductType).values()}"
-                             th:value="${status.type}" th:text="${status.desc}"
-                             th:checked="${status.type eq product.type}">
+                      <select class="form-control form-control-line" name=typeId required>
+                        <option th:each="type:${types}"
+                                th:value="${type.id}" th:text="${type.type}"
+                                th:selected="${product.typeId eq type.id}"></option>
+                      </select>
                     </div>
                   </div>
                   <div class="form-group">

@@ -14,4 +14,5 @@ import lombok.Data;
 @Data
 public class ProductVO extends Product {
   private String owner;
+  private String typeName;
 }

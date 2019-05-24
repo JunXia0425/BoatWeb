@@ -40,10 +40,10 @@ public class Product implements Serializable {
     private String productName;
 
     /**
-     * 商品类别，1：发电机，2：蓄电池，3：传感器
+     * 商品类别
      */
-    @TableField("type")
-    private Integer type;
+    @TableField("type_id")
+    private String typeId;
 
     /**
      * 商品描述

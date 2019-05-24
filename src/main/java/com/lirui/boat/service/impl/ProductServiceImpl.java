@@ -47,7 +47,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     public Page<ProductVO> page(Page<ProductVO> page, ProductQuery query) {
         Range price = query.getPrice();
         String region = query.getRegion();
-        Integer type = query.getType();
+        String type = query.getType();
         QueryWrapper<ProductVO> queryWrapper = new QueryWrapper<>();
         if (region != null) {
             queryWrapper.eq("region", region);
@@ -59,7 +59,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
             queryWrapper.ge("price", price.getMin());
         }
         if (type !=null){
-            queryWrapper.eq("type",type);
+            queryWrapper.eq("type_id",type);
         }
         return page.setRecords(productMapper.getProductsOnCondition(page, queryWrapper));
     }

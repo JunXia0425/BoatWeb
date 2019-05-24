@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : utf-8
 
- Date: 05/24/2019 12:59:36 PM
+ Date: 05/24/2019 17:45:53 PM
 */
 
 SET NAMES utf8mb4;
@@ -163,7 +163,7 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` varchar(32) NOT NULL COMMENT '商品id',
   `product_name` varchar(20) NOT NULL COMMENT '商品名称',
-  `type` int(11) NOT NULL COMMENT '商品类别，1：发电机，2：蓄电池，3：传感器',
+  `type_id` varchar(32) NOT NULL COMMENT '商品类别，外键',
   `description` varchar(50) DEFAULT NULL COMMENT '商品描述',
   `img_url` varchar(1024) DEFAULT NULL COMMENT '商品图片的路径',
   `owner_id` varchar(32) NOT NULL COMMENT '商品所有者id,关联user.id',
@@ -173,14 +173,19 @@ CREATE TABLE `product` (
   `region` varchar(255) DEFAULT NULL COMMENT '产地',
   PRIMARY KEY (`id`),
   KEY `ownner_id` (`owner_id`),
-  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `USER` (`id`) ON DELETE CASCADE
+  KEY `type` (`type_id`),
+  KEY `type_2` (`type_id`),
+  KEY `type_3` (`type_id`),
+  KEY `type_4` (`type_id`),
+  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `USER` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `product_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `product_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='商品信息表';
 
 -- ----------------------------
 --  Records of `product`
 -- ----------------------------
 BEGIN;
-INSERT INTO `product` VALUES ('50faa59455ce7b08cca4af2566d980a0', '传感器', '3', '萨达', 'upload/201932610594640624.jpg', 'ea8513a7c8fa4d0bf6b49429c2005345', '1', '2019-05-22 15:49:03', '2019-05-23 02:52:22', '法国'), ('ef0604ea72566a20387e25dceae2cb93', '发动机', '1', '萨达', '', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-22 15:48:31', '2019-05-22 15:48:31', '上海');
+INSERT INTO `product` VALUES ('42f9924517974157e9606bd8203109da', '蓄电池', '1d1122cf61ba840b4cfb9a56a6595563', '强力发电', 'upload/2017127109645061.jpg', 'dcce7b55d3c5a0de62503a888d833f95', '1', '2019-05-24 16:03:04', '2019-05-24 16:42:48', '中国');
 COMMIT;
 
 -- ----------------------------
@@ -189,9 +194,16 @@ COMMIT;
 DROP TABLE IF EXISTS `product_type`;
 CREATE TABLE `product_type` (
   `id` varchar(32) NOT NULL,
-  `type` varchar(255) NOT NULL COMMENT '商品类别',
+  `type` varchar(255) DEFAULT NULL COMMENT '商品类别',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+--  Records of `product_type`
+-- ----------------------------
+BEGIN;
+INSERT INTO `product_type` VALUES ('1d1122cf61ba840b4cfb9a56a6595563', '蓄电池'), ('3081246e90f9c1abd1e60184648d9c51', '潜水服'), ('3c02bbe2fe379ae31daaca0d965de9ad', '救生圈'), ('5ecfcd5fd7cfaa4a8aaa2fde27c3f8f8', '淡水净化器');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `purpose`
@@ -251,7 +263,7 @@ CREATE TABLE `slider_img` (
 --  Records of `slider_img`
 -- ----------------------------
 BEGIN;
-INSERT INTO `slider_img` VALUES ('523b7304cd1b11947578c5b0daf40568', 'upload/2019326106480599.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('740d0f2c532c967c9513498ae9364ab0', 'upload/2018918957730346.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('7ac84fd03b2d606f0a489512ac00d434', 'upload/2013115159364265.jpg', '0', '5f42965b32aba35d6257e173b51fabf6'), ('a537e114124772aa060806aec6267778', 'upload/2018918957730346.jpg', '0', 'd30ed7c5aad8446107c908922ca0b02a'), ('ae8a2f4c2978d52e71c7f8e0951c9fb1', 'upload/2017824125423519.jpg', '0', '5f42965b32aba35d6257e173b51fabf6'), ('cd73a86d9f4db37ed9dc0f5e3d3732bd', 'upload/2017824125423519.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('ffc7057d90f82b3b27f62579057afc8a', 'upload/2017127109645061.jpg', '0', 'd30ed7c5aad8446107c908922ca0b02a');
+INSERT INTO `slider_img` VALUES ('068a3d44c551b6a9d994d1b8d175ca12', 'upload/2017127109645061.jpg', '0', 'c58bcf7738c54280ab57e1ca0592ea11'), ('523b7304cd1b11947578c5b0daf40568', 'upload/2019326106480599.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('6cf180e3ab19209601b56c11925bce46', 'upload/2018917127073778.jpg', '0', 'c58bcf7738c54280ab57e1ca0592ea11'), ('740d0f2c532c967c9513498ae9364ab0', 'upload/2018918957730346.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('7ac84fd03b2d606f0a489512ac00d434', 'upload/2013115159364265.jpg', '0', '5f42965b32aba35d6257e173b51fabf6'), ('a537e114124772aa060806aec6267778', 'upload/2018918957730346.jpg', '0', 'd30ed7c5aad8446107c908922ca0b02a'), ('ae8a2f4c2978d52e71c7f8e0951c9fb1', 'upload/2017824125423519.jpg', '0', '5f42965b32aba35d6257e173b51fabf6'), ('cd73a86d9f4db37ed9dc0f5e3d3732bd', 'upload/2017824125423519.jpg', '0', 'a6759d1169147f1c4174bf9267def352'), ('ffc7057d90f82b3b27f62579057afc8a', 'upload/2017127109645061.jpg', '0', 'd30ed7c5aad8446107c908922ca0b02a');
 COMMIT;
 
 -- ----------------------------

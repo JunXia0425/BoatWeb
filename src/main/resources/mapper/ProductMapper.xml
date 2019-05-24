@@ -7,16 +7,19 @@
         select product.*, user.nickname as owner
         from product
                  left join user on product.owner_id = user.id
+                 left join product_type pt on product.type_id = pt.id
     </select>
     <select id="getProducts" resultType="com.lirui.boat.entity.vo.ProductVO" parameterType="object">
         select product.*, user.nickname as owner
         from product
-                 left join user on product.owner_id = user.id ${ew.customSqlSegment}
+                 left join user on product.owner_id = user.id
+                 left join product_type pt on product.type_id = pt.id ${ew.customSqlSegment}
     </select>
     <select id="getProductsOnCondition" resultType="com.lirui.boat.entity.vo.ProductVO" parameterType="object">
         select product.*, user.nickname as owner
         from product
                  left join user on product.owner_id = user.id
+                 left join product_type pt on product.type_id = pt.id
             ${ew.customSqlSegment} and product.enable_status = 1
     </select>
 </mapper>

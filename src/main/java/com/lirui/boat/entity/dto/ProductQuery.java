@@ -13,6 +13,6 @@ import lombok.Data;
 @Data
 public class ProductQuery {
     private Range price;
-    private Integer type;
+    private String type;
     private String region;
 }

@@ -43,7 +43,7 @@ public class ProductsMapperTest {
     product.setDescription("描述");
     product.setEnableStatus(1);
     product.setProductName("shangping1");
-    product.setType(1);
+    product.setTypeId("");
     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
     queryWrapper.eq("nickname","zhangsan");
     product.setOwnerId(userMapper.selectOne(queryWrapper).getId());

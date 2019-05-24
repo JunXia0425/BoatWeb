@@ -3,8 +3,10 @@ package com.lirui.boat.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.lirui.boat.entity.Product;
+import com.lirui.boat.entity.ProductType;
 import com.lirui.boat.entity.User;
 import com.lirui.boat.service.impl.ProductServiceImpl;
+import com.lirui.boat.service.impl.ProductTypeServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -28,9 +32,11 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     @Autowired
     private ProductServiceImpl productService;
+    @Autowired
+    private ProductTypeServiceImpl typeService;
 
     @GetMapping("list")
-    public String toList(){
+    public String toList() {
         return "/admin/product/list";
     }
 
@@ -46,8 +52,10 @@ public class ProductController {
             product1 = productService.getById(product.getId());
         }
         User principal = (User) SecurityUtils.getSubject().getPrincipal();
+        List<ProductType> list = typeService.list();
         model.addAttribute("product", product1);
-        model.addAttribute("ownerId",principal.getId());
+        model.addAttribute("types", list);
+        model.addAttribute("ownerId", principal.getId());
         return "/admin/product/form";
     }
 
