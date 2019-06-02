@@ -4,6 +4,9 @@
 
 
     <select id="getArticles" resultType="com.lirui.boat.entity.vo.ArticleVO">
-        select a.*,u.nickname ownner from article a join user u on a.editor_id = u.id ${ew.customSqlSegment}
+        select a.*,u.nickname editor from article a join user u on a.editor_id = u.id ${ew.customSqlSegment}
+    </select>
+    <select id="getArticlesInMenu" resultType="com.lirui.boat.entity.vo.ArticleVO">
+        select a.*,u.nickname editor from article a join user u on a.editor_id = u.id ${ew.customSqlSegment}
     </select>
 </mapper>

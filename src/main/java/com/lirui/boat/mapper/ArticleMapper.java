@@ -1,6 +1,6 @@
 package com.lirui.boat.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,20 +29,19 @@ public interface ArticleMapper extends BaseMapper<Article> {
    * @param page 分页对象
    * @return 带有编辑者昵称的文章列表
    */
-  @Select("select a.*,u.nickname ownner from article a join user u on a.editor_id = u.id")
+  @Select("select a.*,u.nickname editor from article a join user u on a.editor_id = u.id")
   List<ArticleVO> getArticles(Page<ArticleVO> page);
 
   /**
    * 根据所属栏目连表查询文章信息表和用户信息表中的用户昵称
    *
    * @param page 分页对象
-   * @param menuId 栏目id
+   * @param wrapper 查询条件
    * @return 带有编辑者昵称的指定栏目文章列表
    */
-  @Select("select a.*,u.nickname ownner from article a join user u on a.editor_id = u.id where menu_id = #{menuId}")
-  List<ArticleVO> getArticlesInMenu(IPage<ArticleVO> page, @Param(value = "menuId") String menuId);
+  List<ArticleVO> getArticlesInMenu(IPage<ArticleVO> page, @Param(value = "ew") QueryWrapper wrapper);
 
 
-  List<ArticleVO> getArticles(Page<ArticleVO> page, @Param("ew") Wrapper queryWrapper);
+  List<ArticleVO> getArticles(Page<ArticleVO> page, @Param("ew") QueryWrapper queryWrapper);
 
 }

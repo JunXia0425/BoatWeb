@@ -5,10 +5,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lirui.boat.entity.Article;
+import com.lirui.boat.entity.User;
 import com.lirui.boat.entity.dto.ArticleDTO;
 import com.lirui.boat.entity.vo.ArticleVO;
+import com.lirui.boat.enums.Role;
 import com.lirui.boat.mapper.ArticleMapper;
 import com.lirui.boat.service.ArticleService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +36,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
   @Override
   public IPage<ArticleVO> page(IPage<ArticleVO> page, String menuId) {
-    return page.setRecords(articleMapper.getArticlesInMenu(page,menuId));
+    Subject subject = SecurityUtils.getSubject();
+    User curUser = (User) subject.getPrincipal();
+    if (curUser.getUserType().equals(Role.USER.getUserType())) {
+      QueryWrapper<ArticleVO> queryWrapper = new QueryWrapper<>();
+      queryWrapper.eq("editor_id",curUser.getId());
+      queryWrapper.eq("menu_id",menuId);
+      return page.setRecords(articleMapper.getArticlesInMenu(page,queryWrapper));
+    }
+    QueryWrapper<ArticleVO> wrapper = new QueryWrapper<>();
+    wrapper.eq("menu_id",menuId);
+    return page.setRecords(articleMapper.getArticlesInMenu(page,wrapper));
   }
 
   @Override
