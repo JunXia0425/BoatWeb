@@ -50,4 +50,19 @@ public class AdvanceOrderServiceImpl extends ServiceImpl<AdvanceOrderMapper, Adv
         return update && save;
 
     }
+
+    @Override
+    public boolean save(AdvanceOrder entity) {
+        //从订单中获取游艇id，根据id找对应库存
+        Stock stock = stockService.getById(entity.getYachtId());
+        Integer count = stock.getCount();
+        if (count == 0) {
+            throw new RuntimeException("暂无库存，稍后再试");
+        }
+        //库存减1
+        stock.setCount(--count);
+        //更新减1之后的库存
+        boolean update = stockService.updateById(stock);
+        return super.save(entity)&&update;
+    }
 }
