@@ -139,7 +139,7 @@
       success:function(data){
         layer.msg(data.msg,{time:1500},function () {
           var url = '/manage/'+ data.referer
-          window.location.reload()
+          window.location.href = document.referrer
         })
       }
     });

@@ -3,10 +3,13 @@ package com.lirui.boat.controller.api;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lirui.boat.entity.Article;
+import com.lirui.boat.entity.User;
 import com.lirui.boat.entity.dto.ArticleDTO;
 import com.lirui.boat.entity.vo.ArticleVO;
 import com.lirui.boat.service.impl.ArticleServiceImpl;
+import com.lirui.boat.service.impl.UserServiceImpl;
 import com.lirui.boat.utils.ReturnUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ import org.springframework.web.bind.annotation.*;
 public class ArticleApi {
     @Autowired
     private ArticleServiceImpl articleService;
+    @Autowired
+    private UserServiceImpl userService;
+
     /**
      * 分页条件查询符合栏目条件的所有文章，JSON格式返回
      */
@@ -52,6 +58,13 @@ public class ArticleApi {
     @PostMapping("/{articleId}")
     public ModelMap getArticle(@PathVariable("articleId") String id) {
         Article article = articleService.getById(id);
-        return ReturnUtil.success("ok", article, null);
+        String editorId = article.getEditorId();
+        User byId = userService.getById(editorId);
+        ArticleVO articleVO = new ArticleVO();
+        BeanUtils.copyProperties(article,articleVO);
+        if (byId != null) {
+            articleVO.setEditor(byId.getNickname());
+        }
+        return ReturnUtil.success("ok", articleVO, null);
     }
 }
