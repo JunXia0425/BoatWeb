@@ -2,7 +2,6 @@ package com.lirui.boat.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.lirui.boat.shiro.ShiroRealm;
-import java.util.LinkedHashMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+
+import java.util.LinkedHashMap;
 
 @Slf4j
 @Configuration
@@ -58,6 +59,7 @@ public class ShiroConfig {
     filter.put("/list/admin","roles[3]");
     filter.put("/login","anon");
     filter.put("/api/**","anon");
+    filter.put("/alipay/**","anon");
     filter.put("/upload/**","anon");
     filter.put("/**","authc");
     //被拦截返回登录页面

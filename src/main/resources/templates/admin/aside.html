@@ -47,9 +47,15 @@
           </a>
         </li>
         <li shiro:hasAnyRoles="2,3">
+          <a th:href="@{/yacht-order/list}" class="waves-effect">
+            <i class="fa fa-file-text-o m-r-10" aria-hidden="true"></i>
+            购艇订单
+          </a>
+        </li>
+        <li shiro:hasAnyRoles="2,3">
           <a th:href="@{/advance-order/list}" class="waves-effect">
             <i class="fa fa-file-text-o m-r-10" aria-hidden="true"></i>
-            订单列表
+            租赁订单
           </a>
         </li>
         <li shiro:hasRole="3">
